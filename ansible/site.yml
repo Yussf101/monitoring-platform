@@ -1,0 +1,17 @@
+# Monitoring Platform — Ansible Site Playbook
+#
+# Master playbook that provisions all monitoring targets with Node Exporter.
+# Targets are discovered dynamically from the FastAPI API via the inventory script.
+#
+# Usage:
+#   docker compose --profile provision run --rm ansible
+#
+# Or directly (if Ansible is installed locally):
+#   cd ansible && ansible-playbook site.yml
+
+---
+- name: Provision monitoring targets with Node Exporter
+  hosts: targets
+  become: true
+  roles:
+    - node_exporter

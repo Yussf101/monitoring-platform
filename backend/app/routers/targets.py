@@ -1,9 +1,5 @@
 """
 Target REST API endpoints.
-
-Architecture parallel (Java/Spring):
-    This file ≈ a @RestController with @GetMapping, @PostMapping, etc.
-    The `Depends(get_db)` ≈ Spring's @Autowired dependency injection.
 """
 
 from fastapi import APIRouter, Depends, status

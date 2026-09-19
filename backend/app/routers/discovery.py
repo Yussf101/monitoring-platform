@@ -1,26 +1,8 @@
 """
 Prometheus HTTP Service Discovery endpoint.
 
-Prometheus supports `http_sd_configs` — instead of reading targets from a
-static YAML file, it calls this endpoint periodically (every 30s by default)
-and receives the current list of targets as JSON.
-
-This is the core innovation over the 1A project: adding or removing a
-target via the API automatically updates what Prometheus scrapes,
-with zero restarts and zero file editing.
-
-Expected output format for Prometheus:
-[
-    {
-        "targets": ["192.168.1.50:9100"],
-        "labels": {
-            "__meta_name": "web-server-01",
-            "__meta_os_type": "linux",
-            "__meta_environment": "production"
-        }
-    },
-    ...
-]
+Provides targets in the `http_sd_configs` JSON format.
+Prometheus polls this endpoint to dynamically discover active targets.
 """
 
 from typing import Any

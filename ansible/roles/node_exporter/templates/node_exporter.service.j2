@@ -1,0 +1,30 @@
+# Prometheus Node Exporter systemd unit file.
+#
+# Managed by Ansible — do not edit manually on the target VM.
+# Changes to this template will trigger a service restart via the handler.
+
+[Unit]
+Description=Prometheus Node Exporter
+Documentation=https://github.com/prometheus/node_exporter
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User={{ node_exporter_user }}
+Group={{ node_exporter_group }}
+ExecStart={{ node_exporter_install_dir }}/node_exporter \
+    --web.listen-address=:{{ node_exporter_port }}
+Restart=on-failure
+RestartSec=5
+
+# Hardening: restrict the service's filesystem and network access.
+NoNewPrivileges=yes
+ProtectHome=yes
+ProtectSystem=strict
+ProtectControlGroups=yes
+ProtectKernelModules=yes
+ProtectKernelTunables=yes
+
+[Install]
+WantedBy=multi-user.target

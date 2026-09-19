@@ -1,0 +1,3 @@
+# Python dependencies for the Ansible dynamic inventory script.
+# The inventory script calls the FastAPI backend to discover targets.
+requests>=2.31.0

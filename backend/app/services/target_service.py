@@ -1,12 +1,5 @@
 """
 Target service — business logic for CRUD operations on targets.
-
-This layer sits between the routers (HTTP) and the database (ORM).
-Routers should never contain database queries directly; they delegate
-to service functions instead.
-
-Architecture parallel (Java/Spring):
-    This file ≈ a @Service class with methods like findAll(), save(), deleteById().
 """
 
 from fastapi import HTTPException, status
