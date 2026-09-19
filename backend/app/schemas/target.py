@@ -19,6 +19,7 @@ class TargetCreate(BaseModel):
     environment: str = Field(
         default="production", max_length=50, examples=["production"]
     )
+    ssh_user: str = Field(default="youssef", max_length=50, examples=["youssef"])
     is_active: bool = Field(default=True)
 
 
@@ -30,6 +31,7 @@ class TargetUpdate(BaseModel):
     port: int | None = Field(default=None, ge=1, le=65535)
     os_type: str | None = Field(default=None, max_length=20)
     environment: str | None = Field(default=None, max_length=50)
+    ssh_user: str | None = Field(default=None, max_length=50)
     is_active: bool | None = None
 
 
@@ -42,6 +44,7 @@ class TargetRead(BaseModel):
     port: int
     os_type: str
     environment: str
+    ssh_user: str
     is_active: bool
     created_at: datetime
     updated_at: datetime

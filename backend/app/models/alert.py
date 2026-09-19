@@ -1,8 +1,9 @@
 """
 Alert ORM model — stores alert history from Alertmanager.
 """
-
+from __future__ import annotations
 from datetime import datetime
+from typing import Optional
 
 from sqlalchemy import DateTime, ForeignKey, Integer, String, Text, func
 from sqlalchemy.orm import Mapped, mapped_column
@@ -37,11 +38,11 @@ class Alert(Base):
         String(20), nullable=False, default="warning"
     )
     status: Mapped[str] = mapped_column(String(20), nullable=False, default="firing")
-    message: Mapped[str | None] = mapped_column(Text, nullable=True)
+    message: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     fired_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()
     )
-    resolved_at: Mapped[datetime | None] = mapped_column(
+    resolved_at: Mapped[Optional[datetime]] = mapped_column(
         DateTime(timezone=True), nullable=True
     )
     created_at: Mapped[datetime] = mapped_column(
