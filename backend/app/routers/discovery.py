@@ -46,9 +46,9 @@ async def get_discovery_targets(
             {
                 "targets": [f"{target.ip_address}:{target.port}"],
                 "labels": {
-                    "__meta_name": target.name,
-                    "__meta_os_type": target.os_type,
-                    "__meta_environment": target.environment,
+                    "monitoring_name": target.name,
+                    "monitoring_os": target.os_type,
+                    "monitoring_env": target.environment,
                 },
             }
         )
