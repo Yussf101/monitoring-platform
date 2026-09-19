@@ -1,0 +1,41 @@
+# Role metadata for node_exporter.
+#
+# Documents supported platforms and Ansible version requirements.
+
+---
+galaxy_info:
+  role_name: node_exporter
+  author: Youssef
+  description: >
+    Install and configure Prometheus Node Exporter as a systemd service.
+    Downloads the binary from GitHub releases — works on any Linux distro.
+  license: MIT
+  min_ansible_version: "2.14"
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - focal    # 20.04
+        - jammy    # 22.04
+        - noble    # 24.04
+    - name: Debian
+      versions:
+        - bullseye # 11
+        - bookworm # 12
+    - name: EL  # RHEL, CentOS, Fedora, Rocky, Alma
+      versions:
+        - "8"
+        - "9"
+    - name: Fedora
+      versions:
+        - "38"
+        - "39"
+        - "40"
+
+  galaxy_tags:
+    - monitoring
+    - prometheus
+    - node_exporter
+    - systemd
+
+dependencies: []

@@ -1,19 +1,5 @@
 """
 Pydantic schemas for Target data validation and serialization.
-
-These schemas act as Data Transfer Objects (DTOs) — they define the
-exact shape of JSON that the API accepts and returns.
-
-Architecture parallel (Java/Spring):
-    TargetCreate ≈ a CreateTargetRequest DTO
-    TargetUpdate ≈ an UpdateTargetRequest DTO (all fields optional)
-    TargetRead   ≈ a TargetResponse DTO (includes id, timestamps)
-
-Why separate from ORM models?
-    - ORM models define how data is STORED in PostgreSQL.
-    - Schemas define how data is SENT/RECEIVED over HTTP.
-    - This separation prevents leaking internal DB details to the API consumer
-      and lets us validate input before it ever touches the database.
 """
 
 from datetime import datetime
@@ -22,12 +8,7 @@ from pydantic import BaseModel, Field
 
 
 class TargetCreate(BaseModel):
-    """
-    Schema for creating a new target via POST /api/targets.
-
-    Validates that required fields are present and in the correct format.
-    Default values are provided for optional fields.
-    """
+    """Schema for POST /api/targets request bodies."""
 
     name: str = Field(..., min_length=1, max_length=255, examples=["web-server-01"])
     ip_address: str = Field(
@@ -42,12 +23,7 @@ class TargetCreate(BaseModel):
 
 
 class TargetUpdate(BaseModel):
-    """
-    Schema for partially updating a target via PATCH /api/targets/{id}.
-
-    All fields are optional — only provided fields will be updated.
-    This is the "partial update" pattern (PATCH, not PUT).
-    """
+    """Schema for PATCH /api/targets/{id} request bodies (partial updates)."""
 
     name: str | None = Field(default=None, min_length=1, max_length=255)
     ip_address: str | None = Field(default=None, min_length=7, max_length=45)
@@ -58,14 +34,7 @@ class TargetUpdate(BaseModel):
 
 
 class TargetRead(BaseModel):
-    """
-    Schema for returning target data in API responses.
-
-    Includes all fields plus the auto-generated id and timestamps.
-    model_config with from_attributes=True tells Pydantic to read
-    data directly from SQLAlchemy ORM objects (similar to Hibernate's
-    ability to serialize entities to JSON).
-    """
+    """Schema for returning target data in API responses."""
 
     id: int
     name: str

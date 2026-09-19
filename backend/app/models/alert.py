@@ -1,9 +1,5 @@
 """
 Alert ORM model — stores alert history from Alertmanager.
-
-Each row represents one alert event (e.g. "CPU usage above 90% on web-server-01").
-Endpoints for creating/querying alerts will be built in Phase 4.
-For now we only define the table schema so the database is complete from day one.
 """
 
 from datetime import datetime

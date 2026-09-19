@@ -1,0 +1,27 @@
+# Default variables for the node_exporter role.
+#
+# Override any of these in your playbook, inventory, or extra-vars.
+# For example, to use a newer version:
+#   ansible-playbook site.yml -e node_exporter_version=1.9.0
+
+---
+# Node Exporter release version to download from GitHub.
+node_exporter_version: "1.8.2"
+
+# System user and group that the Node Exporter process runs as.
+# Using a dedicated user with no login shell is a security best practice.
+node_exporter_user: "node_exporter"
+node_exporter_group: "node_exporter"
+
+# Directory where the node_exporter binary is installed.
+node_exporter_install_dir: "/usr/local/bin"
+
+# Port that Node Exporter listens on for Prometheus scraping.
+node_exporter_port: 9100
+
+# Architecture for the binary download (matches most server environments).
+node_exporter_arch: "amd64"
+
+# GitHub download URL template.
+node_exporter_download_url: >-
+  https://github.com/prometheus/node_exporter/releases/download/v{{ node_exporter_version }}/node_exporter-{{ node_exporter_version }}.linux-{{ node_exporter_arch }}.tar.gz

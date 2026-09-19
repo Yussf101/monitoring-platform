@@ -1,12 +1,5 @@
 """
 Target ORM model — represents a monitored machine or service.
-
-Each row in the `targets` table is one server/VM/service that
-Prometheus should scrape for metrics.
-
-Architecture parallel (Java/Hibernate):
-    This class ≈ an @Entity class with @Column annotations.
-    SQLAlchemy's Mapped[] ≈ Hibernate's @Column type mappings.
 """
 
 from datetime import datetime
