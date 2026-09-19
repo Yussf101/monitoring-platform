@@ -22,8 +22,9 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      # Mount source code for hot-reload during development
+      # Mount source code and migrations for hot-reload and alembic
       - ./backend/app:/app/app
+      - ./backend/alembic:/app/alembic
     depends_on:
       db:
         condition: service_healthy
