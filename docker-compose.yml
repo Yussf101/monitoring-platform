@@ -25,6 +25,7 @@ services:
       # Mount source code and migrations for hot-reload and alembic
       - ./backend/app:/app/app
       - ./backend/alembic:/app/alembic
+      - ./backend/tests:/app/tests
     depends_on:
       db:
         condition: service_healthy
