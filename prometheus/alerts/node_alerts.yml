@@ -1,0 +1,42 @@
+groups:
+  - name: node_exporter_alerts
+    rules:
+      # Fires when a node_exporter instance is unreachable for 2+ minutes
+      - alert: InstanceDown
+        expr: up{job="node_exporter"} == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Instance {{ $labels.instance }} is down"
+          description: "Node exporter on {{ $labels.instance }} has been unreachable for more than 2 minutes."
+
+      # Fires when average CPU usage exceeds 80% for 5+ minutes
+      - alert: HighCPUUsage
+        expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High CPU usage on {{ $labels.instance }}"
+          description: "CPU usage on {{ $labels.instance }} is at {{ printf \"%.2f\" $value }}%."
+
+      # Fires when available memory drops below 10% for 5+ minutes
+      - alert: HighMemoryUsage
+        expr: (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes) * 100 < 10
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High memory usage on {{ $labels.instance }}"
+          description: "Available memory on {{ $labels.instance }} is at {{ printf \"%.2f\" $value }}%."
+
+      # Fires when root filesystem free space drops below 15% for 5+ minutes
+      - alert: DiskSpaceLow
+        expr: (node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"}) * 100 < 15
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Low disk space on {{ $labels.instance }}"
+          description: "Root filesystem on {{ $labels.instance }} has {{ printf \"%.2f\" $value }}% free space remaining."
