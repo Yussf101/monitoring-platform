@@ -11,6 +11,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.models.alert import Alert
 from app.models.target import Target
 from app.schemas.alert import AlertmanagerWebhookPayload
+from app.services.telegram_service import send_telegram_alert
 
 logger = logging.getLogger(__name__)
 
@@ -144,6 +145,23 @@ async def process_webhook(
     await db.commit()
     for alert_row in processed:
         await db.refresh(alert_row)
+        
+        # We extracted the ip_address earlier from the payload
+        # Find the original instance string from the payload if possible
+        instance_str = "unknown"
+        for alert_data in payload.alerts:
+            if alert_data.labels.get("alertname") == alert_row.alert_name:
+                instance_str = alert_data.labels.get("instance", "unknown")
+                break
+
+        # Dispatch Telegram notification
+        await send_telegram_alert(
+            alert_name=alert_row.alert_name,
+            status=alert_row.status,
+            instance=instance_str,
+            severity=alert_row.severity,
+            message=alert_row.message or ""
+        )
 
     return processed
 
