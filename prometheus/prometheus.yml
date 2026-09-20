@@ -1,0 +1,20 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: "node_exporter"
+    http_sd_configs:
+      - url: "http://backend:8000/api/discovery"
+        refresh_interval: 30s
+    # Relabel to turn monitoring_* labels into cleaner metric labels
+    relabel_configs:
+      - source_labels: [monitoring_name]
+        target_label: instance_name
+      - source_labels: [monitoring_os]
+        target_label: os_type
+      - source_labels: [monitoring_env]
+        target_label: environment
+      # Drop the original monitoring_* labels after relabeling
+      - regex: "monitoring_.*"
+        action: labeldrop
