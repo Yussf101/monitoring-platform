@@ -40,3 +40,43 @@ groups:
         annotations:
           summary: "Low disk space on {{ $labels.instance }}"
           description: "Root filesystem on {{ $labels.instance }} has {{ printf \"%.2f\" $value }}% free space remaining."
+
+      # Predictive: Root filesystem will fill up within 24 hours based on current growth rate
+      - alert: DiskWillFillIn24Hours
+        expr: predict_linear(node_filesystem_free_bytes{mountpoint="/"}[1h], 24 * 3600) < 0
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Disk will fill in 24 hours on {{ $labels.instance }}"
+          description: "Based on current trends, the root filesystem on {{ $labels.instance }} will run out of space in less than 24 hours."
+
+      # Network: High incoming network traffic (e.g., > 50 MB/s sustained for 5 mins)
+      - alert: HighNetworkTraffic
+        expr: sum by (instance) (rate(node_network_receive_bytes_total{device!~"lo"}[5m])) > 50000000
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High network traffic on {{ $labels.instance }}"
+          description: "Incoming network traffic on {{ $labels.instance }} is exceeding 50 MB/s."
+
+      # Core System: System load average is excessively high compared to CPU cores
+      - alert: SystemLoadHigh
+        expr: node_load15 / count by(instance) (node_cpu_seconds_total{mode="idle"}) > 1.5
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High system load on {{ $labels.instance }}"
+          description: "System load (15m avg) on {{ $labels.instance }} is very high compared to the number of CPU cores."
+
+      # Storage: Inodes exhaustion (can't create new files even if disk has space)
+      - alert: InodesExhausted
+        expr: (node_filesystem_files_free{mountpoint="/"} / node_filesystem_files{mountpoint="/"}) * 100 < 10
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Inodes exhausted on {{ $labels.instance }}"
+          description: "Less than 10% of inodes are free on the root filesystem of {{ $labels.instance }}."
