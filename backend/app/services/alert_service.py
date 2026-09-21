@@ -105,8 +105,8 @@ async def process_webhook(
             existing_firing = result.scalar_one_or_none()
             
             if existing_firing:
-                # Alert is already firing; do not create duplicate DB row or send another notification.
-                # Alertmanager is just repeating the webhook (e.g., due to group updates or repeat_interval).
+                # Alert is already firing; skip duplicate DB row and Telegram notification.
+                # (Alertmanager repeats webhooks on group updates or repeat_interval).
                 continue
 
             fired_at = _parse_iso_timestamp(alert_data.startsAt) or datetime.now(
@@ -149,6 +149,10 @@ async def process_webhook(
             )
 
             if existing:
+                if existing.status == "resolved":
+                    # Already resolved, avoid duplicate processing
+                    continue
+                    
                 existing.status = "resolved"
                 existing.resolved_at = resolved_at
                 processed.append(existing)
