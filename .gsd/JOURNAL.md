@@ -173,3 +173,29 @@ Context hygiene: Handoff to a new chat window to start Plan 5.3 with a clean con
 
 ### Handoff Notes
 Next up is Plan 5.3 for the Alert History page. Start the next session by running `/execute 5` (which will pick up 5.3 automatically).
+
+---
+
+## Session: 2026-09-21 20:19–20:26
+
+### Objective
+Execute Phase 5 Wave 2 (Plan 5.3) to build the Alert History Page.
+
+### Accomplished
+- Installed shadcn `Select` component and moved it to the correct `src/` directory.
+- Built `AlertTable.tsx` with a shadcn Table, status badges (destructive with pulsing red dot for firing, outline green for resolved), and severity badges.
+- Built `AlertsPage.tsx` with Select dropdown filters for Status and Severity, and a Load More pagination button.
+- Updated `App.tsx` to use the real `<AlertsPage />` component instead of the placeholder.
+- Verified build succeeds (`npm run build`).
+
+### Verification
+- [x] Vite React app builds successfully.
+- [x] Alert table and page correctly implemented with shadcn components.
+- [ ] Verify functionality against live backend data (requires frontend to be running). Note: The user tried `rpm run dev` (typo for `npm run dev`) and it failed.
+
+### Paused Because
+Session limit reached / Context hygiene: Handoff to a new chat window to start Plan 5.4 with a clean context.
+
+### Handoff Notes
+Next up is Plan 5.4, the final plan for Phase 5 (System Overview / Dashboard page).
+Start the next session by running `/execute 5`.

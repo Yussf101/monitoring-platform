@@ -28,7 +28,6 @@ __pycache__/
 .agent/
 .agents/
 .gsd/
-
 GSD-STYLE.md
 PROJECT_RULES.md
 implementation_plan.md
