@@ -5,6 +5,7 @@ import { StatCard } from '../components/StatCard';
 import { RecentAlerts } from '../components/RecentAlerts';
 import { Activity, Server, AlertTriangle } from 'lucide-react';
 import { motion } from 'framer-motion';
+import type { Variants } from 'framer-motion';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -14,9 +15,9 @@ const containerVariants = {
   }
 };
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } }
+  show: { opacity: 1, y: 0, transition: { type: "spring" as const, stiffness: 300, damping: 24 } }
 };
 
 export function DashboardPage() {

@@ -11,6 +11,20 @@ import {
   SelectValue,
 } from "../components/ui/select";
 import { motion } from "framer-motion";
+import type { Variants } from "framer-motion";
+
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1 }
+  }
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } }
+};
 
 const PAGE_SIZE = 20;
 
@@ -73,19 +87,19 @@ export function AlertsPage() {
   return (
     <motion.div 
       className="space-y-6"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4 }}
+      variants={containerVariants}
+      initial="hidden"
+      animate="show"
     >
-      <div>
+      <motion.div variants={itemVariants}>
         <h2 className="text-2xl font-bold tracking-tight">Alert History</h2>
         <p className="text-muted-foreground">
-          View and filter all alerts received from Alertmanager.
+          View and filter all alerts received.
         </p>
-      </div>
+      </motion.div>
 
       {/* Filter controls */}
-      <div className="flex flex-wrap items-center gap-4">
+      <motion.div variants={itemVariants} className="flex flex-wrap items-center gap-4">
         <div className="flex items-center gap-2">
           <span className="text-sm font-medium text-muted-foreground">
             Status
@@ -118,22 +132,22 @@ export function AlertsPage() {
             </SelectContent>
           </Select>
         </div>
-      </div>
+      </motion.div>
 
       {/* Error banner */}
       {error && (
-        <div className="rounded-md bg-destructive/15 p-3">
+        <motion.div variants={itemVariants} className="rounded-md bg-destructive/15 p-3">
           <p className="text-sm font-medium text-destructive">{error}</p>
-        </div>
+        </motion.div>
       )}
 
       {/* Table */}
       {isLoading ? (
-        <div className="flex h-24 items-center justify-center">
+        <motion.div variants={itemVariants} className="flex h-24 items-center justify-center">
           <p className="text-sm text-muted-foreground">Loading alerts...</p>
-        </div>
+        </motion.div>
       ) : (
-        <>
+        <motion.div variants={itemVariants} className="space-y-4">
           <AlertTable alerts={filteredAlerts} />
 
           {/* Load More */}
@@ -144,7 +158,7 @@ export function AlertsPage() {
               </Button>
             </div>
           )}
-        </>
+        </motion.div>
       )}
     </motion.div>
   );

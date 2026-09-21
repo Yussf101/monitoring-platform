@@ -1,104 +1,55 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "./ui/table";
 import { Badge } from "./ui/badge";
 import type { Alert } from "../lib/types";
+import { formatDistanceToNow } from 'date-fns';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface AlertTableProps {
   alerts: Alert[];
 }
 
-/**
- * Formats a UTC ISO string into a locale-friendly date/time.
- */
-function formatDate(iso: string): string {
-  return new Date(iso).toLocaleString(undefined, {
-    dateStyle: "medium",
-    timeStyle: "short",
-  });
-}
-
-/**
- * Maps severity values to visual badge variants.
- */
-function severityVariant(severity: string): "destructive" | "default" | "secondary" | "outline" {
-  switch (severity.toLowerCase()) {
-    case "critical":
-      return "destructive";
-    case "warning":
-      return "default";
-    default:
-      return "secondary";
-  }
-}
-
 export function AlertTable({ alerts }: AlertTableProps) {
+  if (alerts.length === 0) {
+    return (
+      <div className="text-sm text-muted-foreground py-4 text-center">
+        No alerts found.
+      </div>
+    );
+  }
+
   return (
-    <div className="rounded-md border">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[100px]">Status</TableHead>
-            <TableHead>Alert Name</TableHead>
-            <TableHead>Severity</TableHead>
-            <TableHead>Message</TableHead>
-            <TableHead>Fired At</TableHead>
-            <TableHead>Resolved At</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {alerts.map((alert) => (
-            <TableRow key={alert.id}>
-              <TableCell>
-                {alert.status === "firing" ? (
-                  <Badge variant="destructive" className="gap-1.5">
-                    <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-red-500" />
-                    Firing
-                  </Badge>
-                ) : (
-                  <Badge
-                    variant="outline"
-                    className="gap-1.5 border-green-500/50 text-green-600"
-                  >
-                    <span className="inline-block h-2 w-2 rounded-full bg-green-500" />
-                    Resolved
-                  </Badge>
-                )}
-              </TableCell>
-              <TableCell className="font-medium">{alert.alert_name}</TableCell>
-              <TableCell>
-                <Badge variant={severityVariant(alert.severity)}>
-                  {alert.severity}
-                </Badge>
-              </TableCell>
-              <TableCell className="max-w-[300px] truncate text-muted-foreground">
-                {alert.message || "—"}
-              </TableCell>
-              <TableCell className="whitespace-nowrap text-sm">
-                {formatDate(alert.fired_at)}
-              </TableCell>
-              <TableCell className="whitespace-nowrap text-sm">
-                {alert.resolved_at ? formatDate(alert.resolved_at) : "—"}
-              </TableCell>
-            </TableRow>
-          ))}
-          {alerts.length === 0 && (
-            <TableRow>
-              <TableCell
-                colSpan={6}
-                className="h-24 text-center text-muted-foreground"
-              >
-                No alerts found.
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
+    <div className="space-y-4 bg-card border p-4">
+      <AnimatePresence mode="popLayout">
+        {alerts.map((alert, index) => (
+          <motion.div 
+            key={alert.id} 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ delay: index * 0.05 }}
+            className="group flex items-center justify-between border-b pb-4 pt-2 last:border-0 last:pb-0 transition-colors hover:bg-muted/20 px-4 -mx-4 rounded-none"
+          >
+            <div className="flex flex-col space-y-1">
+              <span className="text-sm font-medium">{alert.alert_name}</span>
+              <span className="text-xs text-muted-foreground">
+                Target #{alert.target_id} • {formatDistanceToNow(new Date(alert.fired_at), { addSuffix: true })}
+              </span>
+              {alert.message && (
+                <span className="text-xs text-muted-foreground mt-2 leading-relaxed">
+                  {alert.message}
+                </span>
+              )}
+            </div>
+            <div className="flex items-center space-x-2">
+              <Badge variant={alert.status === 'firing' ? 'destructive' : 'outline'} className={alert.status === 'firing' ? 'animate-pulse' : ''}>
+                {alert.status.toUpperCase()}
+              </Badge>
+              <Badge variant="secondary">
+                {alert.severity}
+              </Badge>
+            </div>
+          </motion.div>
+        ))}
+      </AnimatePresence>
     </div>
   );
 }

@@ -4,6 +4,20 @@ import type { Target } from "../lib/types";
 import { TargetTable } from "../components/TargetTable";
 import { AddTargetModal } from "../components/AddTargetModal";
 import { motion } from "framer-motion";
+import type { Variants } from "framer-motion";
+
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1 }
+  }
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { type: "spring" as const, stiffness: 300, damping: 24 } }
+};
 
 export function TargetsPage() {
   const [targets, setTargets] = useState<Target[]>([]);
@@ -40,11 +54,11 @@ export function TargetsPage() {
   return (
     <motion.div 
       className="space-y-6"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4 }}
+      variants={containerVariants}
+      initial="hidden"
+      animate="show"
     >
-      <div className="flex items-center justify-between">
+      <motion.div variants={itemVariants} className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold tracking-tight">Targets</h2>
           <p className="text-muted-foreground">
@@ -52,20 +66,22 @@ export function TargetsPage() {
           </p>
         </div>
         <AddTargetModal onSuccess={fetchTargets} />
-      </div>
+      </motion.div>
       
       {error && (
-        <div className="rounded-md bg-destructive/15 p-3">
+        <motion.div variants={itemVariants} className="rounded-md bg-destructive/15 p-3">
           <p className="text-sm font-medium text-destructive">{error}</p>
-        </div>
+        </motion.div>
       )}
 
       {isLoading ? (
-        <div className="flex h-24 items-center justify-center">
+        <motion.div variants={itemVariants} className="flex h-24 items-center justify-center">
           <p className="text-sm text-muted-foreground">Loading targets...</p>
-        </div>
+        </motion.div>
       ) : (
-        <TargetTable targets={targets} onDelete={handleDelete} />
+        <motion.div variants={itemVariants}>
+          <TargetTable targets={targets} onDelete={handleDelete} />
+        </motion.div>
       )}
     </motion.div>
   );

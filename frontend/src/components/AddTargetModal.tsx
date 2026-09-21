@@ -71,6 +71,8 @@ export function AddTargetModal({ onSuccess }: AddTargetModalProps) {
               value={ipAddress}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setIpAddress(e.target.value)}
               placeholder="e.g. 192.168.1.100"
+              pattern="^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
+              title="Please enter a valid IPv4 address (e.g., 192.168.1.100)"
               required
             />
           </div>
