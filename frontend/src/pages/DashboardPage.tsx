@@ -69,7 +69,7 @@ export function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      <motion.div 
+      <motion.div
         className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -83,7 +83,7 @@ export function DashboardPage() {
         </div>
       </motion.div>
 
-      <motion.div 
+      <motion.div
         className="grid grid-cols-1 md:grid-cols-3 gap-6"
         variants={containerVariants}
         initial="hidden"
@@ -115,7 +115,7 @@ export function DashboardPage() {
         </motion.div>
       </motion.div>
 
-      <motion.div 
+      <motion.div
         className="grid grid-cols-1 lg:grid-cols-2 gap-6"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
