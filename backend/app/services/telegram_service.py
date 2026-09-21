@@ -17,7 +17,7 @@ async def send_telegram_alert(
     """
     Send an alert notification to Telegram.
 
-    Gracefully handles missing configuration by logging a warning and returning False.
+    Handles missing configuration by logging a warning and returning False.
     """
     if not settings.TELEGRAM_BOT_TOKEN or not settings.TELEGRAM_CHAT_ID:
         logger.warning(
@@ -28,11 +28,15 @@ async def send_telegram_alert(
     emoji = "🔴" if status == "firing" else "🟢"
     status_text = "FIRING" if status == "firing" else "RESOLVED"
     
+    # Prometheus sends the exact same description for both firing and resolved states.
+    # To avoid confusion, we adjust the text for resolved alerts.
+    display_message = message if status == "firing" else f"Alert condition cleared. (Was: {message})"
+    
     text = (
         f"{emoji} <b>{status_text}: {alert_name}</b>\n\n"
         f"<b>Instance:</b> {instance}\n"
         f"<b>Severity:</b> {severity}\n"
-        f"<b>Details:</b> {message}\n"
+        f"<b>Details:</b> {display_message}\n"
         f"<b>Time:</b> {datetime.now().strftime('%Y-%m-%d %H:%M:%S UTC')}"
     )
 
