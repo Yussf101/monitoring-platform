@@ -70,6 +70,7 @@ async def process_webhook(
         List of Alert ORM objects that were created or updated.
     """
     processed: list[Alert] = []
+    to_dispatch = []
 
     for alert_data in payload.alerts:
         alert_name = alert_data.labels.get("alertname", "unknown")
@@ -104,6 +105,13 @@ async def process_webhook(
             )
             db.add(alert_row)
             processed.append(alert_row)
+            to_dispatch.append({
+                "alert_name": alert_name,
+                "status": "firing",
+                "instance": instance,
+                "severity": severity,
+                "message": description,
+            })
 
         elif alert_data.status == "resolved":
             # Find the most recent firing alert for this target + rule
@@ -142,26 +150,21 @@ async def process_webhook(
                 db.add(alert_row)
                 processed.append(alert_row)
 
+            to_dispatch.append({
+                "alert_name": alert_name,
+                "status": "resolved",
+                "instance": instance,
+                "severity": severity,
+                "message": description,
+            })
+
     await db.commit()
     for alert_row in processed:
         await db.refresh(alert_row)
         
-        # We extracted the ip_address earlier from the payload
-        # Find the original instance string from the payload if possible
-        instance_str = "unknown"
-        for alert_data in payload.alerts:
-            if alert_data.labels.get("alertname") == alert_row.alert_name:
-                instance_str = alert_data.labels.get("instance", "unknown")
-                break
-
-        # Dispatch Telegram notification
-        await send_telegram_alert(
-            alert_name=alert_row.alert_name,
-            status=alert_row.status,
-            instance=instance_str,
-            severity=alert_row.severity,
-            message=alert_row.message or ""
-        )
+    # Dispatch Telegram notifications after successful DB commit
+    for dispatch_data in to_dispatch:
+        await send_telegram_alert(**dispatch_data)
 
     return processed
 
