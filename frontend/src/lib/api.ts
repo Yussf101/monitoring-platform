@@ -1,4 +1,4 @@
-import { Target, TargetCreate, TargetUpdate, Alert } from './types';
+import type { Target, TargetCreate, TargetUpdate, Alert } from './types';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
