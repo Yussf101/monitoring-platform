@@ -92,6 +92,23 @@ async def process_webhook(
         )
 
         if alert_data.status == "firing":
+            # Check if there's already an active firing alert for this target + rule
+            result = await db.execute(
+                select(Alert)
+                .where(
+                    Alert.target_id == target.id,
+                    Alert.alert_name == alert_name,
+                    Alert.status == "firing",
+                )
+                .limit(1)
+            )
+            existing_firing = result.scalar_one_or_none()
+            
+            if existing_firing:
+                # Alert is already firing; do not create duplicate DB row or send another notification.
+                # Alertmanager is just repeating the webhook (e.g., due to group updates or repeat_interval).
+                continue
+
             fired_at = _parse_iso_timestamp(alert_data.startsAt) or datetime.now(
                 timezone.utc
             )
