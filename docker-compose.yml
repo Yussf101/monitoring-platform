@@ -33,6 +33,18 @@ services:
       sh -c "alembic upgrade head &&
              uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
 
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: monitoring-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      backend:
+        condition: service_started
+    restart: unless-stopped
+
   ansible:
     build:
       context: ./ansible
