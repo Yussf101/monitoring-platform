@@ -29,7 +29,6 @@ __pycache__/
 .agents/
 .gsd/
 
-# AI and GSD Scratchpad Files
 GSD-STYLE.md
 PROJECT_RULES.md
 implementation_plan.md
