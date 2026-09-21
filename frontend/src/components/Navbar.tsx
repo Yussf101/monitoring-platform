@@ -14,6 +14,16 @@ export function Navbar() {
           </NavLink>
           <nav className="flex items-center space-x-6 text-sm font-medium">
             <NavLink
+              to="/dashboard"
+              className={({ isActive }) =>
+                `transition-colors hover:text-foreground/80 ${
+                  isActive ? "text-foreground" : "text-foreground/60"
+                }`
+              }
+            >
+              Dashboard
+            </NavLink>
+            <NavLink
               to="/targets"
               className={({ isActive }) =>
                 `transition-colors hover:text-foreground/80 ${
