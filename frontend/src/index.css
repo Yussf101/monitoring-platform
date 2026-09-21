@@ -4,26 +4,26 @@
 
 @layer base {
   :root {
-    --background: 222 47% 7%;
-    --foreground: 210 40% 98%;
-    --card: 223 47% 11%;
-    --card-foreground: 210 40% 98%;
-    --popover: 223 47% 11%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 217 91% 60%;
-    --primary-foreground: 222 47% 11%;
-    --secondary: 215 28% 17%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 215 28% 17%;
+    --background: 217 14% 18%; /* #272c34 */
+    --foreground: 194 77% 78%; /* #9cdef2 */
+    --card: 0 0% 7%; /* #111111 */
+    --card-foreground: 194 77% 78%;
+    --popover: 0 0% 7%;
+    --popover-foreground: 194 77% 78%;
+    --primary: 355 65% 65%; /* #e06c75 */
+    --primary-foreground: 0 0% 7%;
+    --secondary: 220 13% 18%;
+    --secondary-foreground: 194 77% 78%;
+    --muted: 220 13% 18%;
     --muted-foreground: 215 20% 65%;
-    --accent: 215 28% 17%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 220 13% 18%;
+    --accent-foreground: 355 65% 65%; /* hover states red */
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
-    --border: 215 28% 17%;
-    --input: 215 28% 17%;
-    --ring: 217 91% 60%;
-    --radius: 0.5rem;
+    --border: 194 32% 30%; /* #355a66 */
+    --input: 194 32% 30%;
+    --ring: 355 65% 65%;
+    --radius: 0rem;
   }
 }
 

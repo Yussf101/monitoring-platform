@@ -13,7 +13,13 @@ async function apiFetch<T>(path: string, options?: RequestInit): Promise<T> {
 
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.detail || `API Error: ${response.status} ${response.statusText}`);
+    let errorMessage = `API Error: ${response.status} ${response.statusText}`;
+    if (typeof errorData.detail === 'string') {
+      errorMessage = errorData.detail;
+    } else if (Array.isArray(errorData.detail)) {
+      errorMessage = errorData.detail.map((e: any) => `${e.loc?.join('.') || 'Field'} - ${e.msg}`).join(', ');
+    }
+    throw new Error(errorMessage);
   }
 
   // Handle 204 No Content
