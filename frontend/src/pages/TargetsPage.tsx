@@ -3,6 +3,7 @@ import { getTargets, deleteTarget } from "../lib/api";
 import type { Target } from "../lib/types";
 import { TargetTable } from "../components/TargetTable";
 import { AddTargetModal } from "../components/AddTargetModal";
+import { motion } from "framer-motion";
 
 export function TargetsPage() {
   const [targets, setTargets] = useState<Target[]>([]);
@@ -37,7 +38,12 @@ export function TargetsPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <motion.div 
+      className="space-y-6"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+    >
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold tracking-tight">Targets</h2>
@@ -61,6 +67,6 @@ export function TargetsPage() {
       ) : (
         <TargetTable targets={targets} onDelete={handleDelete} />
       )}
-    </div>
+    </motion.div>
   );
 }
