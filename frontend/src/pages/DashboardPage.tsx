@@ -4,6 +4,20 @@ import type { Target, Alert } from '../lib/types';
 import { StatCard } from '../components/StatCard';
 import { RecentAlerts } from '../components/RecentAlerts';
 import { Activity, Server, AlertTriangle } from 'lucide-react';
+import { motion } from 'framer-motion';
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1 }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } }
+};
 
 export function DashboardPage() {
   const [targets, setTargets] = useState<Target[]>([]);
@@ -55,40 +69,61 @@ export function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+      <motion.div 
+        className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
         <div>
           <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
           <p className="text-muted-foreground">
             Overview of your monitoring platform
           </p>
         </div>
-      </div>
+      </motion.div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <StatCard
-          title="Total Targets"
-          value={targets.length}
-          icon={Server}
-          description="Monitored endpoints"
-        />
-        <StatCard
-          title="Active Targets"
-          value={activeTargetsCount}
-          icon={Activity}
-          description={`${targets.length - activeTargetsCount} inactive`}
-        />
-        <StatCard
-          title="Firing Alerts"
-          value={firingAlertsCount}
-          icon={AlertTriangle}
-          description="Active incidents"
-        />
-      </div>
+      <motion.div 
+        className="grid grid-cols-1 md:grid-cols-3 gap-6"
+        variants={containerVariants}
+        initial="hidden"
+        animate="show"
+      >
+        <motion.div variants={itemVariants}>
+          <StatCard
+            title="Total Targets"
+            value={targets.length}
+            icon={Server}
+            description="Monitored endpoints"
+          />
+        </motion.div>
+        <motion.div variants={itemVariants}>
+          <StatCard
+            title="Active Targets"
+            value={activeTargetsCount}
+            icon={Activity}
+            description={`${targets.length - activeTargetsCount} inactive`}
+          />
+        </motion.div>
+        <motion.div variants={itemVariants}>
+          <StatCard
+            title="Firing Alerts"
+            value={firingAlertsCount}
+            icon={AlertTriangle}
+            description="Active incidents"
+          />
+        </motion.div>
+      </motion.div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <motion.div 
+        className="grid grid-cols-1 lg:grid-cols-2 gap-6"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.4 }}
+      >
         <RecentAlerts alerts={alerts} />
         {/* Placeholder for future widgets, e.g., CPU load charts */}
-      </div>
+      </motion.div>
     </div>
   );
 }

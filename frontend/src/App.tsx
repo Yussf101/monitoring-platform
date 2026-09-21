@@ -7,7 +7,7 @@ import { DashboardPage } from './pages/DashboardPage'
 function App() {
   return (
     <BrowserRouter>
-      <div className="relative flex min-h-screen flex-col bg-background">
+      <div className="relative flex min-h-screen flex-col bg-background font-sans font-antialiased">
         <Navbar />
         <main className="flex-1">
           <div className="container py-6">

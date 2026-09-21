@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
 import type { Alert } from '../lib/types';
 import { formatDistanceToNow } from 'date-fns';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface RecentAlertsProps {
   alerts: Alert[];
@@ -23,8 +24,16 @@ export function RecentAlerts({ alerts }: RecentAlertsProps) {
           </div>
         ) : (
           <div className="space-y-4">
-            {recentAlerts.map((alert) => (
-              <div key={alert.id} className="flex items-center justify-between border-b pb-4 last:border-0 last:pb-0">
+            <AnimatePresence mode="popLayout">
+            {recentAlerts.map((alert, index) => (
+              <motion.div 
+                key={alert.id} 
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ delay: index * 0.1 }}
+                className="group flex items-center justify-between border-b pb-4 last:border-0 last:pb-0 transition-colors hover:bg-muted/20 p-2 -mx-2 rounded-lg"
+              >
                 <div className="flex flex-col space-y-1">
                   <span className="text-sm font-medium">{alert.alert_name}</span>
                   <span className="text-xs text-muted-foreground">
@@ -39,8 +48,9 @@ export function RecentAlerts({ alerts }: RecentAlertsProps) {
                     {alert.severity}
                   </Badge>
                 </div>
-              </div>
+              </motion.div>
             ))}
+            </AnimatePresence>
           </div>
         )}
       </CardContent>
