@@ -37,7 +37,7 @@ export function Sidebar() {
           ))}
           
           <a
-            href="http://localhost:3000"
+            href="http://localhost:3001/d/Main-Dashboard"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-between gap-3 rounded-none px-3 py-2 text-sm font-medium transition-colors text-muted-foreground border-l-2 border-transparent hover:bg-muted/50 hover:text-foreground mt-4"

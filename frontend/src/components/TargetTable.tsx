@@ -41,7 +41,7 @@ export function TargetTable({ targets, onDelete }: TargetTableProps) {
                 {target.is_active ? "ACTIVE" : "INACTIVE"}
               </Badge>
               <a
-                href={`http://localhost:3000/d/node-exporter/node-exporter-full?var-instance=${target.ip_address}:${target.port || 9100}`}
+                href={`http://localhost:3001/d/Main-Dashboard?var-instance=${target.ip_address}:${target.port || 9100}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 title="View in Grafana"

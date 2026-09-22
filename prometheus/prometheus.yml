@@ -11,7 +11,7 @@ alerting:
         - targets: ['alertmanager:9093']
 
 scrape_configs:
-  - job_name: "node_exporter"
+  - job_name: "node"
     http_sd_configs:
       - url: "http://backend:8000/api/discovery"
         refresh_interval: 30s

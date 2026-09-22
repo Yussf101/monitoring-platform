@@ -22,10 +22,17 @@ class MetricSnapshot(Base):
         Integer, ForeignKey("targets.id", ondelete="CASCADE"), nullable=False
     )
     instance: Mapped[str] = mapped_column(String(60), nullable=False)
-    cpu_usage_percent: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
-    memory_usage_percent: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
-    disk_usage_percent: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
-    load_1m: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
+    cpu_usage_percent: Mapped[float] = mapped_column(Float, nullable=True)
+    memory_usage_percent: Mapped[float] = mapped_column(Float, nullable=True)
+    disk_usage_percent: Mapped[float] = mapped_column(Float, nullable=True)
+    load_1m: Mapped[float] = mapped_column(Float, nullable=True)
+    
+    memory_total_bytes: Mapped[float] = mapped_column(Float, nullable=True)
+    memory_available_bytes: Mapped[float] = mapped_column(Float, nullable=True)
+    disk_total_bytes: Mapped[float] = mapped_column(Float, nullable=True)
+    disk_free_bytes: Mapped[float] = mapped_column(Float, nullable=True)
+    network_receive_rate: Mapped[float] = mapped_column(Float, nullable=True)
+    network_transmit_rate: Mapped[float] = mapped_column(Float, nullable=True)
     recorded_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()

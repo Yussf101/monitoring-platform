@@ -9,6 +9,12 @@ class MetricSnapshotBase(BaseModel):
     memory_usage_percent: float | None = None
     disk_usage_percent: float | None = None
     load_1m: float | None = None
+    memory_total_bytes: float | None = None
+    memory_available_bytes: float | None = None
+    disk_total_bytes: float | None = None
+    disk_free_bytes: float | None = None
+    network_receive_rate: float | None = None
+    network_transmit_rate: float | None = None
 
 
 class MetricSnapshotCreate(MetricSnapshotBase):
@@ -23,7 +29,7 @@ class MetricSnapshotResponse(MetricSnapshotBase):
 
 
 class MetricAggregation(BaseModel):
-    instance: str | None = None
+    target_id: int | None = None
     avg_cpu: float | None = None
     avg_memory: float | None = None
     avg_disk: float | None = None

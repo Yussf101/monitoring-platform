@@ -3,8 +3,9 @@ groups:
     rules:
       # Fires when a node_exporter instance is unreachable for 2+ minutes
       - alert: InstanceDown
-        expr: up{job="node_exporter"} == 0
+        expr: up{job="node"} == 0
         for: 2m
+        keep_firing_for: 3m
         labels:
           severity: critical
         annotations:
@@ -44,7 +45,7 @@ groups:
       # Predictive: Root filesystem will fill up within 24 hours based on current growth rate
       - alert: DiskWillFillIn24Hours
         expr: predict_linear(node_filesystem_free_bytes{mountpoint="/"}[1h], 24 * 3600) < 0
-        for: 10m
+        for: 2m
         labels:
           severity: warning
         annotations:
@@ -74,7 +75,7 @@ groups:
       # Storage: Inodes exhaustion (can't create new files even if disk has space)
       - alert: InodesExhausted
         expr: (node_filesystem_files_free{mountpoint="/"} / node_filesystem_files{mountpoint="/"}) * 100 < 10
-        for: 10m
+        for: 2m
         labels:
           severity: warning
         annotations:

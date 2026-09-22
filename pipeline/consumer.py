@@ -45,8 +45,9 @@ def get_target_mapping(conn):
 def insert_batch(conn, batch, target_mapping):
     query = """
         INSERT INTO metric_snapshots 
-        (target_id, instance, cpu_usage_percent, memory_usage_percent, disk_usage_percent, load_1m, recorded_at)
-        VALUES (%s, %s, %s, %s, %s, %s, %s)
+        (target_id, instance, cpu_usage_percent, memory_usage_percent, disk_usage_percent, load_1m, 
+         memory_total_bytes, memory_available_bytes, disk_total_bytes, disk_free_bytes, network_receive_rate, network_transmit_rate, recorded_at)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
     """
     records = []
     for msg in batch:
@@ -84,18 +85,28 @@ def insert_batch(conn, batch, target_mapping):
             mem = metrics.get("memory_usage_percent")
             disk = metrics.get("disk_usage_percent")
             load = metrics.get("load_1m")
+            mem_tot = metrics.get("memory_total_bytes")
+            mem_avail = metrics.get("memory_available_bytes")
+            disk_tot = metrics.get("disk_total_bytes")
+            disk_free = metrics.get("disk_free_bytes")
+            net_recv = metrics.get("network_receive_rate")
+            net_trans = metrics.get("network_transmit_rate")
             
             # The JSON from producer might have lists for values, let's unpack if needed
-            if isinstance(cpu, list) and len(cpu) == 2:
-                cpu = float(cpu[1])
-            if isinstance(mem, list) and len(mem) == 2:
-                mem = float(mem[1])
-            if isinstance(disk, list) and len(disk) == 2:
-                disk = float(disk[1])
-            if isinstance(load, list) and len(load) == 2:
-                load = float(load[1])
+            def safe_float(val):
+                if isinstance(val, list) and len(val) == 2:
+                    return float(val[1])
+                elif val is not None:
+                    return float(val)
+                return None
 
-            records.append((target_id, instance, cpu, mem, disk, load, recorded_at))
+            records.append((
+                target_id, instance, 
+                safe_float(cpu), safe_float(mem), safe_float(disk), safe_float(load),
+                safe_float(mem_tot), safe_float(mem_avail), safe_float(disk_tot), 
+                safe_float(disk_free), safe_float(net_recv), safe_float(net_trans), 
+                recorded_at
+            ))
         except Exception as e:
             logging.error(f"Error processing message {msg.value}: {e}")
 
