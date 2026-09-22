@@ -65,6 +65,18 @@ def collect_metrics():
     load_query = 'node_load1'
     load_results = get_prometheus_query(load_query)
 
+    # 5. Additional Memory Metrics
+    mem_total_results = get_prometheus_query('node_memory_MemTotal_bytes')
+    mem_avail_results = get_prometheus_query('node_memory_MemAvailable_bytes')
+
+    # 6. Additional Disk Metrics
+    disk_total_results = get_prometheus_query('sum by (instance) (node_filesystem_size_bytes{fstype=~"ext.*|xfs",mountpoint="/"})')
+    disk_free_results = get_prometheus_query('sum by (instance) (node_filesystem_avail_bytes{fstype=~"ext.*|xfs",mountpoint="/"})')
+
+    # 7. Network Rate Metrics
+    net_recv_results = get_prometheus_query('sum by (instance) (rate(node_network_receive_bytes_total[5m]))')
+    net_trans_results = get_prometheus_query('sum by (instance) (rate(node_network_transmit_bytes_total[5m]))')
+
     # Aggregate metrics by instance
     instances = {}
 
@@ -82,6 +94,13 @@ def collect_metrics():
     extract_values(mem_results, 'memory_usage_percent')
     extract_values(disk_results, 'disk_usage_percent')
     extract_values(load_results, 'load_1m')
+    
+    extract_values(mem_total_results, 'memory_total_bytes')
+    extract_values(mem_avail_results, 'memory_available_bytes')
+    extract_values(disk_total_results, 'disk_total_bytes')
+    extract_values(disk_free_results, 'disk_free_bytes')
+    extract_values(net_recv_results, 'network_receive_rate')
+    extract_values(net_trans_results, 'network_transmit_rate')
 
     return instances
 
@@ -116,7 +135,13 @@ def main():
                     "cpu_usage_percent": metrics.get('cpu_usage_percent', 0.0),
                     "memory_usage_percent": metrics.get('memory_usage_percent', 0.0),
                     "disk_usage_percent": metrics.get('disk_usage_percent', 0.0),
-                    "load_1m": metrics.get('load_1m', 0.0)
+                    "load_1m": metrics.get('load_1m', 0.0),
+                    "memory_total_bytes": metrics.get('memory_total_bytes', 0.0),
+                    "memory_available_bytes": metrics.get('memory_available_bytes', 0.0),
+                    "disk_total_bytes": metrics.get('disk_total_bytes', 0.0),
+                    "disk_free_bytes": metrics.get('disk_free_bytes', 0.0),
+                    "network_receive_rate": metrics.get('network_receive_rate', 0.0),
+                    "network_transmit_rate": metrics.get('network_transmit_rate', 0.0)
                 }
             }
             try:

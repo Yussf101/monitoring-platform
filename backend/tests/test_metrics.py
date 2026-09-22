@@ -72,7 +72,7 @@ async def test_get_metric_summary(async_client: AsyncClient, db_session):
     assert len(data) == 1
     
     summary = data[0]
-    assert summary["instance"] == "instance-1"
+    assert summary["target_id"] == target_id
     assert summary["avg_cpu"] == 20.0
     assert summary["avg_memory"] == 55.0
     assert summary["avg_disk"] == 25.0
