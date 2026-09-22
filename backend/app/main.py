@@ -8,7 +8,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.config import settings
-from app.routers import alerts, discovery, targets
+from app.routers import alerts, discovery, targets, metrics
 
 app = FastAPI(
     title=settings.APP_NAME,
@@ -31,6 +31,7 @@ app.add_middleware(
 app.include_router(targets.router)
 app.include_router(discovery.router)
 app.include_router(alerts.router)
+app.include_router(metrics.router)
 
 
 @app.get("/", tags=["Health"])
