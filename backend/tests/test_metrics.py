@@ -1,9 +1,9 @@
-import pytest
 from datetime import datetime, timedelta, timezone
-from httpx import AsyncClient
 
+import pytest
 from app.models.metric_snapshot import MetricSnapshot
 from app.models.target import Target
+from httpx import AsyncClient
 
 pytestmark = pytest.mark.asyncio
 
@@ -42,7 +42,7 @@ async def test_get_metric_history(async_client: AsyncClient, db_session):
     assert response.status_code == 200
     data = response.json()
     assert len(data) == 5
-    
+
     # Assert ordered by recorded_at DESC
     timestamps = [datetime.fromisoformat(item["recorded_at"].replace("Z", "+00:00")) for item in data]
     assert timestamps == sorted(timestamps, reverse=True)
@@ -70,7 +70,7 @@ async def test_get_metric_summary(async_client: AsyncClient, db_session):
     assert response.status_code == 200
     data = response.json()
     assert len(data) == 1
-    
+
     summary = data[0]
     assert summary["target_id"] == target_id
     assert summary["avg_cpu"] == 20.0
@@ -93,25 +93,25 @@ async def test_get_latest_metrics_per_target(async_client: AsyncClient, db_sessi
 
     # Insert snapshots for 2 targets
     now = datetime.now(timezone.utc)
-    
+
     # t1 gets 2 snapshots, latest is now - 1 min
     db_session.add(MetricSnapshot(target_id=t1_id, instance="i1", cpu_usage_percent=1.0, recorded_at=now - timedelta(minutes=5)))
     db_session.add(MetricSnapshot(target_id=t1_id, instance="i1", cpu_usage_percent=2.0, recorded_at=now - timedelta(minutes=1)))
-    
+
     # t2 gets 1 snapshot, latest is now - 2 min
     db_session.add(MetricSnapshot(target_id=t2_id, instance="i2", cpu_usage_percent=3.0, recorded_at=now - timedelta(minutes=2)))
-    
+
     await db_session.commit()
 
     # Query latest metrics
     response = await async_client.get("/api/metrics/latest")
     assert response.status_code == 200
     data = response.json()
-    
+
     # Should get 1 per target
     assert len(data) == 2
     t1_latest = next(d for d in data if d["target_id"] == t1_id)
     t2_latest = next(d for d in data if d["target_id"] == t2_id)
-    
+
     assert t1_latest["cpu_usage_percent"] == 2.0
     assert t2_latest["cpu_usage_percent"] == 3.0

@@ -103,7 +103,7 @@ async def process_webhook(
                 .limit(1)
             )
             existing_firing = result.scalar_one_or_none()
-            
+
             if existing_firing:
                 # Alert is already firing; skip duplicate DB row and Telegram notification.
                 # (Alertmanager repeats webhooks on group updates or repeat_interval).
@@ -152,7 +152,7 @@ async def process_webhook(
                 if existing.status == "resolved":
                     # Already resolved, avoid duplicate processing
                     continue
-                    
+
                 existing.status = "resolved"
                 existing.resolved_at = resolved_at
                 processed.append(existing)
@@ -182,7 +182,7 @@ async def process_webhook(
     await db.commit()
     for alert_row in processed:
         await db.refresh(alert_row)
-        
+
     # Dispatch Telegram notifications after successful DB commit
     for dispatch_data in to_dispatch:
         await send_telegram_alert(**dispatch_data)

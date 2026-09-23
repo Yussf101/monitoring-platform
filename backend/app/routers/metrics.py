@@ -2,11 +2,11 @@
 Metrics router — endpoints for querying metric snapshots.
 """
 
-from fastapi import APIRouter, Depends, Query, status
+from fastapi import APIRouter, Depends, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import get_db
-from app.schemas.metric_snapshot import MetricSnapshotResponse, MetricAggregation
+from app.schemas.metric_snapshot import MetricAggregation, MetricSnapshotResponse
 from app.services import metric_service
 
 router = APIRouter(prefix="/api/metrics", tags=["Metrics"])

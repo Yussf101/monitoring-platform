@@ -5,6 +5,8 @@ Integration tests for the alerting pipeline.
 from unittest.mock import patch
 
 import pytest
+from app.main import app
+from fastapi.testclient import TestClient
 from httpx import AsyncClient
 
 
@@ -125,7 +127,7 @@ async def test_webhook_unknown_target_skips(webhook_payload, async_client: Async
 async def test_get_alerts_pagination(webhook_payload, async_client: AsyncClient):
     """Insert 3 alerts, test limit and offset."""
     await create_target(async_client)
-    
+
     # Send 3 different alerts
     for i in range(3):
         payload = webhook_payload.copy()
@@ -144,7 +146,7 @@ async def test_get_alerts_pagination(webhook_payload, async_client: AsyncClient)
 async def test_get_alerts_by_target(webhook_payload, async_client: AsyncClient):
     """Insert alerts for 2 different targets, filter by target_id."""
     target1 = await create_target(async_client)
-    
+
     target_data = {
         "name": "Target 2",
         "ip_address": "192.168.1.101",
@@ -154,8 +156,7 @@ async def test_get_alerts_by_target(webhook_payload, async_client: AsyncClient):
         "ssh_user": "test",
         "is_active": True,
     }
-    resp2 = await async_client.post("/api/targets", json=target_data)
-    target2 = resp2.json()
+    await async_client.post("/api/targets", json=target_data)
 
     # Alert for target 1
     await async_client.post("/api/alerts/webhook", json=webhook_payload)
@@ -173,8 +174,8 @@ async def test_get_alerts_by_target(webhook_payload, async_client: AsyncClient):
     assert alerts[0]["target_id"] == target1["id"]
 
 
-from fastapi.testclient import TestClient
-from app.main import app
+
+
 
 @pytest.mark.asyncio
 async def test_telegram_not_called_when_unconfigured(
@@ -182,7 +183,7 @@ async def test_telegram_not_called_when_unconfigured(
 ):
     """Ensure no crash when TELEGRAM_BOT_TOKEN is empty (default)."""
     await create_target(async_client)
-    
+
     # We patch the settings so they are empty for this test
     with patch("app.services.telegram_service.settings.TELEGRAM_BOT_TOKEN", ""), \
          patch("app.services.telegram_service.settings.TELEGRAM_CHAT_ID", ""), \

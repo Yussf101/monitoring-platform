@@ -3,9 +3,9 @@ Metric service — business logic for metric snapshots.
 """
 
 from datetime import datetime, timedelta, timezone
-from sqlalchemy import select, func, desc
+
+from sqlalchemy import desc, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import aliased
 
 from app.models.metric_snapshot import MetricSnapshot
 
@@ -19,10 +19,10 @@ async def get_latest_metrics(db: AsyncSession, target_id: int | None = None) -> 
         MetricSnapshot.target_id,
         func.max(MetricSnapshot.recorded_at).label("max_recorded_at")
     ).group_by(MetricSnapshot.target_id)
-    
+
     if target_id is not None:
         subq = subq.where(MetricSnapshot.target_id == target_id)
-        
+
     subq = subq.subquery()
 
     # Join the main table with the subquery to get the full row
@@ -43,7 +43,7 @@ async def get_metric_history(
     Retrieve historical metric snapshots for a specific target.
     """
     time_threshold = datetime.now(timezone.utc) - timedelta(hours=hours)
-    
+
     stmt = (
         select(MetricSnapshot)
         .where(
@@ -53,7 +53,7 @@ async def get_metric_history(
         .order_by(desc(MetricSnapshot.recorded_at))
         .limit(limit)
     )
-    
+
     result = await db.execute(stmt)
     return list(result.scalars().all())
 
@@ -65,7 +65,7 @@ async def get_metric_summary(
     Retrieve aggregated metric statistics per target over a given time window.
     """
     time_threshold = datetime.now(timezone.utc) - timedelta(hours=hours)
-    
+
     stmt = select(
         MetricSnapshot.target_id,
         func.avg(MetricSnapshot.cpu_usage_percent).label("avg_cpu"),
@@ -76,15 +76,15 @@ async def get_metric_summary(
         func.max(MetricSnapshot.recorded_at).label("max_recorded_at"),
         func.count(MetricSnapshot.id).label("sample_count")
     ).where(MetricSnapshot.recorded_at >= time_threshold)
-    
+
     if target_id is not None:
         stmt = stmt.where(MetricSnapshot.target_id == target_id)
-        
+
     stmt = stmt.group_by(MetricSnapshot.target_id)
-    
+
     result = await db.execute(stmt)
     rows = result.all()
-    
+
     return [
         {
             "target_id": row.target_id,

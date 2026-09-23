@@ -1,14 +1,14 @@
-import os
-import sys
 import json
-import time
-import signal
 import logging
+import os
+import signal
+import time
 from datetime import datetime
+
 import psycopg2
-from psycopg2.extras import execute_batch
 from kafka import KafkaConsumer
 from kafka.errors import KafkaError
+from psycopg2.extras import execute_batch
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -44,8 +44,8 @@ def get_target_mapping(conn):
 
 def insert_batch(conn, batch, target_mapping):
     query = """
-        INSERT INTO metric_snapshots 
-        (target_id, instance, cpu_usage_percent, memory_usage_percent, disk_usage_percent, load_1m, 
+        INSERT INTO metric_snapshots
+        (target_id, instance, cpu_usage_percent, memory_usage_percent, disk_usage_percent, load_1m,
          memory_total_bytes, memory_available_bytes, disk_total_bytes, disk_free_bytes, network_receive_rate, network_transmit_rate, recorded_at)
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
     """
@@ -73,7 +73,7 @@ def insert_batch(conn, batch, target_mapping):
             if not target_id:
                 logging.warning(f"Unknown target instance: {instance}. Skipping.")
                 continue
-                
+
             recorded_at_ts = payload.get("timestamp")
             if recorded_at_ts:
                 recorded_at = datetime.fromisoformat(recorded_at_ts.replace('Z', '+00:00'))
@@ -91,7 +91,7 @@ def insert_batch(conn, batch, target_mapping):
             disk_free = metrics.get("disk_free_bytes")
             net_recv = metrics.get("network_receive_rate")
             net_trans = metrics.get("network_transmit_rate")
-            
+
             # The JSON from producer might have lists for values, let's unpack if needed
             def safe_float(val):
                 if isinstance(val, list) and len(val) == 2:
@@ -101,10 +101,10 @@ def insert_batch(conn, batch, target_mapping):
                 return None
 
             records.append((
-                target_id, instance, 
+                target_id, instance,
                 safe_float(cpu), safe_float(mem), safe_float(disk), safe_float(load),
-                safe_float(mem_tot), safe_float(mem_avail), safe_float(disk_tot), 
-                safe_float(disk_free), safe_float(net_recv), safe_float(net_trans), 
+                safe_float(mem_tot), safe_float(mem_avail), safe_float(disk_tot),
+                safe_float(disk_free), safe_float(net_recv), safe_float(net_trans),
                 recorded_at
             ))
         except Exception as e:
@@ -133,7 +133,7 @@ def main():
         except psycopg2.OperationalError:
             logging.warning("Database not ready, retrying in 5 seconds...")
             time.sleep(5)
-            
+
     # Wait for Kafka
     consumer = None
     while not consumer and running:

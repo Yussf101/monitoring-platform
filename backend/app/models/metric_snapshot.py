@@ -3,9 +3,8 @@ MetricSnapshot ORM model — represents a historical point-in-time metric readin
 """
 
 from datetime import datetime
-from typing import Optional
 
-from sqlalchemy import DateTime, Float, ForeignKey, Integer, String, func, Index
+from sqlalchemy import DateTime, Float, ForeignKey, Index, Integer, String, func
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.models.base import Base
@@ -26,7 +25,7 @@ class MetricSnapshot(Base):
     memory_usage_percent: Mapped[float] = mapped_column(Float, nullable=True)
     disk_usage_percent: Mapped[float] = mapped_column(Float, nullable=True)
     load_1m: Mapped[float] = mapped_column(Float, nullable=True)
-    
+
     memory_total_bytes: Mapped[float] = mapped_column(Float, nullable=True)
     memory_available_bytes: Mapped[float] = mapped_column(Float, nullable=True)
     disk_total_bytes: Mapped[float] = mapped_column(Float, nullable=True)

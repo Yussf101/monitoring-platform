@@ -22,15 +22,14 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from alembic import context
-from sqlalchemy.ext.asyncio import create_async_engine
-
 from app.core.config import settings
+from app.models.alert import Alert  # noqa: F401
 
 # Import Base and ALL models so Alembic can detect their tables.
 # Without these imports, Alembic would generate empty migrations.
 from app.models.base import Base
 from app.models.target import Target  # noqa: F401
-from app.models.alert import Alert  # noqa: F401
+from sqlalchemy.ext.asyncio import create_async_engine
 
 # Standard Alembic logging setup
 config = context.config

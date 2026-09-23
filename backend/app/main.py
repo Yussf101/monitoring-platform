@@ -8,7 +8,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.config import settings
-from app.routers import alerts, discovery, targets, metrics
+from app.routers import alerts, discovery, metrics, targets
 
 app = FastAPI(
     title=settings.APP_NAME,

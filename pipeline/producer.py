@@ -1,10 +1,10 @@
-import os
-import sys
-import time
 import json
-import signal
 import logging
+import os
+import signal
+import time
 from datetime import datetime, timezone
+
 import requests
 from kafka import KafkaProducer
 from kafka.errors import KafkaError
@@ -48,14 +48,14 @@ def collect_metrics():
     # 1. CPU Usage %
     cpu_query = '100 - (avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)'
     cpu_results = get_prometheus_query(cpu_query)
-    
+
     # 2. Memory Usage %
     mem_query = '100 * (1 - node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)'
     mem_results = get_prometheus_query(mem_query)
 
     # 3. Disk Usage %
     # Ignoring mountpoint filter strictly because some instances might have different mountpoints,
-    # but the instructions hint at basic root filesystem or similar. 
+    # but the instructions hint at basic root filesystem or similar.
     # Let's use mountpoint="/" or device matches to be safe.
     # Actually, the instructions say `node_filesystem_avail_bytes / node_filesystem_size_bytes`
     disk_query = '100 * (1 - sum by (instance) (node_filesystem_avail_bytes{fstype=~"ext.*|xfs",mountpoint="/"}) / sum by (instance) (node_filesystem_size_bytes{fstype=~"ext.*|xfs",mountpoint="/"}))'
@@ -94,7 +94,7 @@ def collect_metrics():
     extract_values(mem_results, 'memory_usage_percent')
     extract_values(disk_results, 'disk_usage_percent')
     extract_values(load_results, 'load_1m')
-    
+
     extract_values(mem_total_results, 'memory_total_bytes')
     extract_values(mem_avail_results, 'memory_available_bytes')
     extract_values(disk_total_results, 'disk_total_bytes')
@@ -106,7 +106,7 @@ def collect_metrics():
 
 def main():
     logger.info(f"Starting metrics producer. Kafka: {KAFKA_BOOTSTRAP_SERVERS}, Prometheus: {PROMETHEUS_URL}, Poll: {POLL_INTERVAL}s")
-    
+
     producer = None
     while running and producer is None:
         try:
@@ -119,14 +119,14 @@ def main():
         except KafkaError as e:
             logger.error(f"Failed to connect to Kafka, retrying in 5s... Error: {e}")
             time.sleep(5)
-            
+
     while running:
         start_time = time.time()
-        
+
         metrics_by_instance = collect_metrics()
         # Convert timezone-aware datetime to ISO 8601 string including the 'Z' format
         now = datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z')
-        
+
         for instance, metrics in metrics_by_instance.items():
             payload = {
                 "instance": instance,
@@ -148,19 +148,19 @@ def main():
                 producer.send(KAFKA_TOPIC, key=instance, value=payload)
             except Exception as e:
                 logger.error(f"Error sending message to Kafka for instance {instance}: {e}")
-                
+
         if producer:
             producer.flush()
             if metrics_by_instance:
                 logger.info(f"Published metrics for {len(metrics_by_instance)} instances.")
-            
+
         elapsed = time.time() - start_time
         sleep_time = max(0, POLL_INTERVAL - elapsed)
-        
+
         end_sleep = time.time() + sleep_time
         while running and time.time() < end_sleep:
             time.sleep(0.5)
-            
+
     if producer:
         producer.close()
     logger.info("Producer shutdown complete.")

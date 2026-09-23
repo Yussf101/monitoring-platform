@@ -4,6 +4,7 @@ Telegram notification service.
 
 import logging
 from datetime import datetime
+
 import httpx
 
 from app.core.config import settings
@@ -27,11 +28,11 @@ async def send_telegram_alert(
 
     emoji = "🔴" if status == "firing" else "🟢"
     status_text = "FIRING" if status == "firing" else "RESOLVED"
-    
+
     # Prometheus sends the exact same description for both firing and resolved states.
     # To avoid confusion, we adjust the text for resolved alerts.
     display_message = message if status == "firing" else f"Alert condition cleared. (Was: {message})"
-    
+
     text = (
         f"{emoji} <b>{status_text}: {alert_name}</b>\n\n"
         f"<b>Instance:</b> {instance}\n"
@@ -50,7 +51,7 @@ async def send_telegram_alert(
     try:
         async with httpx.AsyncClient() as client:
             response = await client.post(url, json=payload, timeout=5.0)
-            
+
         if response.status_code == 200:
             logger.info("Telegram notification sent successfully for alert: %s", alert_name)
             return True

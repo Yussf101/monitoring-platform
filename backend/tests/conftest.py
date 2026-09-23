@@ -1,13 +1,11 @@
-import pytest
 import pytest_asyncio
-from httpx import AsyncClient, ASGITransport
-from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
-
-from app.main import app
 from app.core.database import get_db
+from app.main import app
 from app.models.base import Base
+from httpx import ASGITransport, AsyncClient
+from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
+
 # Import all models to ensure they are registered with Base.metadata
-from app.models.target import Target
 
 TEST_DATABASE_URL = "sqlite+aiosqlite:///:memory:"
 
@@ -19,10 +17,10 @@ TestingSessionLocal = async_sessionmaker(autocommit=False, autoflush=False, bind
 async def db_session():
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
-    
+
     async with TestingSessionLocal() as session:
         yield session
-    
+
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.drop_all)
 
