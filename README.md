@@ -2,10 +2,18 @@
 
 > Real-time system metrics monitoring platform
 
-![CI](https://github.com/Yussf101/monitoring-platform/actions/workflows/ci.yml/badge.svg)
-![Docker Compose](https://img.shields.io/badge/Docker_Compose-10_services-2496ED?logo=docker&logoColor=white)
-![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
-![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)
+[![CI](https://github.com/Yussf101/monitoring-platform/actions/workflows/ci.yml/badge.svg)](https://github.com/Yussf101/monitoring-platform/actions/workflows/ci.yml)
+[![Docker Compose](https://img.shields.io/badge/Docker_Compose-10_services-2496ED?logo=docker&logoColor=white)](https://docs.docker.com/compose/)
+[![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)](https://react.dev/)
+
+[![monitoring](https://img.shields.io/badge/monitoring-333333)](https://github.com/topics/monitoring)
+[![observability](https://img.shields.io/badge/observability-333333)](https://github.com/topics/observability)
+[![prometheus](https://img.shields.io/badge/prometheus-e6522c?logo=prometheus&logoColor=white)](https://github.com/topics/prometheus)
+[![fastapi](https://img.shields.io/badge/fastapi-009688?logo=fastapi&logoColor=white)](https://github.com/topics/fastapi)
+[![kafka](https://img.shields.io/badge/kafka-231F20?logo=apachekafka&logoColor=white)](https://github.com/topics/kafka)
+[![ansible](https://img.shields.io/badge/ansible-EE0000?logo=ansible&logoColor=white)](https://github.com/topics/ansible)
+[![grafana](https://img.shields.io/badge/grafana-F46800?logo=grafana&logoColor=white)](https://github.com/topics/grafana)
 
 ---
 
@@ -145,7 +153,7 @@ monitoring-platform-v2/
 
 ## API Reference
 
-Interactive API documentation is available at `/docs` when running the backend. A complete endpoint reference with request/response schemas can be found in [docs/API.md](docs/API.md).
+Interactive API documentation is available at `/docs` when running the backend. A complete endpoint reference with request/response schemas can be found in [API.md](API.md).
 
 Main endpoints:
 - `GET /api/targets` - List monitoring targets
@@ -157,6 +165,4 @@ Main endpoints:
 ## Documentation
 
 - [Architecture & Design](ARCHITECTURE.md)
-- [API Reference](docs/API.md)
-- [1A vs 2A Project Comparison](docs/BEFORE_AFTER.md)
-
+- [API Reference](API.md)
