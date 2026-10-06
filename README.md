@@ -147,8 +147,18 @@ monitoring-platform-v2/
 ├── alertmanager/            # Alertmanager configuration
 ├── grafana/                 # Grafana dashboards
 ├── ansible/                 # Node Exporter provisioning
-├── docs/                    # Documentation
+monitoring-platform-v2/
+├── backend/                 # FastAPI server
+├── frontend/                # React dashboard
+├── pipeline/                # Kafka producer and consumer
+├── prometheus/              # Prometheus configuration
+├── alertmanager/            # Alertmanager configuration
+├── grafana/                 # Grafana dashboards
+├── ansible/                 # Node Exporter provisioning
+├── API.md                   # API endpoint reference
+├── ARCHITECTURE.md          # System architecture + diagrams
 └── docker-compose.yml       # Stack definition
+
 ```
 
 ## API Reference
