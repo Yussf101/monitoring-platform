@@ -4,26 +4,34 @@
 
 @layer base {
   :root {
-    --background: 217 14% 18%; /* #272c34 */
-    --foreground: 194 77% 78%; /* #9cdef2 */
-    --card: 0 0% 7%; /* #111111 */
-    --card-foreground: 194 77% 78%;
-    --popover: 0 0% 7%;
-    --popover-foreground: 194 77% 78%;
-    --primary: 355 65% 65%; /* #e06c75 */
-    --primary-foreground: 0 0% 7%;
-    --secondary: 220 13% 18%;
-    --secondary-foreground: 194 77% 78%;
-    --muted: 220 13% 18%;
-    --muted-foreground: 215 20% 65%;
-    --accent: 220 13% 18%;
-    --accent-foreground: 355 65% 65%; /* hover states red */
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 194 32% 30%; /* #355a66 */
-    --input: 194 32% 30%;
-    --ring: 355 65% 65%;
-    --radius: 0rem;
+    /* Exact GitHub system tokens verified live on GitHub.com */
+    --background: 216 28% 7%; /* #0d1117 canvas.default */
+    --foreground: 210 56% 96%; /* #f0f6fc color-fg-default */
+    --card: 213 18% 16%; /* #212830 */
+    --card-foreground: 210 56% 96%;
+    --popover: 213 18% 16%;
+    --popover-foreground: 210 56% 96%;
+    --primary: 132 58% 33%; /* #238636 btn-primary */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 213 18% 16%; /* #212830 btn-default */
+    --secondary-foreground: 210 56% 96%;
+    --muted: 216 28% 7%;
+    --muted-foreground: 215 8% 53%; /* #7d8590 color-fg-muted */
+    --accent: 214 93% 62%; /* #4493f8 */
+    --accent-foreground: 0 0% 100%;
+    --destructive: 358 93% 63%; /* #f85149 */
+    --destructive-foreground: 0 0% 100%;
+    --success: 129 64% 61%; /* #3fb950 */
+    --success-foreground: 0 0% 100%;
+    --warning: 41 72% 48%; /* #d29922 */
+    --warning-foreground: 216 28% 7%;
+    --info: 214 93% 62%;
+    --info-foreground: 0 0% 100%;
+    --border: 214 12% 23%; /* #30363d / #3d444d */
+    --border-muted: 215 14% 15%; /* #21262d */
+    --input: 214 12% 23%; /* #30363d */
+    --ring: 214 93% 62%;
+    --radius: 6px;
   }
 }
 
@@ -33,7 +41,164 @@
   }
 
   body {
-    @apply bg-background text-foreground antialiased selection:bg-primary/30;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    @apply bg-[#0d1117] text-[#f0f6fc] antialiased selection:bg-[#4493f8]/30 selection:text-white;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    font-size: 14px;
+    line-height: 1.5;
+    background-color: #0d1117;
   }
+
+  :focus-visible {
+    outline: 2px solid #4493f8;
+    outline-offset: -1px;
+    box-shadow: 0 0 0 3px rgba(68, 147, 248, 0.3);
+  }
+}
+
+/* GitHub Primer Box Model */
+.primer-box {
+  background-color: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  box-shadow: rgba(1, 4, 9, 0.6) 0px 1px 1px 0px, rgba(1, 4, 9, 0.6) 0px 1px 3px 0px;
+}
+
+.primer-box-header {
+  background-color: #161b22;
+  border-bottom: 1px solid #30363d;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #f0f6fc;
+}
+
+.primer-box-row {
+  border-top: 1px solid #21262d;
+  transition: background-color 80ms ease;
+}
+
+.primer-box-row:hover {
+  background-color: rgba(110, 118, 129, 0.08);
+}
+
+/* GitHub Primer Button Contours: exact 14px, 20px line-height, 500 weight, inset shadow */
+.primer-btn {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+  background-color: #212830;
+  border: 1px solid #30363d;
+  color: #f0f6fc;
+  border-radius: 6px;
+  box-shadow: rgba(61, 68, 77, 0.7) 0px -1px 0px 0px inset;
+  transition: all 80ms cubic-bezier(0.3, 0, 0.5, 1);
+  padding: 5px 16px;
+}
+
+.primer-btn:hover {
+  background-color: #30363d;
+  border-color: #8b949e;
+  color: #ffffff;
+}
+
+.primer-btn-primary {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+  background-color: #238636;
+  border: 1px solid rgba(240, 246, 252, 0.1);
+  color: #ffffff;
+  border-radius: 6px;
+  box-shadow: rgba(61, 68, 77, 0.7) 0px -1px 0px 0px inset;
+  padding: 5px 16px;
+}
+
+.primer-btn-primary:hover {
+  background-color: #2ea043;
+}
+
+/* GitHub UnderlineNav: verified 14px, 21px line-height, 500/600 weight, 7px 12px padding */
+.underline-nav-item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  font-size: 14px;
+  line-height: 21px;
+  font-weight: 500;
+  color: #7d8590;
+  border-radius: 6px;
+  transition: color 80ms ease;
+  white-space: nowrap;
+}
+
+.underline-nav-item:hover {
+  color: #f0f6fc;
+  background-color: rgba(177, 186, 196, 0.08);
+}
+
+.underline-nav-item.active {
+  color: #f0f6fc;
+  font-weight: 600;
+}
+
+.underline-nav-item.active::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 12px;
+  right: 12px;
+  height: 2px;
+  background-color: #f78166;
+  border-radius: 1px;
+}
+
+/* GitHub Counter Badge */
+.primer-counter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+  color: #7d8590;
+  background-color: rgba(110, 118, 129, 0.2);
+  border-radius: 9999px;
+}
+
+.primer-counter.active {
+  color: #f0f6fc;
+  background-color: #30363d;
+}
+
+/* GitHub Secondary / Commit Writing (.color-fg-muted): verified 14px, 21px line-height, #7d8590 */
+.gh-meta-text {
+  font-size: 14px;
+  line-height: 21px;
+  font-weight: 400;
+  color: #7d8590;
+}
+
+/* GitHub Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0d1117;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #212830;
+  border-radius: 4px;
+  border: 2px solid #0d1117;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #30363d;
 }

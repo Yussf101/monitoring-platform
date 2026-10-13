@@ -1,4 +1,12 @@
-import type { Target, TargetCreate, TargetUpdate, Alert } from './types';
+import type { 
+  Target, 
+  TargetCreate, 
+  TargetUpdate, 
+  Alert, 
+  MetricSnapshot, 
+  MetricAggregation, 
+  DiscoveryTarget 
+} from './types';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
@@ -66,6 +74,32 @@ export async function getAlerts(limit: number = 100, offset: number = 0): Promis
 
 export async function getAlertsByTarget(targetId: number): Promise<Alert[]> {
   return apiFetch<Alert[]>(`/api/alerts/target/${targetId}`);
+}
+
+// Metric Endpoints
+export async function getLatestMetrics(targetId?: number): Promise<MetricSnapshot[]> {
+  const query = targetId !== undefined ? `?target_id=${targetId}` : '';
+  return apiFetch<MetricSnapshot[]>(`/api/metrics/latest${query}`);
+}
+
+export async function getMetricHistory(
+  targetId: number,
+  hours: number = 24,
+  limit: number = 500
+): Promise<MetricSnapshot[]> {
+  return apiFetch<MetricSnapshot[]>(`/api/metrics/history/${targetId}?hours=${hours}&limit=${limit}`);
+}
+
+export async function getMetricSummary(targetId?: number, hours: number = 1): Promise<MetricAggregation[]> {
+  const query = new URLSearchParams();
+  if (targetId !== undefined) query.set('target_id', targetId.toString());
+  query.set('hours', hours.toString());
+  return apiFetch<MetricAggregation[]>(`/api/metrics/summary?${query.toString()}`);
+}
+
+// Discovery Endpoints
+export async function getDiscoveryTargets(): Promise<DiscoveryTarget[]> {
+  return apiFetch<DiscoveryTarget[]>('/api/discovery');
 }
 
 // Health Check
