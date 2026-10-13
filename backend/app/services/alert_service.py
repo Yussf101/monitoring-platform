@@ -2,6 +2,7 @@
 Alert service — business logic for processing Alertmanager webhooks and querying alert history.
 """
 
+import asyncio
 import logging
 from datetime import datetime, timezone
 
@@ -14,6 +15,28 @@ from app.schemas.alert import AlertmanagerWebhookPayload
 from app.services.telegram_service import send_telegram_alert
 
 logger = logging.getLogger(__name__)
+
+
+async def is_target_reachable(
+    ip_address: str, port: int = 9100, timeout: float = 2.0
+) -> bool:
+    """
+    Check if a target's scrape port is genuinely reachable via TCP.
+
+    Used to guard against false Alertmanager resolutions caused by resolve_timeout
+    expirations during laptop sleep or network pauses.
+    """
+    try:
+        _, writer = await asyncio.wait_for(
+            asyncio.open_connection(ip_address, port),
+            timeout=timeout,
+        )
+        writer.close()
+        await writer.wait_closed()
+        return True
+    except Exception as exc:
+        logger.debug("Health check probe failed for %s:%s: %s", ip_address, port, exc)
+        return False
 
 
 def _parse_instance_ip(instance: str) -> str:
@@ -131,6 +154,29 @@ async def process_webhook(
             })
 
         elif alert_data.status == "resolved":
+            # For InstanceDown alerts, verify the target is genuinely reachable via TCP.
+            # When host sleeps or scrapes pause, Alertmanager's resolve_timeout (5m)
+            # dispatches a false "resolved" status even though targets remain offline.
+            if alert_name == "InstanceDown":
+                try:
+                    target_port = (
+                        int(instance.split(":")[1])
+                        if ":" in instance
+                        else (target.port or 9100)
+                    )
+                except (ValueError, IndexError):
+                    target_port = target.port or 9100
+
+                reachable = await is_target_reachable(target.ip_address, target_port)
+                if not reachable:
+                    logger.warning(
+                        "Rejecting false resolution for InstanceDown on %s (%s:%s): target is still unreachable",
+                        target.name,
+                        target.ip_address,
+                        target_port,
+                    )
+                    continue
+
             # Find the most recent firing alert for this target + rule
             result = await db.execute(
                 select(Alert)
