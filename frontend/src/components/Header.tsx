@@ -14,6 +14,7 @@ import {
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { getHealth } from '../lib/api';
 import { PulseLogo } from './PulseLogo';
+import { ThemeToggle } from './ThemeToggle';
 
 interface HeaderProps {
   autoRefreshInterval: number;
@@ -221,6 +222,9 @@ export function Header({
               <option value={0} className="bg-[#161b22] text-[#f0f6fc]">Paused</option>
             </select>
           </div>
+
+          {/* Modern Theme Switcher */}
+          <ThemeToggle />
 
           {/* Grafana Deep Link as GitHub Star Button (14px, 32px height, 500 weight) */}
           <a

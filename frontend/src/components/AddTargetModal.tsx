@@ -11,12 +11,14 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Plus, Server } from "lucide-react";
 import { createTarget } from "../lib/api";
+import { cn } from "../lib/utils";
 
 interface AddTargetModalProps {
   onSuccess: () => void;
+  triggerClassName?: string;
 }
 
-export function AddTargetModal({ onSuccess }: AddTargetModalProps) {
+export function AddTargetModal({ onSuccess, triggerClassName }: AddTargetModalProps) {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [ipAddress, setIpAddress] = useState("");
@@ -62,7 +64,13 @@ export function AddTargetModal({ onSuccess }: AddTargetModalProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button size="default" className="bg-[#238636] hover:bg-[#2ea043] text-white font-medium text-sm leading-5 gap-1.5 shadow-[rgba(61,68,77,0.7)_0px_-1px_0px_0px_inset] rounded-[6px] border border-[rgba(240,246,252,0.1)] px-3 py-[5px] h-8">
+        <Button 
+          size="default" 
+          className={cn(
+            "text-white font-medium text-sm leading-5 gap-1.5 shadow-[rgba(61,68,77,0.7)_0px_-1px_0px_0px_inset] rounded-[6px] border border-[rgba(240,246,252,0.1)] px-3 py-[5px] h-8",
+            triggerClassName || "bg-[#1f6feb] hover:bg-[#388bfd]"
+          )}
+        >
           <Plus className="h-4 w-4" aria-hidden="true" />
           <span>Add Monitored Target</span>
         </Button>
@@ -168,7 +176,7 @@ export function AddTargetModal({ onSuccess }: AddTargetModalProps) {
                   id="target-active"
                   checked={isActive}
                   onChange={(e) => setIsActive(e.target.checked)}
-                  className="h-4 w-4 rounded border-[#30363d] bg-[#0d1117] text-[#238636] focus:ring-[#2f81f7] cursor-pointer"
+                  className="h-4 w-4 rounded border-[#30363d] bg-[#0d1117] text-[#1f6feb] focus:ring-[#388bfd] cursor-pointer"
                 />
                 <label htmlFor="target-active" className="text-xs text-[#c9d1d9] cursor-pointer select-none">
                   Activate for SD
@@ -192,7 +200,7 @@ export function AddTargetModal({ onSuccess }: AddTargetModalProps) {
               type="submit" 
               size="sm" 
               disabled={isSubmitting}
-              className="bg-[#238636] hover:bg-[#2ea043] text-white"
+              className="bg-[#1f6feb] hover:bg-[#388bfd] text-white"
             >
               {isSubmitting ? "Registering..." : "Add Target"}
             </Button>

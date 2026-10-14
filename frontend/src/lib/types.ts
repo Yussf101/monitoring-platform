@@ -9,6 +9,9 @@ export interface Target {
   is_active: boolean;
   created_at: string;
   updated_at: string;
+  health?: 'up' | 'down' | 'muted' | 'unknown';
+  last_error?: string | null;
+  last_scrape?: string | null;
 }
 
 export interface TargetCreate {

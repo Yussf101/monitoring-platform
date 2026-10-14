@@ -8,6 +8,7 @@ import { AlertsPage } from './pages/AlertsPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { DiscoveryPage } from './pages/DiscoveryPage';
 import { getTargets, getAlerts } from './lib/api';
+import { ThemeProvider } from './context/ThemeContext';
 
 function AnimatedRoutes({ refreshTrigger }: { refreshTrigger: number }) {
   const location = useLocation();
@@ -76,33 +77,35 @@ function App() {
   }, [autoRefreshInterval, triggerRefresh]);
 
   return (
-    <BrowserRouter>
-      <div className="min-h-dvh bg-[#0d1117] font-sans antialiased text-[#e6edf3] flex flex-col">
-        {/* GitHub Slide-over Drawer */}
-        <Sidebar 
-          targetCount={targetCount} 
-          firingCount={firingCount} 
-          isOpen={isSidebarOpen}
-          onClose={() => setIsSidebarOpen(false)}
-        />
+    <ThemeProvider>
+      <BrowserRouter>
+        <div className="min-h-dvh bg-[#0d1117] font-sans antialiased text-[#e6edf3] flex flex-col transition-colors duration-150">
+          {/* GitHub Slide-over Drawer */}
+          <Sidebar 
+            targetCount={targetCount} 
+            firingCount={firingCount} 
+            isOpen={isSidebarOpen}
+            onClose={() => setIsSidebarOpen(false)}
+          />
 
-        {/* Global GitHub Header + Repository UnderlineNav */}
-        <Header
-          autoRefreshInterval={autoRefreshInterval}
-          onAutoRefreshChange={setAutoRefreshInterval}
-          onRefresh={triggerRefresh}
-          isRefreshing={isRefreshing}
-          totalTargets={targetCount}
-          firingAlerts={firingCount}
-          onToggleSidebar={() => setIsSidebarOpen(prev => !prev)}
-        />
+          {/* Global GitHub Header + Repository UnderlineNav */}
+          <Header
+            autoRefreshInterval={autoRefreshInterval}
+            onAutoRefreshChange={setAutoRefreshInterval}
+            onRefresh={triggerRefresh}
+            isRefreshing={isRefreshing}
+            totalTargets={targetCount}
+            firingAlerts={firingCount}
+            onToggleSidebar={() => setIsSidebarOpen(prev => !prev)}
+          />
 
-        {/* Repository Content Canvas with Page Transitions */}
-        <main className="flex-1 max-w-[1400px] w-full mx-auto px-4 sm:px-6 md:px-8 py-6">
-          <AnimatedRoutes refreshTrigger={refreshTrigger} />
-        </main>
-      </div>
-    </BrowserRouter>
+          {/* Repository Content Canvas with Page Transitions */}
+          <main className="flex-1 max-w-[1400px] w-full mx-auto px-4 sm:px-6 md:px-8 py-6">
+            <AnimatedRoutes refreshTrigger={refreshTrigger} />
+          </main>
+        </div>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 

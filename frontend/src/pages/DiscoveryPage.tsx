@@ -81,7 +81,7 @@ export function DiscoveryPage() {
             type="button"
             onClick={handleCopyJson}
             aria-label="Copy Prometheus HTTP service discovery JSON configuration"
-            className="flex items-center gap-1.5 h-8 px-3.5 py-[5px] rounded-[6px] bg-[#238636] hover:bg-[#2ea043] text-white text-sm font-medium transition-colors shadow-[rgba(61,68,77,0.7)_0px_-1px_0px_0px_inset] border border-[rgba(240,246,252,0.1)]"
+            className="flex items-center gap-1.5 h-8 px-3.5 py-[5px] rounded-[6px] bg-[#1f6feb] hover:bg-[#388bfd] text-white text-sm font-medium transition-colors shadow-[rgba(61,68,77,0.7)_0px_-1px_0px_0px_inset] border border-[rgba(240,246,252,0.1)]"
           >
             {isCopied ? <Check className="h-4 w-4 text-white" aria-hidden="true" /> : <Copy className="h-4 w-4 text-white" aria-hidden="true" />}
             <span>{isCopied ? "Copied JSON" : "Copy SD Config"}</span>

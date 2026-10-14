@@ -3,15 +3,46 @@
 @tailwind utilities;
 
 @layer base {
+  /* Default: GitHub Primer Light Theme */
   :root {
-    /* Exact GitHub system tokens verified live on GitHub.com */
+    --background: 0 0% 100%; /* #ffffff */
+    --foreground: 220 14% 14%; /* #1f2328 */
+    --card: 0 0% 100%; /* #ffffff */
+    --card-foreground: 220 14% 14%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 14% 14%;
+    --primary: 216 85% 52%; /* #1f6feb */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 29% 97%; /* #f6f8fa */
+    --secondary-foreground: 220 14% 14%;
+    --muted: 210 29% 97%;
+    --muted-foreground: 214 8% 43%; /* #656d76 */
+    --accent: 212 92% 45%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 354 70% 47%; /* #cf222e */
+    --destructive-foreground: 0 0% 100%;
+    --success: 137 66% 30%; /* #1a7f37 */
+    --success-foreground: 0 0% 100%;
+    --warning: 39 100% 30%; /* #9a6700 */
+    --warning-foreground: 0 0% 100%;
+    --info: 212 92% 45%;
+    --info-foreground: 0 0% 100%;
+    --border: 213 14% 84%; /* #d0d7de */
+    --border-muted: 216 15% 88%; /* #d8dee4 */
+    --input: 213 14% 84%;
+    --ring: 216 85% 52%;
+    --radius: 6px;
+  }
+
+  /* GitHub Primer Dark Theme (Active when .dark class is on <html>) */
+  .dark {
     --background: 216 28% 7%; /* #0d1117 canvas.default */
     --foreground: 210 56% 96%; /* #f0f6fc color-fg-default */
-    --card: 213 18% 16%; /* #212830 */
+    --card: 213 18% 16%; /* #212830 / #161b22 */
     --card-foreground: 210 56% 96%;
     --popover: 213 18% 16%;
     --popover-foreground: 210 56% 96%;
-    --primary: 132 58% 33%; /* #238636 btn-primary */
+    --primary: 216 85% 52%; /* #1f6feb btn-primary Electric Blue */
     --primary-foreground: 0 0% 100%;
     --secondary: 213 18% 16%; /* #212830 btn-default */
     --secondary-foreground: 210 56% 96%;
@@ -41,21 +72,27 @@
   }
 
   body {
-    @apply bg-[#0d1117] text-[#f0f6fc] antialiased selection:bg-[#4493f8]/30 selection:text-white;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
     font-size: 14px;
     line-height: 1.5;
+    transition: background-color 150ms ease, color 150ms ease;
+  }
+
+  .dark body {
     background-color: #0d1117;
+    color: #f0f6fc;
   }
 
   :focus-visible {
-    outline: 2px solid #4493f8;
+    outline: 2px solid #1f6feb;
     outline-offset: -1px;
-    box-shadow: 0 0 0 3px rgba(68, 147, 248, 0.3);
+    box-shadow: 0 0 0 3px rgba(31, 111, 235, 0.3);
   }
 }
 
-/* GitHub Primer Box Model */
+/* ==========================================================================
+   GitHub Primer Box Model & Cards
+   ========================================================================== */
 .primer-box {
   background-color: #161b22;
   border: 1px solid #30363d;
@@ -81,7 +118,7 @@
   background-color: rgba(110, 118, 129, 0.08);
 }
 
-/* GitHub Primer Button Contours: exact 14px, 20px line-height, 500 weight, inset shadow */
+/* Primer Buttons */
 .primer-btn {
   font-size: 14px;
   line-height: 20px;
@@ -105,7 +142,7 @@
   font-size: 14px;
   line-height: 20px;
   font-weight: 500;
-  background-color: #238636;
+  background-color: #1f6feb;
   border: 1px solid rgba(240, 246, 252, 0.1);
   color: #ffffff;
   border-radius: 6px;
@@ -114,10 +151,10 @@
 }
 
 .primer-btn-primary:hover {
-  background-color: #2ea043;
+  background-color: #388bfd;
 }
 
-/* GitHub UnderlineNav: verified 14px, 21px line-height, 500/600 weight, 7px 12px padding */
+/* GitHub UnderlineNav */
 .underline-nav-item {
   position: relative;
   display: inline-flex;
@@ -154,7 +191,6 @@
   border-radius: 1px;
 }
 
-/* GitHub Counter Badge */
 .primer-counter {
   display: inline-flex;
   align-items: center;
@@ -175,7 +211,6 @@
   background-color: #30363d;
 }
 
-/* GitHub Secondary / Commit Writing (.color-fg-muted): verified 14px, 21px line-height, #7d8590 */
 .gh-meta-text {
   font-size: 14px;
   line-height: 21px;
@@ -183,7 +218,7 @@
   color: #7d8590;
 }
 
-/* GitHub Scrollbar */
+/* Scrollbars */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -201,4 +236,225 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: #30363d;
+}
+
+/* ==========================================================================
+   LIGHT THEME OVERRIDES (Triggered when html does not have .dark)
+   Produces 100% authentic GitHub Light mode
+   ========================================================================== */
+html:not(.dark) body {
+  background-color: #ffffff !important;
+  color: #1f2328 !important;
+}
+
+html:not(.dark) .min-h-dvh {
+  background-color: #ffffff !important;
+  color: #1f2328 !important;
+}
+
+/* Surface mappings */
+html:not(.dark) header,
+html:not(.dark) nav {
+  background-color: #f6f8fa !important;
+  border-color: #d0d7de !important;
+}
+
+html:not(.dark) .bg-\[\#010409\] {
+  background-color: #f6f8fa !important;
+}
+
+html:not(.dark) .bg-\[\#0d1117\] {
+  background-color: #ffffff !important;
+}
+
+html:not(.dark) .bg-\[\#161b22\] {
+  background-color: #ffffff !important;
+}
+
+html:not(.dark) .bg-\[\#212830\],
+html:not(.dark) .bg-\[\#21262d\],
+html:not(.dark) .bg-\[\#212620\] {
+  background-color: #f6f8fa !important;
+}
+
+/* Borders */
+html:not(.dark) .border-\[\#30363d\] {
+  border-color: #d0d7de !important;
+}
+
+html:not(.dark) .border-\[\#21262d\] {
+  border-color: #d8dee4 !important;
+}
+
+/* Text colors */
+html:not(.dark) .text-\[\#f0f6fc\],
+html:not(.dark) .text-\[\#e6edf3\] {
+  color: #1f2328 !important;
+}
+
+html:not(.dark) .text-\[\#7d8590\],
+html:not(.dark) .text-\[\#848d97\],
+html:not(.dark) .text-\[\#6e7681\],
+html:not(.dark) .text-\[\#c9d1d9\] {
+  color: #656d76 !important;
+}
+
+/* Hover states */
+html:not(.dark) .hover\:bg-\[\#30363d\]:hover,
+html:not(.dark) .hover\:bg-\[\#21262d\]:hover {
+  background-color: #eaeef2 !important;
+}
+
+html:not(.dark) .hover\:bg-\[\#161b22\]:hover {
+  background-color: #f6f8fa !important;
+}
+
+html:not(.dark) .hover\:border-\[\#8b949e\]:hover {
+  border-color: #8c959f !important;
+}
+
+html:not(.dark) .hover\:text-white:hover,
+html:not(.dark) .hover\:text-\[\#f0f6fc\]:hover {
+  color: #1f2328 !important;
+}
+
+/* Inset boxes, code boxes & payload previews */
+html:not(.dark) pre,
+html:not(.dark) code {
+  color: #1f2328 !important;
+}
+
+html:not(.dark) .p-4.bg-\[\#0d1117\],
+html:not(.dark) .p-3.bg-\[\#0d1117\] {
+  background-color: #f6f8fa !important;
+}
+
+/* Forms & inputs */
+html:not(.dark) input[type="text"],
+html:not(.dark) input[type="number"],
+html:not(.dark) select,
+html:not(.dark) textarea {
+  background-color: #ffffff !important;
+  border-color: #d0d7de !important;
+  color: #1f2328 !important;
+}
+
+html:not(.dark) input::placeholder,
+html:not(.dark) textarea::placeholder {
+  color: #8c959f !important;
+}
+
+html:not(.dark) kbd {
+  background-color: #eff1f3 !important;
+  border-color: #d0d7de !important;
+  color: #656d76 !important;
+}
+
+/* Primer Box & Cards in Light Mode */
+html:not(.dark) .primer-box {
+  background-color: #ffffff !important;
+  border-color: #d0d7de !important;
+  box-shadow: 0 1px 0 rgba(31, 35, 40, 0.04) !important;
+}
+
+html:not(.dark) .primer-box-header {
+  background-color: #f6f8fa !important;
+  border-bottom-color: #d0d7de !important;
+  color: #1f2328 !important;
+}
+
+html:not(.dark) .primer-box-row {
+  border-top-color: #d8dee4 !important;
+}
+
+html:not(.dark) .primer-box-row:hover {
+  background-color: rgba(234, 238, 242, 0.5) !important;
+}
+
+html:not(.dark) .primer-btn {
+  background-color: #f6f8fa !important;
+  border-color: #d0d7de !important;
+  color: #24292f !important;
+  box-shadow: 0 1px 0 rgba(31, 35, 40, 0.04) !important;
+}
+
+html:not(.dark) .primer-btn:hover {
+  background-color: #f3f4f6 !important;
+  border-color: #8c959f !important;
+  color: #1f2328 !important;
+}
+
+html:not(.dark) .underline-nav-item {
+  color: #656d76 !important;
+}
+
+html:not(.dark) .underline-nav-item:hover {
+  color: #1f2328 !important;
+  background-color: rgba(208, 215, 222, 0.32) !important;
+}
+
+html:not(.dark) .underline-nav-item.active {
+  color: #1f2328 !important;
+}
+
+html:not(.dark) .primer-counter {
+  background-color: #eff1f3 !important;
+  color: #57606a !important;
+}
+
+/* Modals & Dialogs in Light Mode */
+html:not(.dark) [role="dialog"],
+html:not(.dark) [role="menu"] {
+  background-color: #ffffff !important;
+  border-color: #d0d7de !important;
+  color: #1f2328 !important;
+  box-shadow: 0 8px 24px rgba(140, 149, 159, 0.2) !important;
+}
+
+/* Status Badges in Light Mode */
+html:not(.dark) .bg-\[\#238636\]\/15,
+html:not(.dark) .bg-\[\#238636\]\/20,
+html:not(.dark) .bg-\[\#2ea043\]\/10 {
+  background-color: #dafbe1 !important;
+  color: #1a7f37 !important;
+  border-color: rgba(74, 194, 107, 0.4) !important;
+}
+
+html:not(.dark) .bg-\[\#f85149\]\/10,
+html:not(.dark) .bg-\[\#f85149\]\/15,
+html:not(.dark) .bg-\[\#f85149\]\/20 {
+  background-color: #ffebe9 !important;
+  color: #cf222e !important;
+  border-color: rgba(255, 129, 130, 0.4) !important;
+}
+
+html:not(.dark) .bg-\[\#d29922\]\/15,
+html:not(.dark) .bg-\[\#d29922\]\/20 {
+  background-color: #fff8c5 !important;
+  color: #9a6700 !important;
+  border-color: rgba(212, 167, 44, 0.4) !important;
+}
+
+/* Sidebar Drawer in Light Mode */
+html:not(.dark) aside {
+  background-color: #ffffff !important;
+  border-color: #d0d7de !important;
+  color: #1f2328 !important;
+}
+
+/* Light Scrollbar */
+html:not(.dark)::-webkit-scrollbar-track,
+html:not(.dark) ::-webkit-scrollbar-track {
+  background: #f6f8fa;
+}
+
+html:not(.dark)::-webkit-scrollbar-thumb,
+html:not(.dark) ::-webkit-scrollbar-thumb {
+  background: #d0d7de;
+  border-color: #f6f8fa;
+}
+
+html:not(.dark)::-webkit-scrollbar-thumb:hover,
+html:not(.dark) ::-webkit-scrollbar-thumb:hover {
+  background: #afb8c1;
 }

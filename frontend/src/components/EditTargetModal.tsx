@@ -159,7 +159,7 @@ export function EditTargetModal({ target, onSuccess }: EditTargetModalProps) {
                   id="edit-active"
                   checked={isActive}
                   onChange={(e) => setIsActive(e.target.checked)}
-                  className="h-4 w-4 rounded border-[#30363d] bg-[#0d1117] text-[#238636] focus:ring-[#2f81f7] cursor-pointer"
+                  className="h-4 w-4 rounded border-[#30363d] bg-[#0d1117] text-[#1f6feb] focus:ring-[#388bfd] cursor-pointer"
                 />
                 <label htmlFor="edit-active" className="text-xs text-[#c9d1d9] font-medium cursor-pointer select-none">
                   {isActive ? 'Active (SD Scraped)' : 'Inactive (Muted)'}
@@ -183,7 +183,7 @@ export function EditTargetModal({ target, onSuccess }: EditTargetModalProps) {
               type="submit" 
               size="sm" 
               disabled={isSubmitting}
-              className="bg-[#238636] hover:bg-[#2ea043] text-white"
+              className="bg-[#1f6feb] hover:bg-[#388bfd] text-white"
             >
               {isSubmitting ? "Saving..." : "Save Changes"}
             </Button>

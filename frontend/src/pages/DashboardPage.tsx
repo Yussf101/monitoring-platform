@@ -117,10 +117,14 @@ export function DashboardPage({ refreshTrigger = 0 }: DashboardPageProps) {
     );
   }
 
-  const activeTargetsCount = targets.filter(t => t.is_active).length;
+  const activeTargets = targets.filter(t => t.is_active);
+  const upTargets = targets.filter(t => t.is_active && t.health === 'up');
+  const downTargets = targets.filter(t => t.is_active && t.health === 'down');
   const firingAlerts = alerts.filter(a => a.status === 'firing');
   const criticalFiring = firingAlerts.filter(a => a.severity === 'critical');
-  const availabilityRate = targets.length > 0 ? Math.round((activeTargetsCount / targets.length) * 100) : 100;
+  const availabilityRate = activeTargets.length > 0 
+    ? Math.round((upTargets.length / activeTargets.length) * 100) 
+    : 0;
 
   return (
     <div className="space-y-6">
@@ -154,7 +158,7 @@ export function DashboardPage({ refreshTrigger = 0 }: DashboardPageProps) {
           value={targets.length}
           icon={Server}
           accent="indigo"
-          description={`${activeTargetsCount} active, ${targets.length - activeTargetsCount} muted`}
+          description={`${upTargets.length} online, ${downTargets.length} offline, ${targets.length - activeTargets.length} muted`}
           subtitleRight={`${availabilityRate}% Up`}
         />
 
@@ -162,9 +166,18 @@ export function DashboardPage({ refreshTrigger = 0 }: DashboardPageProps) {
           title="Cluster Health"
           value={`${availabilityRate}%`}
           icon={ShieldCheck}
-          accent="emerald"
-          description={availabilityRate === 100 ? "All scrape vectors responding nominal" : "Target nodes unreachable on scrape port"}
-          trend={{ label: availabilityRate === 100 ? "Nominal" : "Attention", isPositive: availabilityRate === 100 }}
+          accent={availabilityRate === 100 ? "emerald" : (availabilityRate === 0 ? "rose" : "amber")}
+          description={
+            availabilityRate === 100 
+              ? "All scrape vectors responding nominal" 
+              : availabilityRate === 0
+              ? "All active monitored nodes are offline / unreachable"
+              : `${downTargets.length} node(s) unreachable on scrape port`
+          }
+          trend={{ 
+            label: availabilityRate === 100 ? "Nominal" : (availabilityRate === 0 ? "Offline" : "Degraded"), 
+            isPositive: availabilityRate === 100 
+          }}
         />
 
         <StatCard
@@ -237,9 +250,29 @@ export function DashboardPage({ refreshTrigger = 0 }: DashboardPageProps) {
                           >
                             {target.name}
                           </span>
-                          <Badge variant={target.is_active ? "success" : "outline"} className="text-xs px-1.5 py-0.5 shrink-0">
-                            {target.is_active ? "UP" : "MUTED"}
-                          </Badge>
+                          <div className="flex items-center gap-1">
+                            {target.health === "up" ? (
+                              <Badge variant="success" className="text-xs px-1.5 py-0.5 shrink-0 gap-1" title="Node exporter responding nominal">
+                                <span className="h-1.5 w-1.5 rounded-full bg-[#3fb950]" />
+                                UP
+                              </Badge>
+                            ) : target.health === "down" ? (
+                              <Badge variant="destructive" className="text-xs px-1.5 py-0.5 shrink-0 gap-1" title={target.last_error || "Target is offline"}>
+                                <span className="h-1.5 w-1.5 rounded-full bg-[#f85149]" />
+                                DOWN
+                              </Badge>
+                            ) : !target.is_active || target.health === "muted" ? (
+                              <Badge variant="outline" className="text-xs px-1.5 py-0.5 shrink-0 gap-1 text-[#7d8590]" title="Target scraping disabled">
+                                <span className="h-1.5 w-1.5 rounded-full bg-[#6e7681]" />
+                                MUTED
+                              </Badge>
+                            ) : (
+                              <Badge variant="outline" className="text-xs px-1.5 py-0.5 shrink-0 gap-1 text-[#d29922]" title="Scrape status unknown">
+                                <span className="h-1.5 w-1.5 rounded-full bg-[#d29922]" />
+                                UNKNOWN
+                              </Badge>
+                            )}
+                          </div>
                         </div>
 
                         <p 
@@ -248,6 +281,12 @@ export function DashboardPage({ refreshTrigger = 0 }: DashboardPageProps) {
                         >
                           {target.ip_address}:{port}
                         </p>
+
+                        {target.health === "down" && (
+                          <p className="mt-1 text-[11px] font-mono text-[#f85149] truncate" title={target.last_error || "Offline"}>
+                            Offline (Scrape timeout)
+                          </p>
+                        )}
                       </div>
 
                       <div className="mt-3 pt-2 border-t border-[#21262d] flex items-center justify-between text-xs">

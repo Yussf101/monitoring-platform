@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { PulseLogo } from './PulseLogo';
+import { ThemeToggle } from './ThemeToggle';
 
 interface SidebarProps {
   targetCount?: number;
@@ -182,6 +183,10 @@ export function Sidebar({
               <span className="uppercase text-[9px]">HTTP SD Poller</span>
               <span className="text-[#e6edf3] font-mono">:8000</span>
             </div>
+          </div>
+
+          <div className="pt-2">
+            <ThemeToggle compact className="w-full" />
           </div>
         </div>
       </motion.aside>

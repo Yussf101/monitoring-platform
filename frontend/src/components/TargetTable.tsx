@@ -88,6 +88,39 @@ export function TargetTable({ targets, onDelete, onRefresh = () => {}, searchFil
     }
   };
 
+  const getHealthBadge = (target: Target) => {
+    if (!target.is_active || target.health === "muted") {
+      return {
+        variant: "outline" as const,
+        dotColor: "bg-[#6e7681]",
+        text: "MUTED",
+        description: "Target scraping is disabled",
+      };
+    }
+    if (target.health === "up") {
+      return {
+        variant: "success" as const,
+        dotColor: "bg-[#3fb950]",
+        text: "UP",
+        description: "Node exporter responding nominal",
+      };
+    }
+    if (target.health === "down") {
+      return {
+        variant: "destructive" as const,
+        dotColor: "bg-[#f85149]",
+        text: "DOWN",
+        description: target.last_error || "Target is unreachable or powered off",
+      };
+    }
+    return {
+      variant: "outline" as const,
+      dotColor: "bg-[#d29922]",
+      text: "UNKNOWN",
+      description: "Scrape status not yet recorded",
+    };
+  };
+
   return (
     <div className="space-y-3">
       {/* View Switcher bar */}
@@ -168,10 +201,15 @@ export function TargetTable({ targets, onDelete, onRefresh = () => {}, searchFil
                         </div>
                       </div>
 
-                      <Badge variant={target.is_active ? "success" : "outline"} className="shrink-0 gap-1 text-xs">
-                        <span className={`h-1.5 w-1.5 rounded-full ${target.is_active ? 'bg-[#3fb950]' : 'bg-[#6e7681]'}`} />
-                        {target.is_active ? "ONLINE" : "MUTED"}
-                      </Badge>
+                      {(() => {
+                        const health = getHealthBadge(target);
+                        return (
+                          <Badge variant={health.variant} className="shrink-0 gap-1 text-xs" title={health.description}>
+                            <span className={`h-1.5 w-1.5 rounded-full ${health.dotColor}`} />
+                            {health.text}
+                          </Badge>
+                        );
+                      })()}
                     </div>
 
                     {/* IP & Port */}
@@ -192,6 +230,23 @@ export function TargetTable({ targets, onDelete, onRefresh = () => {}, searchFil
                         {isCopied ? <Check className="h-3.5 w-3.5 text-[#3fb950]" aria-hidden="true" /> : <Copy className="h-3.5 w-3.5" aria-hidden="true" />}
                       </button>
                     </div>
+
+                    {/* Offline / Down Warning Banner */}
+                    {target.health === "down" && target.last_error && (
+                      <div 
+                        className="mt-2 rounded-[4px] bg-[rgba(248,81,73,0.1)] border border-[rgba(248,81,73,0.25)] px-2.5 py-1.5 text-xs text-[#f85149] flex items-start gap-1.5"
+                        title={target.last_error}
+                      >
+                        <AlertTriangle className="h-3.5 w-3.5 shrink-0 mt-0.5 text-[#f85149]" aria-hidden="true" />
+                        <span className="truncate font-mono text-[11px] leading-tight">
+                          {target.last_error.includes("context deadline exceeded") 
+                            ? "Connection timed out (machine off)" 
+                            : target.last_error.includes("connection refused")
+                            ? "Port refused (exporter down)"
+                            : target.last_error}
+                        </span>
+                      </div>
+                    )}
 
                     {/* Metadata tags */}
                     <div className="mt-3 flex flex-wrap items-center gap-1.5 text-xs">
@@ -290,10 +345,27 @@ export function TargetTable({ targets, onDelete, onRefresh = () => {}, searchFil
                       {target.os_type || 'linux'}
                     </td>
                     <td className="py-2.5 px-4">
-                      <Badge variant={target.is_active ? "success" : "outline"} className="gap-1">
-                        <span className={`h-1.5 w-1.5 rounded-full ${target.is_active ? 'bg-[#3fb950]' : 'bg-[#6e7681]'}`} />
-                        {target.is_active ? "ONLINE" : "MUTED"}
-                      </Badge>
+                      {(() => {
+                        const health = getHealthBadge(target);
+                        return (
+                          <div className="flex flex-col gap-0.5">
+                            <Badge variant={health.variant} className="gap-1 w-fit" title={health.description}>
+                              <span className={`h-1.5 w-1.5 rounded-full ${health.dotColor}`} />
+                              {health.text}
+                            </Badge>
+                            {target.health === "down" && target.last_error && (
+                              <span 
+                                className="text-[11px] text-[#f85149] font-mono truncate max-w-[180px]" 
+                                title={target.last_error}
+                              >
+                                {target.last_error.includes("context deadline exceeded") 
+                                  ? "Timeout (offline)" 
+                                  : "Unreachable"}
+                              </span>
+                            )}
+                          </div>
+                        );
+                      })()}
                     </td>
                     <td className="py-2.5 px-4 text-right">
                       <div className="flex items-center justify-end gap-1.5">
