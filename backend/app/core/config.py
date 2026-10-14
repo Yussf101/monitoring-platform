@@ -15,6 +15,7 @@ class Settings(BaseSettings):
 
     TELEGRAM_BOT_TOKEN: str = ""
     TELEGRAM_CHAT_ID: str = ""
+    PROMETHEUS_URL: str = "http://prometheus:9090"
 
     model_config = {"env_file": ".env", "extra": "ignore"}
 
