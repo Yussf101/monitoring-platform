@@ -228,3 +228,71 @@ async def test_telegram_not_called_when_unconfigured(
     assert response.status_code == 200
     assert response.json()["processed"] == 1
     mock_post.assert_not_called()
+
+
+@pytest.mark.asyncio
+async def test_reconcile_stale_instance_down_resolves_orphaned_alert(
+    webhook_payload, db_session, async_client: AsyncClient
+):
+    """Orphaned firing InstanceDown alert is auto-resolved when target is up and not firing in Prometheus."""
+    from app.services.alert_service import reconcile_stale_instance_down_alerts
+
+    target = await create_target(async_client)
+    await async_client.post("/api/alerts/webhook", json=webhook_payload)
+
+    # Health map shows target is up, Prometheus has no active InstanceDown alert
+    health_map = {f"{target['ip_address']}:{target['port']}": {"health": "up"}}
+    active_alerts = set()
+
+    with patch("app.services.alert_service.send_telegram_alert") as mock_tg:
+        reconciled = await reconcile_stale_instance_down_alerts(
+            db_session, health_map=health_map, active_alerts=active_alerts
+        )
+
+    assert len(reconciled) == 1
+    assert reconciled[0].status == "resolved"
+    assert reconciled[0].resolved_at is not None
+
+    mock_tg.assert_called_once()
+    assert mock_tg.call_args.kwargs["status"] == "resolved"
+    assert mock_tg.call_args.kwargs["alert_name"] == "InstanceDown"
+
+
+@pytest.mark.asyncio
+async def test_reconcile_stale_alerts_skipped_when_target_down(
+    webhook_payload, db_session, async_client: AsyncClient
+):
+    """Target that is still down in Prometheus must not have its alert resolved."""
+    from app.services.alert_service import reconcile_stale_instance_down_alerts
+
+    target = await create_target(async_client)
+    await async_client.post("/api/alerts/webhook", json=webhook_payload)
+
+    health_map = {f"{target['ip_address']}:{target['port']}": {"health": "down"}}
+    active_alerts = set()
+
+    reconciled = await reconcile_stale_instance_down_alerts(
+        db_session, health_map=health_map, active_alerts=active_alerts
+    )
+    assert len(reconciled) == 0
+
+
+@pytest.mark.asyncio
+async def test_reconcile_stale_alerts_skipped_when_prometheus_still_firing(
+    webhook_payload, db_session, async_client: AsyncClient
+):
+    """When Prometheus is still firing (e.g. keep_firing_for active), reconciliation must wait."""
+    from app.services.alert_service import reconcile_stale_instance_down_alerts
+
+    target = await create_target(async_client)
+    await async_client.post("/api/alerts/webhook", json=webhook_payload)
+
+    endpoint = f"{target['ip_address']}:{target['port']}"
+    health_map = {endpoint: {"health": "up"}}
+    active_alerts = {endpoint}
+
+    reconciled = await reconcile_stale_instance_down_alerts(
+        db_session, health_map=health_map, active_alerts=active_alerts
+    )
+    assert len(reconciled) == 0
+
