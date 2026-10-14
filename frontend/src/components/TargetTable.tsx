@@ -57,9 +57,9 @@ export function TargetTable({ targets, onDelete, onRefresh = () => {}, searchFil
         <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#21262d] border border-[#30363d] text-[#7d8590] mb-3">
           <Server className="h-5 w-5" aria-hidden="true" />
         </div>
-        <h3 className="text-sm font-semibold text-[#f0f6fc]">No monitored targets found</h3>
+        <h3 className="text-sm font-semibold text-[#f0f6fc]">No targets found</h3>
         <p className="text-sm text-[#7d8590] mt-1 max-w-sm leading-[21px]">
-          Target table empty. Register a node address and exporter port to broadcast into Prometheus HTTP service discovery.
+          Add a target to start broadcasting it to Prometheus HTTP service discovery.
         </p>
       </div>
     );

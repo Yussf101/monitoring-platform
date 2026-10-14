@@ -86,7 +86,7 @@ export function ThemeToggle({ className, compact = false }: ThemeToggleProps) {
         aria-expanded={isOpen}
         title={`Theme: ${theme} (Alt+T to toggle)`}
         className={cn(
-          "flex h-8 w-8 items-center justify-center rounded-[6px] border border-[#30363d] bg-[#212620] text-[#7d8590] hover:border-[#8b949e] hover:bg-[#30363d] hover:text-[#f0f6fc] transition-colors shadow-[rgba(61,68,77,0.7)_0px_-1px_0px_0px_inset]",
+          "flex h-8 w-8 items-center justify-center rounded-[6px] border border-[#30363d] bg-[#21262d] text-[#7d8590] hover:border-[#8b949e] hover:bg-[#30363d] hover:text-[#f0f6fc] transition-colors shadow-[rgba(61,68,77,0.7)_0px_-1px_0px_0px_inset]",
           isOpen && "border-[#8b949e] bg-[#30363d] text-[#f0f6fc]"
         )}
       >

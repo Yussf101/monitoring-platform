@@ -47,21 +47,16 @@ export function DiscoveryPage() {
       {/* Station Header Strip */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#30363d]">
         <div>
-          <div className="flex items-center gap-2 font-mono text-xs text-[#7d8590] uppercase tracking-wider mb-1">
-            <span className="text-[#4493f8] font-medium">PROMETHEUS ENGINE // DISCOVERY</span>
-            <span>•</span>
-            <span>HTTP_SD RUNTIME</span>
-          </div>
           <div className="flex items-center gap-2.5">
             <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-[#f0f6fc]">
-              Prometheus Service Discovery
+              Service Discovery
             </h2>
             <Badge variant="info" className="font-mono text-xs uppercase">
               /api/discovery
             </Badge>
           </div>
           <p className="text-sm text-[#7d8590] mt-1 max-w-2xl leading-[21px]">
-            Canonical JSON endpoint served to Prometheus <code className="font-mono text-[#58a6ff] bg-[#161b22] px-1.5 py-0.5 rounded-[4px] border border-[#30363d] text-xs">http_sd_configs</code> for instant scrape target orchestration without daemon reloads.
+            JSON endpoint served to Prometheus <code className="font-mono text-[#58a6ff] bg-[#161b22] px-1.5 py-0.5 rounded-[4px] border border-[#30363d] text-xs">http_sd_configs</code> for live target orchestration.
           </p>
         </div>
 
@@ -74,7 +69,7 @@ export function DiscoveryPage() {
             className="flex items-center gap-1.5 h-8 px-3 py-[5px] rounded-[6px] border border-[#30363d] bg-[#212830] hover:bg-[#30363d] hover:border-[#8b949e] text-sm font-medium text-[#f0f6fc] hover:text-white transition-colors disabled:opacity-50 shadow-[rgba(61,68,77,0.7)_0px_-1px_0px_0px_inset]"
           >
             <RefreshCw className={`h-3.5 w-3.5 text-[#7d8590] ${isLoading ? 'animate-spin text-[#4493f8]' : ''}`} aria-hidden="true" />
-            <span>Poll SD</span>
+            <span>Refresh</span>
           </button>
 
           <button
@@ -84,7 +79,7 @@ export function DiscoveryPage() {
             className="flex items-center gap-1.5 h-8 px-3.5 py-[5px] rounded-[6px] bg-[#1f6feb] hover:bg-[#388bfd] text-white text-sm font-medium transition-colors shadow-[rgba(61,68,77,0.7)_0px_-1px_0px_0px_inset] border border-[rgba(240,246,252,0.1)]"
           >
             {isCopied ? <Check className="h-4 w-4 text-white" aria-hidden="true" /> : <Copy className="h-4 w-4 text-white" aria-hidden="true" />}
-            <span>{isCopied ? "Copied JSON" : "Copy SD Config"}</span>
+            <span>{isCopied ? "Copied" : "Copy JSON"}</span>
           </button>
         </div>
       </div>
@@ -108,9 +103,6 @@ export function DiscoveryPage() {
               <span className="text-xs font-semibold text-[#e6edf3]">
                 HTTP Service Discovery Pipeline
               </span>
-              <span className="hidden sm:inline-block text-xs text-[#848d97] ml-2">
-                — Zero-reload scraper synchronizer
-              </span>
             </div>
           </div>
 
@@ -128,7 +120,7 @@ export function DiscoveryPage() {
 
         <div className="p-4 space-y-4">
           <p className="text-xs text-[#848d97] leading-relaxed">
-            The Prometheus daemon queries this endpoint every scrape interval. New and modified targets synchronize immediately without restarting or sending SIGHUP.
+            The Prometheus daemon polls this endpoint every scrape interval. Changes synchronize without restarts.
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">

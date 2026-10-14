@@ -75,14 +75,14 @@ export function TargetsPage({ refreshTrigger = 0 }: TargetsPageProps) {
         <div>
           <div className="flex items-center gap-2.5">
             <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-[#f0f6fc]">
-              Monitored Nodes & Endpoints
+              Targets
             </h2>
             <Badge variant="secondary" className="font-mono tabular-nums text-xs">
-              {targets.length} Nodes
+              {targets.length}
             </Badge>
           </div>
           <p className="text-sm text-[#7d8590] mt-1 leading-[21px]">
-            Daemon endpoints and scrape configurations queried by the Prometheus polling worker.
+            Node endpoints registered for Prometheus scraping.
           </p>
         </div>
 

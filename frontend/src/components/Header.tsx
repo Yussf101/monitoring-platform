@@ -154,7 +154,7 @@ export function Header({
               className={`flex items-center gap-1.5 h-8 px-3 py-1 rounded-[6px] border transition-colors text-sm font-medium shadow-[rgba(61,68,77,0.7)_0px_-1px_0px_0px_inset] ${
                 firingAlerts > 0
                   ? 'bg-[#f85149]/15 border-[#f85149]/40 text-[#f85149] hover:bg-[#f85149]/25 font-semibold'
-                  : 'bg-[#212620] hover:bg-[#30363d] border-[#30363d] text-[#f0f6fc] hover:text-white'
+                  : 'bg-[#21262d] hover:bg-[#30363d] border-[#30363d] text-[#f0f6fc] hover:text-white'
               }`}
             >
               {firingAlerts > 0 ? (
@@ -197,7 +197,7 @@ export function Header({
           </div>
 
           {/* Refresh Controls */}
-          <div className="flex items-center h-8 rounded-[6px] border border-[#30363d] bg-[#212620] shadow-[rgba(61,68,77,0.7)_0px_-1px_0px_0px_inset]">
+          <div className="flex items-center h-8 rounded-[6px] border border-[#30363d] bg-[#21262d] shadow-[rgba(61,68,77,0.7)_0px_-1px_0px_0px_inset]">
             <button
               type="button"
               onClick={onRefresh}
@@ -232,7 +232,7 @@ export function Header({
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Open Grafana Dashboards in new tab"
-            className="hidden md:flex items-center gap-1.5 h-8 px-3 py-1 text-sm font-medium rounded-[6px] bg-[#212620] hover:bg-[#30363d] border border-[#30363d] text-[#f0f6fc] hover:text-white transition-colors shadow-[rgba(61,68,77,0.7)_0px_-1px_0px_0px_inset]"
+            className="hidden md:flex items-center gap-1.5 h-8 px-3 py-1 text-sm font-medium rounded-[6px] bg-[#21262d] hover:bg-[#30363d] border border-[#30363d] text-[#f0f6fc] hover:text-white transition-colors shadow-[rgba(61,68,77,0.7)_0px_-1px_0px_0px_inset]"
           >
             <Star className="h-4 w-4 text-[#d29922]" aria-hidden="true" />
             <span>Grafana</span>
@@ -269,7 +269,7 @@ export function Header({
                       ? 'bg-[#f85149]/20 text-[#f85149] border border-[#f85149]/30' 
                       : isActive 
                       ? 'bg-[#30363d] text-[#f0f6fc]' 
-                      : 'bg-[#212620] text-[#7d8590]'}
+                      : 'bg-[#21262d] text-[#7d8590]'}
                   `}>
                     {tab.count}
                   </span>

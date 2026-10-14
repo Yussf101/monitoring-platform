@@ -272,8 +272,7 @@ html:not(.dark) .bg-\[\#161b22\] {
 }
 
 html:not(.dark) .bg-\[\#212830\],
-html:not(.dark) .bg-\[\#21262d\],
-html:not(.dark) .bg-\[\#212620\] {
+html:not(.dark) .bg-\[\#21262d\] {
   background-color: #f6f8fa !important;
 }
 

@@ -93,14 +93,14 @@ export function AlertsPage({ refreshTrigger = 0 }: AlertsPageProps) {
         <div>
           <div className="flex items-center gap-2.5">
             <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-[#f0f6fc]">
-              Incident & Alert History
+              Alerts
             </h2>
             <Badge variant="destructive" className="font-mono tabular-nums text-xs">
               {firingCount} Firing
             </Badge>
           </div>
           <p className="text-sm text-[#7d8590] mt-1 leading-[21px]">
-            Alertmanager webhook ingestion stream with threshold triggers and resolution timestamps.
+            Alertmanager webhook events and resolution history.
           </p>
         </div>
 
@@ -115,7 +115,7 @@ export function AlertsPage({ refreshTrigger = 0 }: AlertsPageProps) {
           className="flex items-center gap-1.5 h-8 px-3 py-[5px] rounded-[6px] border border-[#30363d] bg-[#212830] hover:bg-[#30363d] hover:border-[#8b949e] text-sm font-medium text-[#f0f6fc] hover:text-white transition-colors disabled:opacity-50 self-start sm:self-auto shadow-[rgba(61,68,77,0.7)_0px_-1px_0px_0px_inset]"
         >
           <RefreshCw className={`h-3.5 w-3.5 ${isLoading ? 'animate-spin text-[#4493f8]' : ''}`} aria-hidden="true" />
-          <span>Refresh Feed</span>
+          <span>Refresh</span>
         </button>
       </div>
 

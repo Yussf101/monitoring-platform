@@ -36,16 +36,11 @@ export function RecentAlerts({ alerts }: RecentAlertsProps) {
               {firingCount > 0 ? <AlertCircle className="h-4 w-4" aria-hidden="true" /> : <ShieldCheck className="h-4 w-4" aria-hidden="true" />}
             </div>
             <div>
-              <div className="flex items-center gap-2">
-                <h3 className="text-sm font-semibold text-[#f0f6fc]">
-                  Incident Stream
-                </h3>
-                <span className="text-xs font-mono px-2 py-0.5 rounded-full bg-[#21262d] text-[#7d8590] border border-[#30363d]">
-                  LOG.EVT
-                </span>
-              </div>
+              <h3 className="text-sm font-semibold text-[#f0f6fc]">
+                Recent Alerts
+              </h3>
               <p className="text-sm text-[#7d8590] leading-[21px]">
-                Live Alertmanager webhook stream and status transitions
+                Latest Alertmanager events
               </p>
             </div>
           </div>
@@ -95,9 +90,9 @@ export function RecentAlerts({ alerts }: RecentAlertsProps) {
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#238636]/15 border border-[#3fb950]/30 text-[#3fb950] mb-2.5">
                 <ShieldCheck className="h-5 w-5" aria-hidden="true" />
               </div>
-              <h4 className="text-xs font-semibold text-[#e6edf3]">All Systems Nominal</h4>
+              <h4 className="text-xs font-semibold text-[#e6edf3]">All Clear</h4>
               <p className="text-[11px] text-[#848d97] mt-1 max-w-xs">
-                No threshold violations detected across monitored targets. Alertmanager queue is quiet.
+                No active alerts across monitored targets.
               </p>
             </div>
           ) : (

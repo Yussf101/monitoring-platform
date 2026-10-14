@@ -72,7 +72,7 @@ export function AddTargetModal({ onSuccess, triggerClassName }: AddTargetModalPr
           )}
         >
           <Plus className="h-4 w-4" aria-hidden="true" />
-          <span>Add Monitored Target</span>
+          <span>Add Target</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[480px] rounded-[6px] border border-[#30363d] bg-[#161b22] shadow-[0_8px_24px_rgba(1,4,9,0.7)] text-[#f0f6fc]">

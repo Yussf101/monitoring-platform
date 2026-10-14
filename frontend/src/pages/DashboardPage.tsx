@@ -132,10 +132,10 @@ export function DashboardPage({ refreshTrigger = 0 }: DashboardPageProps) {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#30363d]">
         <div>
           <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-[#f0f6fc]">
-            Command Center
+            Dashboard
           </h2>
           <p className="text-sm text-[#7d8590] mt-1 leading-[21px]">
-            Live metrics ingestion, Prometheus scrape topology, and Alertmanager dispatch queue.
+            Infrastructure health overview and active incidents.
           </p>
         </div>
 
@@ -145,7 +145,7 @@ export function DashboardPage({ refreshTrigger = 0 }: DashboardPageProps) {
             className="flex items-center gap-1.5 h-8 px-3 py-[5px] rounded-[6px] border border-[#30363d] bg-[#212830] hover:bg-[#30363d] hover:border-[#8b949e] text-sm font-medium text-[#f0f6fc] hover:text-white transition-colors shadow-[rgba(61,68,77,0.7)_0px_-1px_0px_0px_inset]"
           >
             <Radio className="h-3.5 w-3.5 text-[#4493f8]" aria-hidden="true" />
-            <span>Inspect SD</span>
+            <span>Discovery</span>
           </Link>
           <AddTargetModal onSuccess={fetchData} />
         </div>
@@ -197,16 +197,11 @@ export function DashboardPage({ refreshTrigger = 0 }: DashboardPageProps) {
           {/* Title Header with darker background to distinguish from content */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between px-4 py-3 border-b border-[#30363d] bg-[#010409] gap-2">
             <div>
-              <div className="flex items-center gap-2">
-                <h3 className="text-sm font-semibold text-[#f0f6fc]">
-                  Node Infrastructure Overview
-                </h3>
-                <span className="text-xs font-mono px-2 py-0.5 rounded-full bg-[#21262d] text-[#7d8590] border border-[#30363d]">
-                  NODES.LIVE
-                </span>
-              </div>
+              <h3 className="text-sm font-semibold text-[#f0f6fc]">
+                Targets
+              </h3>
               <p className="text-xs text-[#7d8590] mt-0.5 leading-[18px]">
-                Target hosts registered for Node Exporter metrics scraping
+                Registered scrape endpoints
               </p>
             </div>
 
@@ -220,7 +215,7 @@ export function DashboardPage({ refreshTrigger = 0 }: DashboardPageProps) {
                 title="Open full metrics dashboard in Grafana"
               >
                 <BarChart3 className="h-3.5 w-3.5 text-[#d29922]" aria-hidden="true" />
-                <span>Full Metrics Dashboard</span>
+                <span>Grafana</span>
                 <ExternalLink className="h-3 w-3 opacity-60" aria-hidden="true" />
               </a>
             </div>
@@ -229,7 +224,7 @@ export function DashboardPage({ refreshTrigger = 0 }: DashboardPageProps) {
           <div className="p-3 bg-[#0d1117]">
             {targets.length === 0 ? (
               <div className="py-8 text-center text-sm text-[#7d8590] leading-[21px]">
-                No probe targets registered yet. Click "Add Monitored Target" above to initialize.
+                No targets registered yet. Add one above to get started.
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
