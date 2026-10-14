@@ -29,6 +29,6 @@ describe('TargetsPage Component', () => {
       </MemoryRouter>
     );
 
-    expect(await screen.findByText(/Monitored Nodes & Endpoints/i)).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: /^targets$/i })).toBeInTheDocument();
   });
 });

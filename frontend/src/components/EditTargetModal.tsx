@@ -66,10 +66,10 @@ export function EditTargetModal({ target, onSuccess }: EditTargetModalProps) {
           <Edit2 className="h-3.5 w-3.5" aria-hidden="true" />
         </button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[480px] rounded-[6px] border border-[#30363d] bg-[#161b22] shadow-[0_8px_24px_rgba(1,4,9,0.7)] text-[#f0f6fc]">
+      <DialogContent className="sm:max-w-[480px] rounded-[6px] border border-border bg-card shadow-[0_8px_24px_rgba(1,4,9,0.7)] text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-sm font-semibold text-[#f0f6fc]">Edit Target: {target.name}</DialogTitle>
-          <p className="text-sm text-[#7d8590] mt-0.5 leading-[21px]">
+          <DialogTitle className="text-sm font-semibold text-foreground">Edit Target: {target.name}</DialogTitle>
+          <p className="text-sm text-muted-foreground mt-0.5 leading-[21px]">
             Modify host address, scrape port, or toggle active discovery broadcast.
           </p>
         </DialogHeader>
@@ -77,7 +77,7 @@ export function EditTargetModal({ target, onSuccess }: EditTargetModalProps) {
         <form onSubmit={handleSubmit} className="space-y-3 pt-2">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="space-y-1.5">
-              <Label htmlFor="edit-name" className="text-[11px] font-semibold text-[#848d97]">Target Name</Label>
+              <Label htmlFor="edit-name" className="text-[11px] font-semibold text-muted-foreground">Target Name</Label>
               <Input
                 id="edit-name"
                 value={name}
@@ -87,7 +87,7 @@ export function EditTargetModal({ target, onSuccess }: EditTargetModalProps) {
             </div>
 
             <div className="space-y-1.5">
-              <Label htmlFor="edit-ip" className="text-[11px] font-semibold text-[#848d97]">IP Address</Label>
+              <Label htmlFor="edit-ip" className="text-[11px] font-semibold text-muted-foreground">IP Address</Label>
               <Input
                 id="edit-ip"
                 value={ipAddress}
@@ -99,7 +99,7 @@ export function EditTargetModal({ target, onSuccess }: EditTargetModalProps) {
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div className="space-y-1.5">
-              <Label htmlFor="edit-port" className="text-[11px] font-semibold text-[#848d97]">Metrics Port</Label>
+              <Label htmlFor="edit-port" className="text-[11px] font-semibold text-muted-foreground">Metrics Port</Label>
               <Input
                 id="edit-port"
                 type="number"
@@ -112,38 +112,38 @@ export function EditTargetModal({ target, onSuccess }: EditTargetModalProps) {
             </div>
 
             <div className="space-y-1.5">
-              <Label htmlFor="edit-env" className="text-[11px] font-semibold text-[#848d97]">Environment</Label>
+              <Label htmlFor="edit-env" className="text-[11px] font-semibold text-muted-foreground">Environment</Label>
               <select
                 id="edit-env"
                 value={environment}
                 onChange={(e) => setEnvironment(e.target.value)}
-                className="flex h-8 w-full rounded-[6px] border border-[#30363d] bg-[#0d1117] px-2.5 py-1 text-xs text-[#e6edf3] focus:ring-2 focus:ring-[#2f81f7]/30 focus:border-[#2f81f7] focus:outline-none transition-colors"
+                className="flex h-8 w-full rounded-[6px] border border-border bg-background px-2.5 py-1 text-xs text-foreground focus:ring-2 focus:ring-[#2f81f7]/30 focus:border-[#2f81f7] focus:outline-none transition-colors"
               >
-                <option value="production" className="bg-[#161b22]">production</option>
-                <option value="staging" className="bg-[#161b22]">staging</option>
-                <option value="development" className="bg-[#161b22]">development</option>
-                <option value="testing" className="bg-[#161b22]">testing</option>
+                <option value="production" className="bg-card">production</option>
+                <option value="staging" className="bg-card">staging</option>
+                <option value="development" className="bg-card">development</option>
+                <option value="testing" className="bg-card">testing</option>
               </select>
             </div>
 
             <div className="space-y-1.5">
-              <Label htmlFor="edit-os" className="text-[11px] font-semibold text-[#848d97]">OS Type</Label>
+              <Label htmlFor="edit-os" className="text-[11px] font-semibold text-muted-foreground">OS Type</Label>
               <select
                 id="edit-os"
                 value={osType}
                 onChange={(e) => setOsType(e.target.value)}
-                className="flex h-8 w-full rounded-[6px] border border-[#30363d] bg-[#0d1117] px-2.5 py-1 text-xs text-[#e6edf3] focus:ring-2 focus:ring-[#2f81f7]/30 focus:border-[#2f81f7] focus:outline-none transition-colors"
+                className="flex h-8 w-full rounded-[6px] border border-border bg-background px-2.5 py-1 text-xs text-foreground focus:ring-2 focus:ring-[#2f81f7]/30 focus:border-[#2f81f7] focus:outline-none transition-colors"
               >
-                <option value="linux" className="bg-[#161b22]">Linux</option>
-                <option value="windows" className="bg-[#161b22]">Windows</option>
-                <option value="darwin" className="bg-[#161b22]">macOS</option>
+                <option value="linux" className="bg-card">Linux</option>
+                <option value="windows" className="bg-card">Windows</option>
+                <option value="darwin" className="bg-card">macOS</option>
               </select>
             </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="space-y-1.5">
-              <Label htmlFor="edit-user" className="text-[11px] font-semibold text-[#848d97]">SSH User</Label>
+              <Label htmlFor="edit-user" className="text-[11px] font-semibold text-muted-foreground">SSH User</Label>
               <Input
                 id="edit-user"
                 value={sshUser}
@@ -152,16 +152,16 @@ export function EditTargetModal({ target, onSuccess }: EditTargetModalProps) {
             </div>
 
             <div className="flex flex-col justify-end space-y-1.5">
-              <Label htmlFor="edit-active" className="text-[11px] font-semibold text-[#848d97]">Scrape Status</Label>
+              <Label htmlFor="edit-active" className="text-[11px] font-semibold text-muted-foreground">Scrape Status</Label>
               <div className="flex items-center gap-2 h-8">
                 <input
                   type="checkbox"
                   id="edit-active"
                   checked={isActive}
                   onChange={(e) => setIsActive(e.target.checked)}
-                  className="h-4 w-4 rounded border-[#30363d] bg-[#0d1117] text-[#1f6feb] focus:ring-[#388bfd] cursor-pointer"
+                  className="h-4 w-4 rounded border-border bg-background text-[#1f6feb] focus:ring-[#388bfd] cursor-pointer"
                 />
-                <label htmlFor="edit-active" className="text-xs text-[#c9d1d9] font-medium cursor-pointer select-none">
+                <label htmlFor="edit-active" className="text-xs text-muted-foreground font-medium cursor-pointer select-none">
                   {isActive ? 'Active (SD Scraped)' : 'Inactive (Muted)'}
                 </label>
               </div>
@@ -170,7 +170,7 @@ export function EditTargetModal({ target, onSuccess }: EditTargetModalProps) {
 
           {error && <p className="text-xs text-[#f85149] font-medium">{error}</p>}
 
-          <div className="flex justify-end space-x-2 pt-3 border-t border-[#30363d]">
+          <div className="flex justify-end space-x-2 pt-3 border-t border-border">
             <Button
               type="button"
               variant="outline"

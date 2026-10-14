@@ -66,31 +66,31 @@ export function DashboardPage({ refreshTrigger = 0 }: DashboardPageProps) {
         {/* Stat cards skeleton */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           {Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className="rounded-[6px] border border-[#30363d] bg-[#161b22] p-4 space-y-3">
-              <Skeleton className="h-4 w-24 bg-[#21262d]" />
-              <Skeleton className="h-8 w-16 bg-[#21262d]" />
-              <Skeleton className="h-3 w-32 bg-[#21262d]" />
+            <div key={i} className="rounded-[6px] border border-border bg-card p-4 space-y-3">
+              <Skeleton className="h-4 w-24 bg-secondary" />
+              <Skeleton className="h-8 w-16 bg-secondary" />
+              <Skeleton className="h-3 w-32 bg-secondary" />
             </div>
           ))}
         </div>
 
         {/* Telemetry and Alert widgets skeleton */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <div className="rounded-[6px] border border-[#30363d] bg-[#161b22] p-4 h-64 space-y-3">
-            <Skeleton className="h-5 w-40 bg-[#21262d]" />
+          <div className="rounded-[6px] border border-border bg-card p-4 h-64 space-y-3">
+            <Skeleton className="h-5 w-40 bg-secondary" />
             <div className="grid grid-cols-2 gap-3">
-              <Skeleton className="h-20 bg-[#21262d]" />
-              <Skeleton className="h-20 bg-[#21262d]" />
-              <Skeleton className="h-20 bg-[#21262d]" />
-              <Skeleton className="h-20 bg-[#21262d]" />
+              <Skeleton className="h-20 bg-secondary" />
+              <Skeleton className="h-20 bg-secondary" />
+              <Skeleton className="h-20 bg-secondary" />
+              <Skeleton className="h-20 bg-secondary" />
             </div>
           </div>
-          <div className="rounded-[6px] border border-[#30363d] bg-[#161b22] p-4 h-64 space-y-3">
-            <Skeleton className="h-5 w-40 bg-[#21262d]" />
+          <div className="rounded-[6px] border border-border bg-card p-4 h-64 space-y-3">
+            <Skeleton className="h-5 w-40 bg-secondary" />
             <div className="space-y-2">
-              <Skeleton className="h-12 bg-[#21262d]" />
-              <Skeleton className="h-12 bg-[#21262d]" />
-              <Skeleton className="h-12 bg-[#21262d]" />
+              <Skeleton className="h-12 bg-secondary" />
+              <Skeleton className="h-12 bg-secondary" />
+              <Skeleton className="h-12 bg-secondary" />
             </div>
           </div>
         </div>
@@ -105,11 +105,11 @@ export function DashboardPage({ refreshTrigger = 0 }: DashboardPageProps) {
           <AlertTriangle className="h-4 w-4" aria-hidden="true" />
           <span>Error loading monitoring dashboard</span>
         </div>
-        <p className="text-xs mt-1 text-[#e6edf3]">{error}</p>
+        <p className="text-xs mt-1 text-foreground">{error}</p>
         <button
           type="button"
           onClick={fetchData}
-          className="mt-3 px-3 py-1.5 rounded-[6px] bg-[#21262d] hover:bg-[#30363d] border border-[#30363d] text-xs font-semibold text-[#c9d1d9] transition-colors"
+          className="mt-3 px-3 py-1.5 rounded-[6px] bg-secondary hover:bg-muted border border-border text-xs font-semibold text-muted-foreground transition-colors"
         >
           Retry Connection
         </button>
@@ -129,12 +129,12 @@ export function DashboardPage({ refreshTrigger = 0 }: DashboardPageProps) {
   return (
     <div className="space-y-6">
       {/* Subhead Header Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#30363d]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-border">
         <div>
-          <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-[#f0f6fc]">
+          <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-foreground">
             Dashboard
           </h2>
-          <p className="text-sm text-[#7d8590] mt-1 leading-[21px]">
+          <p className="text-sm text-muted-foreground mt-1 leading-[21px]">
             Infrastructure health overview and active incidents.
           </p>
         </div>
@@ -142,7 +142,7 @@ export function DashboardPage({ refreshTrigger = 0 }: DashboardPageProps) {
         <div className="flex items-center gap-2">
           <Link
             to="/discovery"
-            className="flex items-center gap-1.5 h-8 px-3 py-[5px] rounded-[6px] border border-[#30363d] bg-[#212830] hover:bg-[#30363d] hover:border-[#8b949e] text-sm font-medium text-[#f0f6fc] hover:text-white transition-colors shadow-[rgba(61,68,77,0.7)_0px_-1px_0px_0px_inset]"
+            className="flex items-center gap-1.5 h-8 px-3 py-[5px] rounded-[6px] border border-border bg-secondary hover:bg-muted hover:border-[#8b949e] text-sm font-medium text-foreground hover:text-white transition-colors shadow-[rgba(61,68,77,0.7)_0px_-1px_0px_0px_inset]"
           >
             <Radio className="h-3.5 w-3.5 text-[#4493f8]" aria-hidden="true" />
             <span>Discovery</span>
@@ -192,15 +192,15 @@ export function DashboardPage({ refreshTrigger = 0 }: DashboardPageProps) {
 
       {/* Primary Split: Node Infrastructure Overview (with Grafana button) & Recent Alerts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-start">
-        {/* Node Infrastructure Overview */}
-        <div className="rounded-[6px] border border-[#30363d] bg-[#161b22] overflow-hidden shadow-[0_1px_0_rgba(27,31,36,0.1)]">
-          {/* Title Header with darker background to distinguish from content */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between px-4 py-3 border-b border-[#30363d] bg-[#010409] gap-2">
+        {/* Node Infrastructure Overview - Styled with Linear Monolith */}
+        <div className="linear-monolith overflow-hidden">
+          {/* Linear Header */}
+          <div className="linear-header flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div>
-              <h3 className="text-sm font-semibold text-[#f0f6fc]">
+              <h3 className="text-sm font-semibold text-foreground tracking-tight">
                 Targets
               </h3>
-              <p className="text-xs text-[#7d8590] mt-0.5 leading-[18px]">
+              <p className="text-xs text-muted-foreground mt-0.5 leading-[18px]">
                 Registered scrape endpoints
               </p>
             </div>
@@ -211,7 +211,7 @@ export function DashboardPage({ refreshTrigger = 0 }: DashboardPageProps) {
                 href="http://localhost:3001/d/Main-Dashboard"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1.5 h-8 px-3 py-1 rounded-[6px] bg-[#212830] hover:bg-[#30363d] border border-[#30363d] hover:border-[#8b949e] text-xs font-medium text-[#f0f6fc] hover:text-white transition-colors shadow-[rgba(61,68,77,0.7)_0px_-1px_0px_0px_inset]"
+                className="flex items-center gap-1.5 h-8 px-3 py-1 rounded-lg bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 text-xs font-medium text-foreground transition-colors shadow-xs"
                 title="Open full metrics dashboard in Grafana"
               >
                 <BarChart3 className="h-3.5 w-3.5 text-[#d29922]" aria-hidden="true" />
@@ -221,9 +221,9 @@ export function DashboardPage({ refreshTrigger = 0 }: DashboardPageProps) {
             </div>
           </div>
 
-          <div className="p-3 bg-[#0d1117]">
+          <div className="p-3.5">
             {targets.length === 0 ? (
-              <div className="py-8 text-center text-sm text-[#7d8590] leading-[21px]">
+              <div className="py-8 text-center text-sm text-muted-foreground leading-[21px]">
                 No targets registered yet. Add one above to get started.
               </div>
             ) : (
@@ -235,17 +235,22 @@ export function DashboardPage({ refreshTrigger = 0 }: DashboardPageProps) {
                   return (
                     <div
                       key={target.id}
-                      className="rounded-[6px] border border-[#30363d] bg-[#161b22] p-3 flex flex-col justify-between hover:border-[#8b949e] transition-colors"
+                      className="linear-card p-3.5 flex flex-col justify-between transition-all duration-150"
                     >
                       <div>
                         <div className="flex items-start justify-between gap-2">
-                          <span 
-                            className="text-sm font-semibold text-[#f0f6fc] break-words" 
-                            title={target.name}
-                          >
-                            {target.name}
-                          </span>
-                          <div className="flex items-center gap-1">
+                          <div className="flex items-center gap-2 min-w-0">
+                            <span className="linear-pill shrink-0">
+                              #{target.id}
+                            </span>
+                            <span 
+                              className="text-sm font-semibold text-foreground truncate" 
+                              title={target.name}
+                            >
+                              {target.name}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-1 shrink-0">
                             {target.health === "up" ? (
                               <Badge variant="success" className="text-xs px-1.5 py-0.5 shrink-0 gap-1" title="Node exporter responding nominal">
                                 <span className="h-1.5 w-1.5 rounded-full bg-[#3fb950]" />
@@ -257,7 +262,7 @@ export function DashboardPage({ refreshTrigger = 0 }: DashboardPageProps) {
                                 DOWN
                               </Badge>
                             ) : !target.is_active || target.health === "muted" ? (
-                              <Badge variant="outline" className="text-xs px-1.5 py-0.5 shrink-0 gap-1 text-[#7d8590]" title="Target scraping disabled">
+                              <Badge variant="outline" className="text-xs px-1.5 py-0.5 shrink-0 gap-1 text-muted-foreground" title="Target scraping disabled">
                                 <span className="h-1.5 w-1.5 rounded-full bg-[#6e7681]" />
                                 MUTED
                               </Badge>
@@ -271,7 +276,7 @@ export function DashboardPage({ refreshTrigger = 0 }: DashboardPageProps) {
                         </div>
 
                         <p 
-                          className="mt-1.5 tabular-nums text-xs font-mono text-[#7d8590] break-all" 
+                          className="mt-2 tabular-nums text-xs font-mono text-muted-foreground break-all" 
                           title={`${target.ip_address}:${port}`}
                         >
                           {target.ip_address}:{port}
@@ -284,15 +289,15 @@ export function DashboardPage({ refreshTrigger = 0 }: DashboardPageProps) {
                         )}
                       </div>
 
-                      <div className="mt-3 pt-2 border-t border-[#21262d] flex items-center justify-between text-xs">
-                        <span className="text-[#7d8590] font-mono text-[11px] uppercase">
+                      <div className="mt-3 pt-2 border-t border-white/[0.06] dark:border-white/[0.06] border-slate-100 flex items-center justify-between text-xs">
+                        <span className="text-muted-foreground font-mono text-[11px] uppercase">
                           {target.environment || "production"}
                         </span>
                         <a
                           href={grafanaUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-1 text-[#4493f8] hover:underline text-xs font-medium"
+                          className="flex items-center gap-1 text-[#8b95f6] hover:text-[#a5b4fc] hover:underline text-xs font-medium"
                           title="Open node metrics in Grafana"
                         >
                           <BarChart2 className="h-3.5 w-3.5" aria-hidden="true" />
@@ -306,14 +311,14 @@ export function DashboardPage({ refreshTrigger = 0 }: DashboardPageProps) {
             )}
           </div>
 
-          {/* Footer with view all link - hugs the bottom of previewed nodes */}
-          <div className="px-4 py-2.5 border-t border-[#30363d] bg-[#161b22] flex items-center justify-between text-xs">
-            <span className="text-[#7d8590]">
+          {/* Footer with view all link */}
+          <div className="px-4 py-2.5 border-t border-white/[0.06] dark:border-white/[0.06] border-slate-200 bg-[#14171d] dark:bg-[#14171d] bg-slate-50 flex items-center justify-between text-xs">
+            <span className="text-muted-foreground font-mono">
               Showing {Math.min(targets.length, 6)} of {targets.length} targets
             </span>
             <Link
               to="/targets"
-              className="flex items-center gap-1 text-[#4493f8] hover:underline font-medium"
+              className="flex items-center gap-1 text-[#8b95f6] hover:text-[#a5b4fc] hover:underline font-medium"
             >
               <span>Manage all targets</span>
               <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />

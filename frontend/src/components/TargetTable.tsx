@@ -53,12 +53,12 @@ export function TargetTable({ targets, onDelete, onRefresh = () => {}, searchFil
 
   if (targets.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center rounded-[6px] border border-[#30363d] bg-[#161b22] p-10 text-center shadow-[0_1px_0_rgba(27,31,36,0.1)]">
-        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#21262d] border border-[#30363d] text-[#7d8590] mb-3">
+      <div className="flex flex-col items-center justify-center rounded-[6px] border border-border bg-card p-10 text-center shadow-[0_1px_0_rgba(27,31,36,0.1)]">
+        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary border border-border text-muted-foreground mb-3">
           <Server className="h-5 w-5" aria-hidden="true" />
         </div>
-        <h3 className="text-sm font-semibold text-[#f0f6fc]">No targets found</h3>
-        <p className="text-sm text-[#7d8590] mt-1 max-w-sm leading-[21px]">
+        <h3 className="text-sm font-semibold text-foreground">No targets found</h3>
+        <p className="text-sm text-muted-foreground mt-1 max-w-sm leading-[21px]">
           Add a target to start broadcasting it to Prometheus HTTP service discovery.
         </p>
       </div>
@@ -67,9 +67,9 @@ export function TargetTable({ targets, onDelete, onRefresh = () => {}, searchFil
 
   if (filteredTargets.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center rounded-[6px] border border-[#30363d] bg-[#161b22] p-8 text-center shadow-[0_1px_0_rgba(27,31,36,0.1)]">
-        <p className="text-sm font-semibold text-[#e6edf3]">No targets match "{searchFilter}"</p>
-        <p className="text-xs text-[#848d97] mt-1">Try refining your search keyword or clearing the filter.</p>
+      <div className="flex flex-col items-center justify-center rounded-[6px] border border-border bg-card p-8 text-center shadow-[0_1px_0_rgba(27,31,36,0.1)]">
+        <p className="text-sm font-semibold text-foreground">No targets match "{searchFilter}"</p>
+        <p className="text-xs text-muted-foreground mt-1">Try refining your search keyword or clearing the filter.</p>
       </div>
     );
   }
@@ -122,26 +122,29 @@ export function TargetTable({ targets, onDelete, onRefresh = () => {}, searchFil
   };
 
   return (
-    <div className="space-y-3">
-      {/* View Switcher bar */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-1.5 text-sm text-[#7d8590]">
-          <span className="tabular-nums font-semibold text-[#f0f6fc]">
-            {filteredTargets.length}
+    <div className="linear-monolith overflow-hidden">
+      {/* Linear Command Header */}
+      <div className="linear-header flex items-center justify-between">
+        <div className="flex items-center gap-2.5 text-sm">
+          <div className="flex h-6 w-6 items-center justify-center rounded-md bg-[#5e6ad2]/20 border border-[#5e6ad2]/30 text-[#8b9bf7]">
+            <Server className="h-3.5 w-3.5" aria-hidden="true" />
+          </div>
+          <span className="font-semibold text-foreground tracking-tight">Endpoints</span>
+          <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-white/[0.06] border border-white/10 text-neutral-300">
+            {filteredTargets.length} / {targets.length}
           </span>
-          <span>of {targets.length} endpoints</span>
         </div>
 
-        <div className="flex items-center rounded-[6px] border border-[#30363d] bg-[#21262d] p-0.5 text-xs" role="group" aria-label="View mode">
+        <div className="flex items-center rounded-lg border border-white/10 bg-black/40 p-0.5 text-xs" role="group" aria-label="View mode">
           <button
             type="button"
             onClick={() => setViewMode("grid")}
             aria-pressed={viewMode === "grid"}
             aria-label="Switch to Card Grid View"
-            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-[4px] text-xs font-medium transition-colors ${
+            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${
               viewMode === "grid"
-                ? "bg-[#30363d] text-white font-medium"
-                : "text-[#7d8590] hover:text-white"
+                ? "bg-[#5e6ad2] text-white font-medium shadow-xs"
+                : "text-neutral-400 hover:text-white"
             }`}
           >
             <LayoutGrid className="h-3.5 w-3.5" aria-hidden="true" />
@@ -152,21 +155,21 @@ export function TargetTable({ targets, onDelete, onRefresh = () => {}, searchFil
             onClick={() => setViewMode("table")}
             aria-pressed={viewMode === "table"}
             aria-label="Switch to Tabular View"
-            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-[4px] text-xs font-medium transition-colors ${
+            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${
               viewMode === "table"
-                ? "bg-[#30363d] text-white font-medium"
-                : "text-[#7d8590] hover:text-white"
+                ? "bg-[#5e6ad2] text-white font-medium shadow-xs"
+                : "text-neutral-400 hover:text-white"
             }`}
           >
             <List className="h-3.5 w-3.5" aria-hidden="true" />
-            <span>Table</span>
+            <span>List</span>
           </button>
         </div>
       </div>
 
       {/* Grid View */}
       {viewMode === "grid" && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+        <div className="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
           <AnimatePresence mode="popLayout">
             {filteredTargets.map((target) => {
               const port = target.port || 9100;
@@ -179,23 +182,26 @@ export function TargetTable({ targets, onDelete, onRefresh = () => {}, searchFil
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="flex flex-col justify-between rounded-[6px] border border-[#30363d] bg-[#161b22] p-4 transition-colors hover:border-[#8b949e] shadow-[0_1px_0_rgba(27,31,36,0.1)]"
+                  className="flex flex-col justify-between p-4 rounded-xl border border-white/[0.08] bg-[#14171d] hover:border-[#5e6ad2]/50 hover:bg-[#181b22] transition-all duration-150"
                 >
                   {/* Top Bar */}
                   <div>
                     <div className="flex items-start justify-between gap-2.5">
                       <div className="flex items-center gap-2.5 min-w-0">
-                        <div className="flex h-7 w-7 items-center justify-center rounded-[6px] bg-[#21262d] border border-[#30363d] text-[#7d8590] shrink-0">
+                        <div className="flex h-7 w-7 items-center justify-center rounded-[6px] bg-secondary border border-border text-muted-foreground shrink-0">
                           <Terminal className="h-4 w-4" aria-hidden="true" />
                         </div>
                         <div className="min-w-0">
-                          <h4 
-                            className="text-sm font-semibold text-[#f0f6fc] break-words"
-                            title={target.name}
-                          >
-                            {target.name}
-                          </h4>
-                          <span className="text-xs font-mono text-[#7d8590] uppercase">
+                          <div className="flex items-center gap-2">
+                            <span className="linear-pill shrink-0">#{target.id}</span>
+                            <h4 
+                              className="text-sm font-semibold text-foreground truncate"
+                              title={target.name}
+                            >
+                              {target.name}
+                            </h4>
+                          </div>
+                          <span className="text-xs font-mono text-muted-foreground uppercase mt-0.5 block">
                             {target.os_type || 'Linux'}
                           </span>
                         </div>
@@ -213,9 +219,9 @@ export function TargetTable({ targets, onDelete, onRefresh = () => {}, searchFil
                     </div>
 
                     {/* IP & Port */}
-                    <div className="mt-3 rounded-[6px] border border-[#30363d] bg-[#0d1117] p-2 flex items-center justify-between">
+                    <div className="mt-3 rounded-[6px] border border-border bg-background p-2 flex items-center justify-between">
                       <span 
-                        className="font-mono tabular-nums text-sm text-[#f0f6fc] break-all"
+                        className="font-mono tabular-nums text-sm text-foreground break-all"
                         title={`${target.ip_address}:${port}`}
                       >
                         {target.ip_address}:{port}
@@ -223,7 +229,7 @@ export function TargetTable({ targets, onDelete, onRefresh = () => {}, searchFil
                       <button
                         type="button"
                         onClick={() => handleCopy(target.id, `${target.ip_address}:${port}`)}
-                        className="flex h-6 w-6 items-center justify-center rounded-[4px] text-[#7d8590] hover:bg-[#21262d] hover:text-white transition-colors shrink-0"
+                        className="flex h-6 w-6 items-center justify-center rounded-[4px] text-muted-foreground hover:bg-muted hover:text-foreground transition-colors shrink-0"
                         aria-label={`Copy endpoint address for ${target.name}`}
                         title="Copy endpoint address"
                       >
@@ -254,7 +260,7 @@ export function TargetTable({ targets, onDelete, onRefresh = () => {}, searchFil
                         {target.environment || "production"}
                       </Badge>
                       {target.ssh_user && (
-                        <span className="rounded-full bg-[#21262d] px-2 py-0.5 text-xs font-mono text-[#7d8590] border border-[#30363d]">
+                        <span className="rounded-full bg-secondary px-2 py-0.5 text-xs font-mono text-muted-foreground border border-border">
                           user: {target.ssh_user}
                         </span>
                       )}
@@ -262,7 +268,7 @@ export function TargetTable({ targets, onDelete, onRefresh = () => {}, searchFil
                   </div>
 
                   {/* Actions Footer */}
-                  <div className="mt-4 pt-3 border-t border-[#21262d] flex items-center justify-between">
+                  <div className="mt-4 pt-3 border-t border-border/50 flex items-center justify-between">
                     <a
                       href={grafanaUrl}
                       target="_blank"
@@ -282,7 +288,7 @@ export function TargetTable({ targets, onDelete, onRefresh = () => {}, searchFil
                         onClick={() => setDeleteTargetId(target)}
                         title="Delete target"
                         aria-label={`Delete monitored target ${target.name}`}
-                        className="flex h-7 w-7 items-center justify-center rounded-[6px] border border-[#30363d] bg-[#21262d] text-[#848d97] hover:bg-[#da3633] hover:border-[#da3633] hover:text-white transition-colors shadow-[0_1px_0_rgba(27,31,36,0.1)]"
+                        className="flex h-7 w-7 items-center justify-center rounded-[6px] border border-border bg-secondary text-muted-foreground hover:bg-[#da3633] hover:border-[#da3633] hover:text-white transition-colors shadow-[0_1px_0_rgba(27,31,36,0.1)]"
                       >
                         <Trash2 className="h-3.5 w-3.5" aria-hidden="true" />
                       </button>
@@ -297,59 +303,61 @@ export function TargetTable({ targets, onDelete, onRefresh = () => {}, searchFil
 
       {/* Table View */}
       {viewMode === "table" && (
-        <div className="overflow-hidden rounded-[6px] border border-[#30363d] bg-[#0d1117] shadow-[0_1px_0_rgba(27,31,36,0.1)]">
+        <div className="overflow-x-auto">
           <table className="w-full text-left text-sm" aria-label="Registered Monitored Targets">
-            <thead className="border-b border-[#30363d] bg-[#161b22] text-[#7d8590] uppercase text-xs font-semibold">
+            <thead className="border-b border-white/[0.06] bg-[#14171d] text-neutral-400 uppercase text-[11px] font-mono tracking-wider font-medium">
               <tr>
-                <th scope="col" className="py-2.5 px-4">Target Name</th>
-                <th scope="col" className="py-2.5 px-4">Endpoint (IP:Port)</th>
-                <th scope="col" className="py-2.5 px-4">Environment</th>
-                <th scope="col" className="py-2.5 px-4">OS Platform</th>
-                <th scope="col" className="py-2.5 px-4">Status</th>
-                <th scope="col" className="py-2.5 px-4 text-right">Actions</th>
+                <th scope="col" className="py-3 px-4">Target Node</th>
+                <th scope="col" className="py-3 px-4">Endpoint (IP:Port)</th>
+                <th scope="col" className="py-3 px-4">Environment</th>
+                <th scope="col" className="py-3 px-4">Platform</th>
+                <th scope="col" className="py-3 px-4">Status</th>
+                <th scope="col" className="py-3 px-4 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#21262d]">
+            <tbody className="divide-y divide-white/[0.04]">
               {filteredTargets.map((target) => {
                 const port = target.port || 9100;
                 const isCopied = copiedId === target.id;
                 const grafanaUrl = `http://localhost:3001/d/Main-Dashboard?var-instance=${target.ip_address}:${port}`;
 
                 return (
-                  <tr key={target.id} className="hover:bg-[rgba(110,118,129,0.08)] transition-colors">
-                    <td className="py-2.5 px-4 font-medium text-[#f0f6fc]">
-                      <div className="flex items-center gap-2">
-                        <Terminal className="h-4 w-4 text-[#7d8590]" aria-hidden="true" />
-                        <span className="font-mono text-sm">{target.name}</span>
+                  <tr key={target.id} className="linear-row hover:bg-white/[0.04] transition-colors group">
+                    <td className="py-3 px-4 font-medium text-foreground">
+                      <div className="flex items-center gap-2.5">
+                        <span className="text-[11px] font-mono text-[#5e6ad2] bg-[#5e6ad2]/10 px-1.5 py-0.5 rounded border border-[#5e6ad2]/20">
+                          #{target.id}
+                        </span>
+                        <span className="font-mono text-sm font-semibold">{target.name}</span>
                       </div>
                     </td>
-                    <td className="py-2.5 px-4 font-mono tabular-nums text-[#7d8590] text-sm">
+                    <td className="py-3 px-4 font-mono tabular-nums text-muted-foreground text-sm">
                       <div className="flex items-center gap-2">
                         <span>{target.ip_address}:{port}</span>
                         <button
                           type="button"
                           onClick={() => handleCopy(target.id, `${target.ip_address}:${port}`)}
-                          className="text-[#6e7681] hover:text-white"
+                          className="text-[#6e7681] hover:text-foreground opacity-60 group-hover:opacity-100 transition-opacity"
                           aria-label={`Copy address for ${target.name}`}
                         >
                           {isCopied ? <Check className="h-3.5 w-3.5 text-[#3fb950]" aria-hidden="true" /> : <Copy className="h-3.5 w-3.5" aria-hidden="true" />}
                         </button>
                       </div>
                     </td>
-                    <td className="py-2.5 px-4">
-                      <Badge variant={getEnvBadgeVariant(target.environment)}>
+                    <td className="py-3 px-4">
+                      <span className="text-xs font-mono px-2 py-0.5 rounded-full bg-[#5e6ad2]/15 text-[#8b9bf7] border border-[#5e6ad2]/25 font-medium">
                         {target.environment || "production"}
-                      </Badge>
+                      </span>
                     </td>
-                    <td className="py-2.5 px-4 uppercase text-[#7d8590] font-mono text-xs">
+                    <td className="py-3 px-4 uppercase text-neutral-400 font-mono text-xs">
                       {target.os_type || 'linux'}
                     </td>
-                    <td className="py-2.5 px-4">
+                    <td className="py-3 px-4">
                       {(() => {
                         const health = getHealthBadge(target);
                         return (
                           <div className="flex flex-col gap-0.5">
-                            <Badge variant={health.variant} className="gap-1 w-fit" title={health.description}>
+                            <Badge variant={health.variant} className="gap-1 w-fit text-xs" title={health.description}>
                               <span className={`h-1.5 w-1.5 rounded-full ${health.dotColor}`} />
                               {health.text}
                             </Badge>
@@ -367,7 +375,7 @@ export function TargetTable({ targets, onDelete, onRefresh = () => {}, searchFil
                         );
                       })()}
                     </td>
-                    <td className="py-2.5 px-4 text-right">
+                    <td className="py-3 px-4 text-right">
                       <div className="flex items-center justify-end gap-1.5">
                         <a
                           href={grafanaUrl}
@@ -375,7 +383,7 @@ export function TargetTable({ targets, onDelete, onRefresh = () => {}, searchFil
                           rel="noopener noreferrer"
                           title="Open in Grafana"
                           aria-label={`Inspect ${target.name} in Grafana`}
-                          className="flex h-7 w-7 items-center justify-center rounded-[6px] border border-[#30363d] bg-[#21262d] hover:bg-[#30363d] text-[#848d97] hover:text-white transition-colors"
+                          className="flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-white/[0.04] hover:bg-[#5e6ad2]/20 hover:border-[#5e6ad2]/40 text-neutral-300 hover:text-white transition-colors"
                         >
                           <BarChart2 className="h-3.5 w-3.5" aria-hidden="true" />
                         </a>
@@ -385,7 +393,7 @@ export function TargetTable({ targets, onDelete, onRefresh = () => {}, searchFil
                           onClick={() => setDeleteTargetId(target)}
                           title="Delete target"
                           aria-label={`Delete ${target.name}`}
-                          className="flex h-7 w-7 items-center justify-center rounded-[6px] border border-[#30363d] bg-[#21262d] hover:bg-[#da3633] hover:border-[#da3633] text-[#848d97] hover:text-white transition-colors"
+                          className="flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-white/[0.04] hover:bg-[#da3633] hover:border-[#da3633] text-neutral-400 hover:text-white transition-colors"
                         >
                           <Trash2 className="h-3.5 w-3.5" aria-hidden="true" />
                         </button>
@@ -399,16 +407,27 @@ export function TargetTable({ targets, onDelete, onRefresh = () => {}, searchFil
         </div>
       )}
 
+      {/* Linear Monolith Footer */}
+      <div className="linear-header flex items-center justify-between text-xs text-neutral-400 font-mono">
+        <span className="flex items-center gap-2">
+          <span className="h-1.5 w-1.5 rounded-full bg-[#5e6ad2]" />
+          <span>Real-time Prometheus HTTP service discovery sync active</span>
+        </span>
+        <span className="text-neutral-300 font-semibold">
+          {filteredTargets.filter(t => t.is_active).length} Active Nodes
+        </span>
+      </div>
+
       {/* Delete Confirmation Barrier Dialog */}
       <Dialog open={deleteTargetId !== null} onOpenChange={(open) => !open && setDeleteTargetId(null)}>
         <DialogContent className="sm:max-w-[420px]">
           <DialogHeader>
             <div className="flex items-center gap-2 text-[#f85149]">
               <AlertTriangle className="h-5 w-5" aria-hidden="true" />
-              <DialogTitle className="text-sm font-semibold text-[#e6edf3]">Confirm Target Deletion</DialogTitle>
+              <DialogTitle className="text-sm font-semibold text-foreground">Confirm Target Deletion</DialogTitle>
             </div>
-            <p className="text-xs text-[#848d97] pt-2 leading-relaxed">
-              Are you sure you want to delete <span className="font-semibold text-[#e6edf3] font-mono">{deleteTargetId?.name}</span> (<span className="font-mono text-[#e6edf3]">{deleteTargetId?.ip_address}</span>)?
+            <p className="text-xs text-muted-foreground pt-2 leading-relaxed">
+              Are you sure you want to delete <span className="font-semibold text-foreground font-mono">{deleteTargetId?.name}</span> (<span className="font-mono text-foreground">{deleteTargetId?.ip_address}</span>)?
               Prometheus HTTP service discovery will immediately remove this instance and cease polling metrics.
             </p>
           </DialogHeader>

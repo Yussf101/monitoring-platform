@@ -38,9 +38,9 @@
   .dark {
     --background: 216 28% 7%; /* #0d1117 canvas.default */
     --foreground: 210 56% 96%; /* #f0f6fc color-fg-default */
-    --card: 213 18% 16%; /* #212830 / #161b22 */
+    --card: 215 21% 11%; /* #161b22 canvas.subtle */
     --card-foreground: 210 56% 96%;
-    --popover: 213 18% 16%;
+    --popover: 215 21% 11%;
     --popover-foreground: 210 56% 96%;
     --primary: 216 85% 52%; /* #1f6feb btn-primary Electric Blue */
     --primary-foreground: 0 0% 100%;
@@ -116,6 +116,125 @@
 
 .primer-box-row:hover {
   background-color: rgba(110, 118, 129, 0.08);
+}
+
+/* ==========================================================================
+   Design Style Explorations across 4 Main Pages (Batch 2)
+   ========================================================================== */
+
+/* Style 1: Vercel Geist Minimalist Wireframe (Dashboard) */
+.vercel-wireframe {
+  background-color: #000000;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04);
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.vercel-wireframe:hover {
+  border-color: rgba(255, 255, 255, 0.28);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 4px 16px rgba(0, 0, 0, 0.5);
+}
+
+.vercel-cell {
+  background-color: #0a0a0a;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  transition: border-color 150ms ease;
+}
+
+.vercel-cell:hover {
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+/* Style: Linear Obsidian Metallic & Command System */
+.linear-monolith {
+  background-color: #101216;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.linear-card {
+  background-color: #101216;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: border-color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
+}
+
+.linear-card:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.linear-header {
+  background-color: #14171d;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 12px 16px;
+}
+
+.linear-row {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  transition: background-color 120ms ease;
+}
+
+.linear-row:hover {
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+.linear-pill {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #94a3b8;
+}
+
+.linear-well {
+  background-color: #0c0e12;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+}
+
+/* Style 3: Raycast Glassmorphism & Capsule Insets (Alerts) */
+.raycast-card {
+  background-color: rgba(24, 27, 34, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition: all 160ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.raycast-card:hover {
+  border-color: rgba(255, 255, 255, 0.22);
+  transform: translateY(-1px);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.raycast-capsule {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 9999px;
+}
+
+/* Style 4: Supabase / Stripe Bento Grid with Sunken Wells (Discovery) */
+.bento-panel {
+  background-color: #171717;
+  border: 1px solid #262626;
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.bento-well {
+  background-color: #0d0d0d;
+  border: 1px solid #262626;
+  border-radius: 10px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
 }
 
 /* Primer Buttons */
@@ -457,3 +576,94 @@ html:not(.dark)::-webkit-scrollbar-thumb:hover,
 html:not(.dark) ::-webkit-scrollbar-thumb:hover {
   background: #afb8c1;
 }
+
+/* Batch 2 Styles Light Mode Overrides */
+html:not(.dark) .vercel-wireframe {
+  background-color: #ffffff !important;
+  border-color: #e5e5e5 !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+}
+
+html:not(.dark) .vercel-wireframe:hover {
+  border-color: #171717 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+}
+
+html:not(.dark) .vercel-cell {
+  background-color: #fafafa !important;
+  border-color: #e5e5e5 !important;
+}
+
+html:not(.dark) .vercel-cell:hover {
+  border-color: #a3a3a3 !important;
+}
+
+html:not(.dark) .linear-monolith {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+}
+
+html:not(.dark) .linear-card {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04) !important;
+}
+
+html:not(.dark) .linear-card:hover {
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08) !important;
+}
+
+html:not(.dark) .linear-header {
+  background-color: #f8fafc !important;
+  border-bottom-color: #e2e8f0 !important;
+}
+
+html:not(.dark) .linear-row {
+  border-bottom-color: #f1f5f9 !important;
+}
+
+html:not(.dark) .linear-row:hover {
+  background-color: #f8fafc !important;
+}
+
+html:not(.dark) .linear-pill {
+  background-color: #f1f5f9 !important;
+  border-color: #e2e8f0 !important;
+  color: #475569 !important;
+}
+
+html:not(.dark) .linear-well {
+  background-color: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+}
+
+html:not(.dark) .raycast-card {
+  background-color: rgba(255, 255, 255, 0.88) !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 1) !important;
+}
+
+html:not(.dark) .raycast-card:hover {
+  border-color: rgba(0, 0, 0, 0.2) !important;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12) !important;
+}
+
+html:not(.dark) .raycast-capsule {
+  background-color: rgba(0, 0, 0, 0.04) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+html:not(.dark) .bento-panel {
+  background-color: #ffffff !important;
+  border-color: #e5e5e5 !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05) !important;
+}
+
+html:not(.dark) .bento-well {
+  background-color: #f5f5f5 !important;
+  border-color: #e5e5e5 !important;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06) !important;
+}
+

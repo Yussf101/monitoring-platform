@@ -86,7 +86,7 @@ export function Header({
   ];
 
   return (
-    <header className="sticky top-0 z-30 w-full bg-[#010409] border-b border-[#30363d] select-none" role="banner">
+    <header className="sticky top-0 z-30 w-full bg-[#010409] border-b border-border select-none" role="banner">
       {/* Top Global Bar */}
       <div className="flex h-14 items-center justify-between px-4 sm:px-6 gap-3">
         {/* Left: Branding & Breadcrumbs */}
@@ -96,7 +96,7 @@ export function Header({
               type="button"
               onClick={onToggleSidebar}
               aria-label="Toggle navigation drawer"
-              className="flex h-8 w-8 items-center justify-center rounded-[6px] border border-[#30363d] bg-[#212830] text-[#7d8590] hover:border-[#8b949e] hover:bg-[#30363d] hover:text-[#f0f6fc] transition-colors shadow-[rgba(61,68,77,0.7)_0px_-1px_0px_0px_inset]"
+              className="flex h-8 w-8 items-center justify-center rounded-[6px] border border-border bg-[#212830] text-muted-foreground hover:border-[#8b949e] hover:bg-[#30363d] hover:text-foreground transition-colors shadow-[rgba(61,68,77,0.7)_0px_-1px_0px_0px_inset]"
             >
               <Menu className="h-4 w-4" aria-hidden="true" />
             </button>
@@ -105,7 +105,7 @@ export function Header({
           {/* Platform Branding - logo and title */}
           <Link to="/dashboard" className="flex items-center gap-2.5 group shrink-0 py-1">
             <PulseLogo className="h-10 w-10 shrink-0 transition-transform group-hover:scale-101" />
-            <span className="text-[17px] font-semibold text-[#f0f6fc] tracking-tight group-hover:text-white transition-colors">
+            <span className="text-[17px] font-semibold text-foreground tracking-tight group-hover:text-white transition-colors">
               Monitoring Platform
             </span>
           </Link>
@@ -117,7 +117,7 @@ export function Header({
           {onSearchChange ? (
             <div className="relative w-48 sm:w-64">
               <Search 
-                className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#7d8590]" 
+                className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" 
                 aria-hidden="true" 
               />
               <input
@@ -127,19 +127,19 @@ export function Header({
                 onChange={(e) => onSearchChange(e.target.value)}
                 placeholder="Type / to search..."
                 aria-label="Search and filter infrastructure targets and alerts"
-                className="h-8 w-full rounded-[6px] border border-[#30363d] bg-[#0d1117] pl-8 pr-7 text-sm leading-[20px] text-[#f0f6fc] placeholder:text-[#7d8590] focus:border-[#4493f8] focus:outline-none focus:ring-1 focus:ring-[#4493f8] font-sans transition-colors"
+                className="h-8 w-full rounded-[6px] border border-border bg-background pl-8 pr-7 text-sm leading-[20px] text-foreground placeholder:text-muted-foreground focus:border-[#4493f8] focus:outline-none focus:ring-1 focus:ring-[#4493f8] font-sans transition-colors"
               />
               {searchQuery ? (
                 <button 
                   type="button"
                   onClick={() => onSearchChange('')}
                   aria-label="Clear search input"
-                  className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-[#7d8590] hover:text-[#f0f6fc]"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-muted-foreground hover:text-foreground"
                 >
                   ✕
                 </button>
               ) : (
-                <kbd className="absolute right-2 top-1/2 -translate-y-1/2 hidden sm:inline-block px-1.5 py-0.2 text-[10px] font-mono text-[#7d8590] bg-[#161b22] rounded border border-[#30363d]">
+                <kbd className="absolute right-2 top-1/2 -translate-y-1/2 hidden sm:inline-block px-1.5 py-0.2 text-[10px] font-mono text-muted-foreground bg-card rounded border border-border">
                   /
                 </kbd>
               )}
@@ -154,7 +154,7 @@ export function Header({
               className={`flex items-center gap-1.5 h-8 px-3 py-1 rounded-[6px] border transition-colors text-sm font-medium shadow-[rgba(61,68,77,0.7)_0px_-1px_0px_0px_inset] ${
                 firingAlerts > 0
                   ? 'bg-[#f85149]/15 border-[#f85149]/40 text-[#f85149] hover:bg-[#f85149]/25 font-semibold'
-                  : 'bg-[#21262d] hover:bg-[#30363d] border-[#30363d] text-[#f0f6fc] hover:text-white'
+                  : 'bg-secondary hover:bg-muted border-border text-foreground hover:text-white'
               }`}
             >
               {firingAlerts > 0 ? (
@@ -176,7 +176,7 @@ export function Header({
 
           {/* API Health */}
           <div 
-            className="flex items-center gap-1.5 h-8 px-2.5 py-1 rounded-[6px] bg-[#161b22] border border-[#30363d] text-xs"
+            className="flex items-center gap-1.5 h-8 px-2.5 py-1 rounded-[6px] bg-card border border-border text-xs"
             role="status"
             aria-live="polite"
           >
@@ -191,35 +191,35 @@ export function Header({
                 <span className="inline-flex h-2 w-2 rounded-full bg-[#d29922] animate-pulse" />
               )}
             </span>
-            <span className="text-xs font-medium text-[#7d8590] hidden sm:inline">
+            <span className="text-xs font-medium text-muted-foreground hidden sm:inline">
               {apiOnline === true ? 'API Connected' : apiOnline === false ? 'API Offline' : 'Connecting...'}
             </span>
           </div>
 
           {/* Refresh Controls */}
-          <div className="flex items-center h-8 rounded-[6px] border border-[#30363d] bg-[#21262d] shadow-[rgba(61,68,77,0.7)_0px_-1px_0px_0px_inset]">
+          <div className="flex items-center h-8 rounded-[6px] border border-border bg-secondary shadow-[rgba(61,68,77,0.7)_0px_-1px_0px_0px_inset]">
             <button
               type="button"
               onClick={onRefresh}
               disabled={isRefreshing}
               aria-label="Refresh telemetry data now"
               title="Refresh telemetry data now"
-              className="flex h-8 w-8 items-center justify-center text-[#7d8590] hover:text-[#f0f6fc] transition-colors disabled:opacity-50"
+              className="flex h-8 w-8 items-center justify-center text-muted-foreground hover:text-foreground transition-colors disabled:opacity-50"
             >
               <RefreshCw className={`h-3.5 w-3.5 ${isRefreshing ? 'animate-spin text-[#4493f8]' : ''}`} aria-hidden="true" />
             </button>
-            <div className="h-4 w-[1px] bg-[#30363d]" />
+            <div className="h-4 w-[1px] bg-border" />
             <select
               value={autoRefreshInterval}
               onChange={(e) => onAutoRefreshChange(Number(e.target.value))}
               aria-label="Auto-refresh rate"
-              className="h-8 bg-transparent px-2 text-xs font-medium text-[#f0f6fc] hover:text-white focus:outline-none cursor-pointer"
+              className="h-8 bg-transparent px-2 text-xs font-medium text-foreground hover:text-white focus:outline-none cursor-pointer"
               title="Auto-refresh rate"
             >
-              <option value={10} className="bg-[#161b22] text-[#f0f6fc]">10s</option>
-              <option value={30} className="bg-[#161b22] text-[#f0f6fc]">30s</option>
-              <option value={60} className="bg-[#161b22] text-[#f0f6fc]">1m</option>
-              <option value={0} className="bg-[#161b22] text-[#f0f6fc]">Paused</option>
+              <option value={10} className="bg-card text-foreground">10s</option>
+              <option value={30} className="bg-card text-foreground">30s</option>
+              <option value={60} className="bg-card text-foreground">1m</option>
+              <option value={0} className="bg-card text-foreground">Paused</option>
             </select>
           </div>
 
@@ -232,7 +232,7 @@ export function Header({
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Open Grafana Dashboards in new tab"
-            className="hidden md:flex items-center gap-1.5 h-8 px-3 py-1 text-sm font-medium rounded-[6px] bg-[#21262d] hover:bg-[#30363d] border border-[#30363d] text-[#f0f6fc] hover:text-white transition-colors shadow-[rgba(61,68,77,0.7)_0px_-1px_0px_0px_inset]"
+            className="hidden md:flex items-center gap-1.5 h-8 px-3 py-1 text-sm font-medium rounded-[6px] bg-secondary hover:bg-muted border border-border text-foreground hover:text-white transition-colors shadow-[rgba(61,68,77,0.7)_0px_-1px_0px_0px_inset]"
           >
             <Star className="h-4 w-4 text-[#d29922]" aria-hidden="true" />
             <span>Grafana</span>
@@ -257,10 +257,10 @@ export function Header({
                 to={tab.href}
                 className={({ isActive }) => `
                   relative flex items-center gap-2 px-3.5 py-2.5 text-sm leading-[21px] transition-colors whitespace-nowrap
-                  ${isActive ? 'text-[#f0f6fc] font-semibold' : 'text-[#7d8590] hover:text-[#f0f6fc] font-medium'}
+                  ${isActive ? 'text-foreground font-semibold' : 'text-muted-foreground hover:text-foreground font-medium'}
                 `}
               >
-                <Icon className={`h-4 w-4 ${isActive ? 'text-[#f0f6fc]' : 'text-[#7d8590]'}`} aria-hidden="true" />
+                <Icon className={`h-4 w-4 ${isActive ? 'text-foreground' : 'text-muted-foreground'}`} aria-hidden="true" />
                 <span>{tab.name}</span>
                 {tab.count !== undefined && (
                   <span className={`
@@ -268,8 +268,8 @@ export function Header({
                     ${tab.isAlert 
                       ? 'bg-[#f85149]/20 text-[#f85149] border border-[#f85149]/30' 
                       : isActive 
-                      ? 'bg-[#30363d] text-[#f0f6fc]' 
-                      : 'bg-[#21262d] text-[#7d8590]'}
+                      ? 'bg-border text-foreground' 
+                      : 'bg-secondary text-muted-foreground'}
                   `}>
                     {tab.count}
                   </span>

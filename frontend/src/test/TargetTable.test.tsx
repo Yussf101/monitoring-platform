@@ -42,6 +42,6 @@ describe('TargetTable Component', () => {
   it('displays empty state when no targets provided', () => {
     render(<TargetTable targets={[]} onDelete={() => {}} />);
 
-    expect(screen.getByText(/No monitored targets found/i)).toBeInTheDocument();
+    expect(screen.getByText(/No targets found/i)).toBeInTheDocument();
   });
 });

@@ -71,17 +71,17 @@ export function TargetsPage({ refreshTrigger = 0 }: TargetsPageProps) {
   return (
     <div className="space-y-6">
       {/* Top Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#30363d]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-border">
         <div>
           <div className="flex items-center gap-2.5">
-            <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-[#f0f6fc]">
+            <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-foreground">
               Targets
             </h2>
-            <Badge variant="secondary" className="font-mono tabular-nums text-xs">
+            <span className="linear-pill">
               {targets.length}
-            </Badge>
+            </span>
           </div>
-          <p className="text-sm text-[#7d8590] mt-1 leading-[21px]">
+          <p className="text-sm text-muted-foreground mt-1 leading-[21px]">
             Node endpoints registered for Prometheus scraping.
           </p>
         </div>
@@ -92,9 +92,9 @@ export function TargetsPage({ refreshTrigger = 0 }: TargetsPageProps) {
             onClick={fetchTargets}
             disabled={isLoading}
             aria-label="Refresh target list"
-            className="flex items-center gap-1.5 h-8 px-3 py-[5px] rounded-[6px] border border-[#30363d] bg-[#212830] hover:bg-[#30363d] hover:border-[#8b949e] text-sm font-medium text-[#f0f6fc] hover:text-white transition-colors disabled:opacity-50 shadow-[rgba(61,68,77,0.7)_0px_-1px_0px_0px_inset]"
+            className="flex items-center gap-1.5 h-8 px-3 py-[5px] rounded-lg border border-white/10 dark:border-white/10 border-slate-200 bg-white/[0.05] dark:bg-white/[0.05] bg-white hover:bg-white/[0.1] text-sm font-medium text-foreground transition-colors disabled:opacity-50 shadow-xs"
           >
-            <RefreshCw className={`h-3.5 w-3.5 ${isLoading ? 'animate-spin text-[#4493f8]' : ''}`} aria-hidden="true" />
+            <RefreshCw className={`h-3.5 w-3.5 ${isLoading ? 'animate-spin text-primary' : ''}`} aria-hidden="true" />
             <span>Refresh</span>
           </button>
           <AddTargetModal onSuccess={fetchTargets} />
@@ -102,10 +102,10 @@ export function TargetsPage({ refreshTrigger = 0 }: TargetsPageProps) {
       </div>
       
       {/* Search & Filter Toolbar */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 rounded-[6px] border border-[#30363d] bg-[#161b22] p-2.5 shadow-[0_1px_0_rgba(27,31,36,0.1)]">
+      <div className="linear-card p-2.5 flex flex-col md:flex-row md:items-center justify-between gap-3">
         {/* Search Input */}
         <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#7d8590]" aria-hidden="true" />
+          <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
           <input
             ref={searchInputRef}
             type="text"
@@ -113,14 +113,14 @@ export function TargetsPage({ refreshTrigger = 0 }: TargetsPageProps) {
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Filter target inventory by host, subnet, or tags..."
             aria-label="Filter target inventory"
-            className="h-8 w-full rounded-[6px] border border-[#30363d] bg-[#0d1117] pl-8 pr-8 text-sm leading-[20px] text-[#f0f6fc] placeholder:text-[#7d8590] focus:border-[#4493f8] focus:outline-none focus:ring-1 focus:ring-[#4493f8] transition-colors"
+            className="h-8 w-full rounded-lg border border-white/10 dark:border-white/10 border-slate-200 bg-black/30 dark:bg-black/30 bg-white pl-8 pr-8 text-sm leading-[20px] text-foreground placeholder:text-muted-foreground focus:border-[#5e6ad2] focus:outline-none focus:ring-1 focus:ring-[#5e6ad2] transition-colors"
           />
           {search && (
             <button
               type="button"
               onClick={() => setSearch("")}
               aria-label="Clear filter text"
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-[#848d97] hover:text-white"
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-muted-foreground hover:text-foreground"
             >
               ✕
             </button>
@@ -129,14 +129,14 @@ export function TargetsPage({ refreshTrigger = 0 }: TargetsPageProps) {
 
         {/* Status and Environment Pills */}
         <div className="flex flex-wrap items-center gap-2">
-          <div className="flex items-center rounded-[6px] border border-[#30363d] bg-[#21262d] p-0.5 text-xs" role="tablist" aria-label="Status filter">
+          <div className="flex items-center rounded-lg border border-white/10 dark:border-white/10 border-slate-200 bg-black/40 dark:bg-black/40 bg-slate-100 p-0.5 text-xs" role="tablist" aria-label="Status filter">
             <button
               type="button"
               role="tab"
               aria-selected={statusFilter === "all"}
               onClick={() => setStatusFilter("all")}
-              className={`px-2.5 py-1 rounded-[4px] text-xs font-medium transition-colors ${
-                statusFilter === "all" ? "bg-[#30363d] text-white font-semibold" : "text-[#848d97] hover:text-white"
+              className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${
+                statusFilter === "all" ? "bg-[#5e6ad2] text-white font-semibold shadow-xs" : "text-muted-foreground hover:text-foreground"
               }`}
             >
               All ({targets.length})
@@ -146,8 +146,8 @@ export function TargetsPage({ refreshTrigger = 0 }: TargetsPageProps) {
               role="tab"
               aria-selected={statusFilter === "active"}
               onClick={() => setStatusFilter("active")}
-              className={`px-2.5 py-1 rounded-[4px] text-xs font-medium transition-colors ${
-                statusFilter === "active" ? "bg-[#238636]/20 text-[#3fb950] font-semibold" : "text-[#848d97] hover:text-white"
+              className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${
+                statusFilter === "active" ? "bg-emerald-500/20 text-emerald-500 dark:text-emerald-400 font-semibold" : "text-muted-foreground hover:text-foreground"
               }`}
             >
               Active ({activeCount})
@@ -157,8 +157,8 @@ export function TargetsPage({ refreshTrigger = 0 }: TargetsPageProps) {
               role="tab"
               aria-selected={statusFilter === "inactive"}
               onClick={() => setStatusFilter("inactive")}
-              className={`px-2.5 py-1 rounded-[4px] text-xs font-medium transition-colors ${
-                statusFilter === "inactive" ? "bg-[#30363d] text-white font-semibold" : "text-[#848d97] hover:text-white"
+              className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${
+                statusFilter === "inactive" ? "bg-[#f85149]/20 text-[#f85149] font-semibold" : "text-muted-foreground hover:text-foreground"
               }`}
             >
               Muted ({targets.length - activeCount})
@@ -166,17 +166,17 @@ export function TargetsPage({ refreshTrigger = 0 }: TargetsPageProps) {
           </div>
 
           {environments.length > 0 && (
-            <div className="flex items-center gap-1.5 rounded-[6px] border border-[#30363d] bg-[#0d1117] px-2.5 py-1 text-xs">
-              <Filter className="h-3.5 w-3.5 text-[#848d97]" aria-hidden="true" />
+            <div className="flex items-center gap-1.5 rounded-lg border border-white/10 dark:border-white/10 border-slate-200 bg-black/30 dark:bg-black/30 bg-white px-2.5 py-1 text-xs">
+              <Filter className="h-3.5 w-3.5 text-muted-foreground" aria-hidden="true" />
               <select
                 value={envFilter}
                 onChange={(e) => setEnvFilter(e.target.value)}
                 aria-label="Filter by environment tier"
-                className="bg-transparent text-xs text-[#c9d1d9] hover:text-white focus:outline-none cursor-pointer"
+                className="bg-transparent text-xs text-muted-foreground hover:text-foreground focus:outline-none cursor-pointer"
               >
-                <option value="all" className="bg-[#161b22]">All Envs</option>
+                <option value="all" className="bg-card">All Envs</option>
                 {environments.map((env) => (
-                  <option key={env} value={env} className="bg-[#161b22]">
+                  <option key={env} value={env} className="bg-card">
                     {env}
                   </option>
                 ))}
@@ -187,7 +187,7 @@ export function TargetsPage({ refreshTrigger = 0 }: TargetsPageProps) {
       </div>
 
       {error && (
-        <div className="rounded-[6px] border border-[#f85149]/40 bg-[#f85149]/10 p-3 text-xs font-medium text-[#f85149]">
+        <div className="rounded-[6px] border border-destructive/40 bg-destructive/10 p-3 text-xs font-medium text-destructive">
           {error}
         </div>
       )}
@@ -196,15 +196,15 @@ export function TargetsPage({ refreshTrigger = 0 }: TargetsPageProps) {
       {isLoading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
           {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className="rounded-[6px] border border-[#30363d] bg-[#161b22] p-4 space-y-3">
+            <div key={i} className="rounded-[6px] border border-border bg-card p-4 space-y-3">
               <div className="flex justify-between">
-                <Skeleton className="h-5 w-32 bg-[#21262d]" />
-                <Skeleton className="h-4 w-12 bg-[#21262d]" />
+                <Skeleton className="h-5 w-32 bg-secondary" />
+                <Skeleton className="h-4 w-12 bg-secondary" />
               </div>
-              <Skeleton className="h-8 w-full bg-[#21262d]" />
+              <Skeleton className="h-8 w-full bg-secondary" />
               <div className="flex justify-between pt-2">
-                <Skeleton className="h-4 w-20 bg-[#21262d]" />
-                <Skeleton className="h-6 w-16 bg-[#21262d]" />
+                <Skeleton className="h-4 w-20 bg-secondary" />
+                <Skeleton className="h-6 w-16 bg-secondary" />
               </div>
             </div>
           ))}

@@ -27,6 +27,6 @@ describe('AlertsPage Component', () => {
       </MemoryRouter>
     );
 
-    expect(await screen.findByText(/Incident & Alert History/i)).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: /^alerts$/i })).toBeInTheDocument();
   });
 });

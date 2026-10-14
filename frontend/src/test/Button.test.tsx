@@ -33,7 +33,7 @@ describe('Unified Electric Blue Button CTA Palette', () => {
 
   it('renders AddTargetModal trigger button with Electric Blue styling', () => {
     render(<AddTargetModal onSuccess={() => {}} />);
-    const btn = screen.getByRole('button', { name: /add monitored target/i });
+    const btn = screen.getByRole('button', { name: /^add target$/i });
     expect(btn.className).toContain('bg-[#1f6feb]');
     expect(btn.className).toContain('hover:bg-[#388bfd]');
   });
@@ -44,7 +44,7 @@ describe('Unified Electric Blue Button CTA Palette', () => {
         <DashboardPage />
       </MemoryRouter>
     );
-    const btn = await screen.findByRole('button', { name: /add monitored target/i });
+    const btn = await screen.findByRole('button', { name: /^add target$/i });
     expect(btn.className).toContain('bg-[#1f6feb]');
     expect(btn.className).toContain('hover:bg-[#388bfd]');
   });
@@ -55,7 +55,7 @@ describe('Unified Electric Blue Button CTA Palette', () => {
         <TargetsPage />
       </MemoryRouter>
     );
-    const btn = await screen.findByRole('button', { name: /add monitored target/i });
+    const btn = await screen.findByRole('button', { name: /^add target$/i });
     expect(btn.className).toContain('bg-[#1f6feb]');
     expect(btn.className).toContain('hover:bg-[#388bfd]');
   });

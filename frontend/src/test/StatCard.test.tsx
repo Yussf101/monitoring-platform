@@ -31,4 +31,18 @@ describe('StatCard Component', () => {
 
     expect(screen.getByText('+2 this hour')).toBeInTheDocument();
   });
+
+  it('applies accent styles to the icon container', () => {
+    const { container } = render(
+      <StatCard
+        title="Firing Incidents"
+        value={2}
+        icon={Server}
+        accent="rose"
+      />
+    );
+
+    const iconWrapper = container.querySelector('[aria-hidden="true"]');
+    expect(iconWrapper?.className).toContain('text-[#f85149]');
+  });
 });

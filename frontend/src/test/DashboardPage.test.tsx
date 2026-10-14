@@ -40,6 +40,6 @@ describe('DashboardPage Component', () => {
       </MemoryRouter>
     );
 
-    expect(await screen.findByText(/Command Center/i)).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: /^dashboard$/i })).toBeInTheDocument();
   });
 });

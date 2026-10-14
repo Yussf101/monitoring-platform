@@ -79,7 +79,7 @@ function App() {
   return (
     <ThemeProvider>
       <BrowserRouter>
-        <div className="min-h-dvh bg-[#0d1117] font-sans antialiased text-[#e6edf3] flex flex-col transition-colors duration-150">
+        <div className="min-h-dvh bg-background font-sans antialiased text-foreground flex flex-col transition-colors duration-150">
           {/* GitHub Slide-over Drawer */}
           <Sidebar 
             targetCount={targetCount} 

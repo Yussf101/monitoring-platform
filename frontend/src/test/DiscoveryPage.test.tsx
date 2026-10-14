@@ -11,6 +11,6 @@ describe('DiscoveryPage Component', () => {
       </MemoryRouter>
     );
 
-    expect(screen.getByText(/Prometheus Service Discovery/i)).toBeInTheDocument();
+    expect(screen.getByText(/^Service Discovery$/i)).toBeInTheDocument();
   });
 });

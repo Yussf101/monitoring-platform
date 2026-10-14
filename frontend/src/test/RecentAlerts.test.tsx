@@ -12,7 +12,7 @@ describe('RecentAlerts Component', () => {
       </MemoryRouter>
     );
 
-    expect(screen.getByText(/All Systems Nominal/i)).toBeInTheDocument();
+    expect(screen.getByText(/No active alerts/i)).toBeInTheDocument();
   });
 
   it('renders alerts when provided', () => {
