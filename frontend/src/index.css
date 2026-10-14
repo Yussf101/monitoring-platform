@@ -3,27 +3,79 @@
 @tailwind utilities;
 
 @layer base {
+
+  /* Default: GitHub Primer Light Theme */
   :root {
-    --background: 217 14% 18%; /* #272c34 */
-    --foreground: 194 77% 78%; /* #9cdef2 */
-    --card: 0 0% 7%; /* #111111 */
-    --card-foreground: 194 77% 78%;
-    --popover: 0 0% 7%;
-    --popover-foreground: 194 77% 78%;
-    --primary: 355 65% 65%; /* #e06c75 */
-    --primary-foreground: 0 0% 7%;
-    --secondary: 220 13% 18%;
-    --secondary-foreground: 194 77% 78%;
-    --muted: 220 13% 18%;
-    --muted-foreground: 215 20% 65%;
-    --accent: 220 13% 18%;
-    --accent-foreground: 355 65% 65%; /* hover states red */
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 194 32% 30%; /* #355a66 */
-    --input: 194 32% 30%;
-    --ring: 355 65% 65%;
-    --radius: 0rem;
+    --background: 0 0% 100%;
+    /* #ffffff */
+    --foreground: 220 14% 14%;
+    /* #1f2328 */
+    --card: 0 0% 100%;
+    /* #ffffff */
+    --card-foreground: 220 14% 14%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 14% 14%;
+    --primary: 216 85% 52%;
+    /* #1f6feb */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 29% 97%;
+    /* #f6f8fa */
+    --secondary-foreground: 220 14% 14%;
+    --muted: 210 29% 97%;
+    --muted-foreground: 214 8% 43%;
+    /* #656d76 */
+    --accent: 212 92% 45%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 354 70% 47%;
+    /* #cf222e */
+    --destructive-foreground: 0 0% 100%;
+    --success: 137 66% 30%;
+    /* #1a7f37 */
+    --success-foreground: 0 0% 100%;
+    --warning: 39 100% 30%;
+    /* #9a6700 */
+    --warning-foreground: 0 0% 100%;
+    --info: 212 92% 45%;
+    --info-foreground: 0 0% 100%;
+    --border: 213 14% 84%;
+    /* #d0d7de */
+    --border-muted: 216 15% 88%;
+    /* #d8dee4 */
+    --input: 213 14% 84%;
+    --ring: 216 85% 52%;
+    --radius: 6px;
+  }
+
+  /* GitHub Primer Dark Theme (Active when .dark class is on <html>) */
+  /* Style Dashboard Theme (#272c34 canvas, #121212 black boxes, white text) */
+  .dark {
+    --background: 217 14% 18%; /* #272c34 Slate-Gray Canvas from previous UI */
+    --foreground: 0 0% 100%; /* #ffffff pure white text */
+    --card: 0 0% 7%; /* #121212 Jet-Black Console Card */
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 7%; /* #121212 */
+    --popover-foreground: 0 0% 100%;
+    --primary: 216 85% 52%; /* #1f6feb btn-primary Electric Blue */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 11%; /* #1c1c1c */
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 10%; /* #181818 */
+    --muted-foreground: 215 16% 65%; /* #8b9bb4 Muted Slate Gray */
+    --accent: 358 75% 59%; /* #e5484d Odysseus crimson */
+    --accent-foreground: 0 0% 100%;
+    --destructive: 358 93% 63%; /* #f85149 */
+    --destructive-foreground: 0 0% 100%;
+    --success: 129 64% 61%; /* #3fb950 */
+    --success-foreground: 0 0% 100%;
+    --warning: 41 72% 48%; /* #d29922 */
+    --warning-foreground: 216 28% 7%;
+    --info: 214 93% 62%;
+    --info-foreground: 0 0% 100%;
+    --border: 217 14% 24%; /* #30363d / rgba(255, 255, 255, 0.08) */
+    --border-muted: 217 14% 20%;
+    --input: 217 14% 24%;
+    --ring: 216 85% 52%;
+    --radius: 6px;
   }
 }
 
@@ -33,7 +85,634 @@
   }
 
   body {
-    @apply bg-background text-foreground antialiased selection:bg-primary/30;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    font-size: 14px;
+    line-height: 1.5;
+    transition: background-color 150ms ease, color 150ms ease;
+    background-color: #f6f8fa;
+    color: #1f2328;
   }
+
+  .dark body {
+    background-color: #272c34;
+    color: #ffffff;
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+    background-size: 32px 32px;
+    background-attachment: fixed;
+  }
+
+  :focus-visible {
+    outline: 2px solid #e5484d;
+    outline-offset: -1px;
+    box-shadow: 0 0 0 3px rgba(229, 72, 77, 0.3);
+  }
+}
+
+/* Odysseus Crimson & Console Utilities */
+.odysseus-crimson {
+  color: #e5484d;
+}
+
+.odysseus-badge {
+  background-color: rgba(229, 72, 77, 0.15);
+  border: 1px solid rgba(229, 72, 77, 0.35);
+  color: #e5484d;
+}
+
+.odysseus-tab-active {
+  background-color: #e5484d !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 12px rgba(229, 72, 77, 0.4) !important;
+}
+
+/* ==========================================================================
+   GitHub Primer Box Model & Cards
+   ========================================================================== */
+.primer-box {
+  background-color: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  box-shadow: rgba(1, 4, 9, 0.6) 0px 1px 1px 0px, rgba(1, 4, 9, 0.6) 0px 1px 3px 0px;
+}
+
+.primer-box-header {
+  background-color: #161b22;
+  border-bottom: 1px solid #30363d;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #f0f6fc;
+}
+
+.primer-box-row {
+  border-top: 1px solid #21262d;
+  transition: background-color 80ms ease;
+}
+
+.primer-box-row:hover {
+  background-color: rgba(110, 118, 129, 0.08);
+}
+
+/* ==========================================================================
+   Design Style Explorations across 4 Main Pages (Batch 2)
+   ========================================================================== */
+
+/* Style 1: Vercel Geist Minimalist Wireframe (Dashboard) */
+.vercel-wireframe {
+  background-color: #000000;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04);
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.vercel-wireframe:hover {
+  border-color: rgba(255, 255, 255, 0.28);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 4px 16px rgba(0, 0, 0, 0.5);
+}
+
+.vercel-cell {
+  background-color: #0a0a0a;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  transition: border-color 150ms ease;
+}
+
+.vercel-cell:hover {
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+/* Style: Clean Charcoal & Pure Jet-Black Boxes (from Style Dashboard) */
+.linear-monolith {
+  background-color: #121212;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+}
+
+.linear-card {
+  background-color: #121212;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.linear-card:hover {
+  border-color: rgba(255, 255, 255, 0.16);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+}
+
+.linear-header {
+  background-color: #1e222a;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 12px 16px;
+}
+
+.linear-footer {
+  background-color: #171a20;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 10px 16px;
+}
+
+.linear-row {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  transition: background-color 120ms ease;
+}
+
+.linear-row:hover {
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+.linear-pill {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #94a3b8;
+}
+
+.linear-well {
+  background-color: #0c0e12;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+}
+
+/* Style 3: Raycast Glassmorphism & Capsule Insets (Alerts) */
+.raycast-card {
+  background-color: rgba(24, 27, 34, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition: all 160ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.raycast-card:hover {
+  border-color: rgba(255, 255, 255, 0.22);
+  transform: translateY(-1px);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.raycast-capsule {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 9999px;
+}
+
+/* Style 4: Supabase / Stripe Bento Grid with Sunken Wells (Discovery) */
+.bento-panel {
+  background-color: #171717;
+  border: 1px solid #262626;
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.bento-well {
+  background-color: #0d0d0d;
+  border: 1px solid #262626;
+  border-radius: 10px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+/* Primer Buttons */
+.primer-btn {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+  background-color: #212830;
+  border: 1px solid #30363d;
+  color: #f0f6fc;
+  border-radius: 6px;
+  box-shadow: rgba(61, 68, 77, 0.7) 0px -1px 0px 0px inset;
+  transition: all 80ms cubic-bezier(0.3, 0, 0.5, 1);
+  padding: 5px 16px;
+}
+
+.primer-btn:hover {
+  background-color: #30363d;
+  border-color: #8b949e;
+  color: #ffffff;
+}
+
+.primer-btn-primary {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+  background-color: #1f6feb;
+  border: 1px solid rgba(240, 246, 252, 0.1);
+  color: #ffffff;
+  border-radius: 6px;
+  box-shadow: rgba(61, 68, 77, 0.7) 0px -1px 0px 0px inset;
+  padding: 5px 16px;
+}
+
+.primer-btn-primary:hover {
+  background-color: #388bfd;
+}
+
+/* GitHub UnderlineNav */
+.underline-nav-item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  font-size: 14px;
+  line-height: 21px;
+  font-weight: 500;
+  color: #7d8590;
+  border-radius: 6px;
+  transition: color 80ms ease;
+  white-space: nowrap;
+}
+
+.underline-nav-item:hover {
+  color: #f0f6fc;
+  background-color: rgba(177, 186, 196, 0.08);
+}
+
+.underline-nav-item.active {
+  color: #f0f6fc;
+  font-weight: 600;
+}
+
+.underline-nav-item.active::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 12px;
+  right: 12px;
+  height: 2px;
+  background-color: #f78166;
+  border-radius: 1px;
+}
+
+.primer-counter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+  color: #7d8590;
+  background-color: rgba(110, 118, 129, 0.2);
+  border-radius: 9999px;
+}
+
+.primer-counter.active {
+  color: #f0f6fc;
+  background-color: #30363d;
+}
+
+.gh-meta-text {
+  font-size: 14px;
+  line-height: 21px;
+  font-weight: 400;
+  color: #7d8590;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0d1117;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #212830;
+  border-radius: 4px;
+  border: 2px solid #0d1117;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #30363d;
+}
+
+/* ==========================================================================
+   LIGHT THEME OVERRIDES (Triggered when html does not have .dark)
+   Produces 100% authentic GitHub Light mode
+   ========================================================================== */
+html:not(.dark) body {
+  background-color: #ffffff !important;
+  color: #1f2328 !important;
+}
+
+html:not(.dark) .min-h-dvh {
+  background-color: #ffffff !important;
+  color: #1f2328 !important;
+}
+
+/* Surface mappings */
+html:not(.dark) header,
+html:not(.dark) nav {
+  background-color: #f6f8fa !important;
+  border-color: #d0d7de !important;
+}
+
+html:not(.dark) .bg-\[\#010409\] {
+  background-color: #f6f8fa !important;
+}
+
+html:not(.dark) .bg-\[\#0d1117\] {
+  background-color: #ffffff !important;
+}
+
+html:not(.dark) .bg-\[\#161b22\] {
+  background-color: #ffffff !important;
+}
+
+html:not(.dark) .bg-\[\#212830\],
+html:not(.dark) .bg-\[\#21262d\] {
+  background-color: #f6f8fa !important;
+}
+
+/* Borders */
+html:not(.dark) .border-\[\#30363d\] {
+  border-color: #d0d7de !important;
+}
+
+html:not(.dark) .border-\[\#21262d\] {
+  border-color: #d8dee4 !important;
+}
+
+/* Text colors */
+html:not(.dark) .text-\[\#f0f6fc\],
+html:not(.dark) .text-\[\#e6edf3\] {
+  color: #1f2328 !important;
+}
+
+html:not(.dark) .text-\[\#7d8590\],
+html:not(.dark) .text-\[\#848d97\],
+html:not(.dark) .text-\[\#6e7681\],
+html:not(.dark) .text-\[\#c9d1d9\] {
+  color: #656d76 !important;
+}
+
+/* Hover states */
+html:not(.dark) .hover\:bg-\[\#30363d\]:hover,
+html:not(.dark) .hover\:bg-\[\#21262d\]:hover {
+  background-color: #eaeef2 !important;
+}
+
+html:not(.dark) .hover\:bg-\[\#161b22\]:hover {
+  background-color: #f6f8fa !important;
+}
+
+html:not(.dark) .hover\:border-\[\#8b949e\]:hover {
+  border-color: #8c959f !important;
+}
+
+html:not(.dark) .hover\:text-white:hover,
+html:not(.dark) .hover\:text-\[\#f0f6fc\]:hover {
+  color: #1f2328 !important;
+}
+
+/* Inset boxes, code boxes & payload previews */
+html:not(.dark) pre,
+html:not(.dark) code {
+  color: #1f2328 !important;
+}
+
+html:not(.dark) .p-4.bg-\[\#0d1117\],
+html:not(.dark) .p-3.bg-\[\#0d1117\] {
+  background-color: #f6f8fa !important;
+}
+
+/* Forms & inputs */
+html:not(.dark) input[type="text"],
+html:not(.dark) input[type="number"],
+html:not(.dark) select,
+html:not(.dark) textarea {
+  background-color: #ffffff !important;
+  border-color: #d0d7de !important;
+  color: #1f2328 !important;
+}
+
+html:not(.dark) input::placeholder,
+html:not(.dark) textarea::placeholder {
+  color: #8c959f !important;
+}
+
+html:not(.dark) kbd {
+  background-color: #eff1f3 !important;
+  border-color: #d0d7de !important;
+  color: #656d76 !important;
+}
+
+/* Primer Box & Cards in Light Mode */
+html:not(.dark) .primer-box {
+  background-color: #ffffff !important;
+  border-color: #d0d7de !important;
+  box-shadow: 0 1px 0 rgba(31, 35, 40, 0.04) !important;
+}
+
+html:not(.dark) .primer-box-header {
+  background-color: #f6f8fa !important;
+  border-bottom-color: #d0d7de !important;
+  color: #1f2328 !important;
+}
+
+html:not(.dark) .primer-box-row {
+  border-top-color: #d8dee4 !important;
+}
+
+html:not(.dark) .primer-box-row:hover {
+  background-color: rgba(234, 238, 242, 0.5) !important;
+}
+
+html:not(.dark) .primer-btn {
+  background-color: #f6f8fa !important;
+  border-color: #d0d7de !important;
+  color: #24292f !important;
+  box-shadow: 0 1px 0 rgba(31, 35, 40, 0.04) !important;
+}
+
+html:not(.dark) .primer-btn:hover {
+  background-color: #f3f4f6 !important;
+  border-color: #8c959f !important;
+  color: #1f2328 !important;
+}
+
+html:not(.dark) .underline-nav-item {
+  color: #656d76 !important;
+}
+
+html:not(.dark) .underline-nav-item:hover {
+  color: #1f2328 !important;
+  background-color: rgba(208, 215, 222, 0.32) !important;
+}
+
+html:not(.dark) .underline-nav-item.active {
+  color: #1f2328 !important;
+}
+
+html:not(.dark) .primer-counter {
+  background-color: #eff1f3 !important;
+  color: #57606a !important;
+}
+
+/* Modals & Dialogs in Light Mode */
+html:not(.dark) [role="dialog"],
+html:not(.dark) [role="menu"] {
+  background-color: #ffffff !important;
+  border-color: #d0d7de !important;
+  color: #1f2328 !important;
+  box-shadow: 0 8px 24px rgba(140, 149, 159, 0.2) !important;
+}
+
+/* Status Badges in Light Mode */
+html:not(.dark) .bg-\[\#238636\]\/15,
+html:not(.dark) .bg-\[\#238636\]\/20,
+html:not(.dark) .bg-\[\#2ea043\]\/10 {
+  background-color: #dafbe1 !important;
+  color: #1a7f37 !important;
+  border-color: rgba(74, 194, 107, 0.4) !important;
+}
+
+html:not(.dark) .bg-\[\#f85149\]\/10,
+html:not(.dark) .bg-\[\#f85149\]\/15,
+html:not(.dark) .bg-\[\#f85149\]\/20 {
+  background-color: #ffebe9 !important;
+  color: #cf222e !important;
+  border-color: rgba(255, 129, 130, 0.4) !important;
+}
+
+html:not(.dark) .bg-\[\#d29922\]\/15,
+html:not(.dark) .bg-\[\#d29922\]\/20 {
+  background-color: #fff8c5 !important;
+  color: #9a6700 !important;
+  border-color: rgba(212, 167, 44, 0.4) !important;
+}
+
+/* Sidebar Drawer in Light Mode */
+html:not(.dark) aside {
+  background-color: #ffffff !important;
+  border-color: #d0d7de !important;
+  color: #1f2328 !important;
+}
+
+/* Light Scrollbar */
+html:not(.dark)::-webkit-scrollbar-track,
+html:not(.dark) ::-webkit-scrollbar-track {
+  background: #f6f8fa;
+}
+
+html:not(.dark)::-webkit-scrollbar-thumb,
+html:not(.dark) ::-webkit-scrollbar-thumb {
+  background: #d0d7de;
+  border-color: #f6f8fa;
+}
+
+html:not(.dark)::-webkit-scrollbar-thumb:hover,
+html:not(.dark) ::-webkit-scrollbar-thumb:hover {
+  background: #afb8c1;
+}
+
+/* Batch 2 Styles Light Mode Overrides */
+html:not(.dark) .vercel-wireframe {
+  background-color: #ffffff !important;
+  border-color: #e5e5e5 !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+}
+
+html:not(.dark) .vercel-wireframe:hover {
+  border-color: #171717 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+}
+
+html:not(.dark) .vercel-cell {
+  background-color: #fafafa !important;
+  border-color: #e5e5e5 !important;
+}
+
+html:not(.dark) .vercel-cell:hover {
+  border-color: #a3a3a3 !important;
+}
+
+html:not(.dark) .linear-monolith {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+}
+
+html:not(.dark) .linear-card {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04) !important;
+}
+
+html:not(.dark) .linear-card:hover {
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08) !important;
+}
+
+html:not(.dark) .linear-header {
+  background-color: #f8fafc !important;
+  border-bottom-color: #e2e8f0 !important;
+  color: #1f2328 !important;
+}
+
+html:not(.dark) .linear-footer {
+  background-color: #f8fafc !important;
+  border-top-color: #e2e8f0 !important;
+  color: #64748b !important;
+}
+
+html:not(.dark) .linear-row {
+  border-bottom-color: #f1f5f9 !important;
+}
+
+html:not(.dark) .linear-row:hover {
+  background-color: #f8fafc !important;
+}
+
+html:not(.dark) .linear-pill {
+  background-color: #f1f5f9 !important;
+  border-color: #e2e8f0 !important;
+  color: #475569 !important;
+}
+
+html:not(.dark) .linear-well {
+  background-color: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+}
+
+html:not(.dark) .raycast-card {
+  background-color: rgba(255, 255, 255, 0.88) !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 1) !important;
+}
+
+html:not(.dark) .raycast-card:hover {
+  border-color: rgba(0, 0, 0, 0.2) !important;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12) !important;
+}
+
+html:not(.dark) .raycast-capsule {
+  background-color: rgba(0, 0, 0, 0.04) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+html:not(.dark) .bento-panel {
+  background-color: #ffffff !important;
+  border-color: #e5e5e5 !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05) !important;
+}
+
+html:not(.dark) .bento-well {
+  background-color: #f5f5f5 !important;
+  border-color: #e5e5e5 !important;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06) !important;
 }

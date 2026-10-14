@@ -48,5 +48,8 @@ class TargetRead(BaseModel):
     is_active: bool
     created_at: datetime
     updated_at: datetime
+    health: str = "unknown"
+    last_error: str | None = None
+    last_scrape: str | None = None
 
     model_config = {"from_attributes": True}

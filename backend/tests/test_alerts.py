@@ -83,18 +83,19 @@ async def test_webhook_firing_alert_persists(
 async def test_webhook_resolved_updates_alert(
     webhook_payload, async_client: AsyncClient
 ):
-    """Insert a firing alert first, then POST a resolved webhook."""
+    """Insert a firing alert first, then POST a genuine resolved webhook when target is verified reachable."""
     await create_target(async_client)
 
     # First send firing
     await async_client.post("/api/alerts/webhook", json=webhook_payload)
 
-    # Then send resolved
+    # Then send resolved with target verified reachable
     webhook_payload["status"] = "resolved"
     webhook_payload["alerts"][0]["status"] = "resolved"
     webhook_payload["alerts"][0]["endsAt"] = "2026-09-20T20:05:00Z"
 
-    response = await async_client.post("/api/alerts/webhook", json=webhook_payload)
+    with patch("app.services.alert_service.is_target_reachable", return_value=True):
+        response = await async_client.post("/api/alerts/webhook", json=webhook_payload)
 
     assert response.status_code == 200
     assert response.json()["processed"] == 1
@@ -105,6 +106,39 @@ async def test_webhook_resolved_updates_alert(
     assert len(alerts) == 1
     assert alerts[0]["status"] == "resolved"
     assert alerts[0]["resolved_at"] is not None
+
+
+@pytest.mark.asyncio
+async def test_webhook_resolved_rejected_when_target_still_unreachable(
+    webhook_payload, async_client: AsyncClient
+):
+    """When target is still unreachable, reject false resolution and keep alert firing."""
+    await create_target(async_client)
+
+    # First send firing
+    await async_client.post("/api/alerts/webhook", json=webhook_payload)
+
+    # Alertmanager sends resolved (e.g. after sleep timeout), but target is still down
+    webhook_payload["status"] = "resolved"
+    webhook_payload["alerts"][0]["status"] = "resolved"
+    webhook_payload["alerts"][0]["endsAt"] = "2026-09-20T20:05:00Z"
+
+    with patch("app.services.alert_service.is_target_reachable", return_value=False), \
+         patch("app.services.alert_service.send_telegram_alert") as mock_tg:
+        response = await async_client.post("/api/alerts/webhook", json=webhook_payload)
+
+    assert response.status_code == 200
+    assert response.json()["processed"] == 0
+
+    get_response = await async_client.get("/api/alerts")
+    alerts = get_response.json()
+
+    assert len(alerts) == 1
+    # Alert must remain firing and not falsely resolved
+    assert alerts[0]["status"] == "firing"
+    assert alerts[0]["resolved_at"] is None
+    # No false resolution notification sent to Telegram
+    mock_tg.assert_not_called()
 
 
 @pytest.mark.asyncio

@@ -1,28 +1,112 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import { Sidebar } from './components/Sidebar'
-import { TargetsPage } from './pages/TargetsPage'
-import { AlertsPage } from './pages/AlertsPage'
-import { DashboardPage } from './pages/DashboardPage'
+import { useState, useEffect, useCallback } from 'react';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
+import { Sidebar } from './components/Sidebar';
+import { Header } from './components/Header';
+import { TargetsPage } from './pages/TargetsPage';
+import { AlertsPage } from './pages/AlertsPage';
+import { DashboardPage } from './pages/DashboardPage';
+import { DiscoveryPage } from './pages/DiscoveryPage';
+import { getTargets, getAlerts } from './lib/api';
+import { ThemeProvider } from './context/ThemeContext';
 
-function App() {
+function AnimatedRoutes({ refreshTrigger }: { refreshTrigger: number }) {
+  const location = useLocation();
+
   return (
-    <BrowserRouter>
-      <div className="relative flex min-h-screen bg-background font-sans font-antialiased">
-        <Sidebar />
-        <main className="flex-1 ml-64">
-          <div className="container max-w-6xl py-8 px-8">
-            <Routes>
-              <Route path="/" element={<Navigate to="/dashboard" replace />} />
-              <Route path="/dashboard" element={<DashboardPage />} />
-              <Route path="/targets" element={<TargetsPage />} />
-              <Route path="/alerts" element={<AlertsPage />} />
-
-            </Routes>
-          </div>
-        </main>
-      </div>
-    </BrowserRouter>
-  )
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={location.pathname}
+        initial={{ opacity: 0, y: 6 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -6 }}
+        transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
+        className="w-full"
+      >
+        <Routes location={location}>
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
+          <Route path="/dashboard" element={<DashboardPage refreshTrigger={refreshTrigger} />} />
+          <Route path="/targets" element={<TargetsPage refreshTrigger={refreshTrigger} />} />
+          <Route path="/alerts" element={<AlertsPage refreshTrigger={refreshTrigger} />} />
+          <Route path="/discovery" element={<DiscoveryPage />} />
+          <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        </Routes>
+      </motion.div>
+    </AnimatePresence>
+  );
 }
 
-export default App
+function App() {
+  const [autoRefreshInterval, setAutoRefreshInterval] = useState<number>(30); // 30s default
+  const [refreshTrigger, setRefreshTrigger] = useState<number>(0);
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
+  const [targetCount, setTargetCount] = useState<number>(0);
+  const [firingCount, setFiringCount] = useState<number>(0);
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
+
+  const fetchGlobalStats = useCallback(async () => {
+    setIsRefreshing(true);
+    try {
+      const [tList, aList] = await Promise.all([
+        getTargets().catch(() => []),
+        getAlerts(50, 0).catch(() => []),
+      ]);
+      setTargetCount(tList.length);
+      setFiringCount(aList.filter(a => a.status === 'firing').length);
+    } finally {
+      setIsRefreshing(false);
+    }
+  }, []);
+
+  const triggerRefresh = useCallback(() => {
+    setRefreshTrigger(prev => prev + 1);
+    fetchGlobalStats();
+  }, [fetchGlobalStats]);
+
+  useEffect(() => {
+    fetchGlobalStats();
+  }, [fetchGlobalStats]);
+
+  // Handle auto-refresh interval
+  useEffect(() => {
+    if (autoRefreshInterval <= 0) return;
+    const interval = setInterval(() => {
+      triggerRefresh();
+    }, autoRefreshInterval * 1000);
+    return () => clearInterval(interval);
+  }, [autoRefreshInterval, triggerRefresh]);
+
+  return (
+    <ThemeProvider>
+      <BrowserRouter>
+        <div className="min-h-dvh bg-background font-sans antialiased text-foreground flex flex-col transition-colors duration-150">
+          {/* GitHub Slide-over Drawer */}
+          <Sidebar 
+            targetCount={targetCount} 
+            firingCount={firingCount} 
+            isOpen={isSidebarOpen}
+            onClose={() => setIsSidebarOpen(false)}
+          />
+
+          {/* Global GitHub Header + Repository UnderlineNav */}
+          <Header
+            autoRefreshInterval={autoRefreshInterval}
+            onAutoRefreshChange={setAutoRefreshInterval}
+            onRefresh={triggerRefresh}
+            isRefreshing={isRefreshing}
+            totalTargets={targetCount}
+            firingAlerts={firingCount}
+            onToggleSidebar={() => setIsSidebarOpen(prev => !prev)}
+          />
+
+          {/* Repository Content Canvas with Page Transitions */}
+          <main className="flex-1 max-w-[1400px] w-full mx-auto px-4 sm:px-6 md:px-8 py-6">
+            <AnimatedRoutes refreshTrigger={refreshTrigger} />
+          </main>
+        </div>
+      </BrowserRouter>
+    </ThemeProvider>
+  );
+}
+
+export default App;
