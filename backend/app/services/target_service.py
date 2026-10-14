@@ -80,6 +80,7 @@ async def get_all_targets(db: AsyncSession) -> list[Target]:
 
         await reconcile_stale_instance_down_alerts(db, health_map=health_map)
 
+
     return targets
 
 
