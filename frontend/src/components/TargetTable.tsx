@@ -129,7 +129,7 @@ export function TargetTable({ targets, onDelete, onRefresh = () => { }, searchFi
           <div className="flex h-6 w-6 items-center justify-center rounded-md bg-[#5e6ad2]/20 border border-[#5e6ad2]/30 text-[#8b9bf7]">
             <Server className="h-3.5 w-3.5" aria-hidden="true" />
           </div>
-          <span className="font-semibold text-foreground dark:text-white tracking-tight">Endpoints</span>
+          <span className="text-[17px] font-semibold text-foreground dark:text-white tracking-tight">Endpoints</span>
           <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-slate-100 dark:bg-white/[0.06] border border-border dark:border-white/10 text-muted-foreground dark:text-neutral-300">
             {filteredTargets.length} / {targets.length}
           </span>

@@ -125,7 +125,7 @@ export function RecentAlerts({ alerts }: RecentAlertsProps) {
                           {alert.message}
                         </p>
                       )}
-                      <span className="text-xs text-muted-foreground block mt-0.5">
+                      <span className="text-[11px] font-mono text-muted-foreground block mt-0.5">
                         {formatDistanceToNow(new Date(alert.fired_at), { addSuffix: true })}
                       </span>
                     </div>

@@ -109,12 +109,12 @@ export function AlertTable({ alerts }: AlertTableProps) {
                 </div>
 
                 <div className="flex items-center gap-2.5 shrink-0 ml-4">
-                  <div className="hidden sm:flex flex-col items-end text-right font-mono text-xs">
-                    <span className="text-xs text-muted-foreground flex items-center gap-1">
+                  <div className="hidden sm:flex flex-col items-end text-right font-mono">
+                    <span className="text-[11px] text-muted-foreground flex items-center gap-1">
                       <Clock className="h-3 w-3 opacity-60" aria-hidden="true" />
                       {formatDistanceToNow(new Date(alert.fired_at), { addSuffix: true })}
                     </span>
-                    <span className="text-xs text-muted-foreground/70">
+                    <span className="text-[10px] text-muted-foreground/70">
                       {format(new Date(alert.fired_at), 'HH:mm:ss')}
                     </span>
                   </div>
