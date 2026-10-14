@@ -27,13 +27,6 @@ const accentIconStyles: Record<StatAccent, string> = {
   rose: "border-[#f85149]/30 bg-[#f85149]/15 text-[#f85149]",
 };
 
-const accentContourStyles: Record<StatAccent, string> = {
-  sky: "contour-accent-blue",
-  indigo: "contour-accent-blue",
-  emerald: "contour-accent-emerald",
-  amber: "contour-accent-amber",
-  rose: "contour-accent-rose",
-};
 
 export function StatCard({
   title,

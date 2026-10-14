@@ -5,7 +5,6 @@ import { TargetTable } from "../components/TargetTable";
 import { AddTargetModal } from "../components/AddTargetModal";
 import { Skeleton } from "../components/ui/skeleton";
 import { Search, Filter, RefreshCw } from "lucide-react";
-import { Badge } from "../components/ui/badge";
 
 interface TargetsPageProps {
   refreshTrigger?: number;
@@ -113,7 +112,7 @@ export function TargetsPage({ refreshTrigger = 0 }: TargetsPageProps) {
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Filter target inventory by host, subnet, or tags..."
             aria-label="Filter target inventory"
-            className="h-8 w-full rounded-lg border border-white/10 dark:border-white/10 border-slate-200 bg-black/30 dark:bg-black/30 bg-white pl-8 pr-8 text-sm leading-[20px] text-foreground placeholder:text-muted-foreground focus:border-[#5e6ad2] focus:outline-none focus:ring-1 focus:ring-[#5e6ad2] transition-colors"
+            className="h-8 w-full rounded-lg border border-white/10 dark:border-white/10 border-slate-200 bg-black/30 dark:bg-black/30 bg-white pl-8 pr-8 text-sm leading-[20px] text-foreground placeholder:text-muted-foreground focus:border-[#e5484d] focus:outline-none focus:ring-1 focus:ring-[#e5484d] transition-colors"
           />
           {search && (
             <button
@@ -136,7 +135,7 @@ export function TargetsPage({ refreshTrigger = 0 }: TargetsPageProps) {
               aria-selected={statusFilter === "all"}
               onClick={() => setStatusFilter("all")}
               className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${
-                statusFilter === "all" ? "bg-[#5e6ad2] text-white font-semibold shadow-xs" : "text-muted-foreground hover:text-foreground"
+                statusFilter === "all" ? "bg-[#e5484d] text-white font-semibold shadow-[0_0_10px_rgba(229,72,77,0.35)]" : "text-muted-foreground hover:text-foreground"
               }`}
             >
               All ({targets.length})
@@ -158,7 +157,7 @@ export function TargetsPage({ refreshTrigger = 0 }: TargetsPageProps) {
               aria-selected={statusFilter === "inactive"}
               onClick={() => setStatusFilter("inactive")}
               className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${
-                statusFilter === "inactive" ? "bg-[#f85149]/20 text-[#f85149] font-semibold" : "text-muted-foreground hover:text-foreground"
+                statusFilter === "inactive" ? "bg-[#e5484d]/20 text-[#e5484d] font-semibold border border-[#e5484d]/40" : "text-muted-foreground hover:text-foreground"
               }`}
             >
               Muted ({targets.length - activeCount})

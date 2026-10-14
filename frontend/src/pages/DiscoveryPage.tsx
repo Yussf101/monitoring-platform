@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { getDiscoveryTargets } from "../lib/api";
 import type { DiscoveryTarget } from "../lib/types";
 import { Radio, Copy, Check, ExternalLink, Code2, RefreshCw, Terminal } from "lucide-react";
-import { Badge } from "../components/ui/badge";
 
 export function DiscoveryPage() {
   const [discoveryTargets, setDiscoveryTargets] = useState<DiscoveryTarget[]>([]);
@@ -99,7 +98,7 @@ export function DiscoveryPage() {
             <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#5e6ad2]/15 border border-[#5e6ad2]/30 text-[#8b95f6]">
               <Radio className="h-4 w-4" aria-hidden="true" />
             </div>
-            <span className="font-mono text-xs text-foreground font-semibold">
+            <span className="font-mono text-xs text-white font-semibold">
               Pipeline :: Prometheus HTTP Service Discovery
             </span>
           </div>
@@ -183,7 +182,7 @@ export function DiscoveryPage() {
           <div className="linear-header flex items-center justify-between">
             <div className="flex items-center gap-2">
               <span className="h-2 w-2 rounded-full bg-[#5e6ad2]" />
-              <span className="font-mono text-xs font-semibold text-foreground">
+              <span className="font-mono text-xs font-semibold text-white">
                 advertised_nodes ({discoveryTargets.length})
               </span>
             </div>
@@ -233,7 +232,7 @@ export function DiscoveryPage() {
           <div className="linear-header flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Code2 className="h-4 w-4 text-[#8b95f6]" aria-hidden="true" />
-              <span className="font-mono text-xs font-semibold text-foreground">
+              <span className="font-mono text-xs font-semibold text-white">
                 raw_payload.json
               </span>
             </div>

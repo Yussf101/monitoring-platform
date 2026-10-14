@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
-import { 
-  Trash2, 
-  BarChart2, 
-  Copy, 
-  Check, 
-  LayoutGrid, 
-  List, 
-  Terminal, 
-  AlertTriangle, 
-  Server 
+import {
+  Trash2,
+  BarChart2,
+  Copy,
+  Check,
+  LayoutGrid,
+  List,
+  Terminal,
+  AlertTriangle,
+  Server
 } from "lucide-react";
 import type { Target } from "../lib/types";
 import { motion, AnimatePresence } from "framer-motion";
@@ -29,7 +29,7 @@ interface TargetTableProps {
   searchFilter?: string;
 }
 
-export function TargetTable({ targets, onDelete, onRefresh = () => {}, searchFilter = '' }: TargetTableProps) {
+export function TargetTable({ targets, onDelete, onRefresh = () => { }, searchFilter = '' }: TargetTableProps) {
   const [viewMode, setViewMode] = useState<"grid" | "table">("grid");
   const [copiedId, setCopiedId] = useState<number | null>(null);
   const [deleteTargetId, setDeleteTargetId] = useState<Target | null>(null);
@@ -108,7 +108,7 @@ export function TargetTable({ targets, onDelete, onRefresh = () => {}, searchFil
     if (target.health === "down") {
       return {
         variant: "destructive" as const,
-        dotColor: "bg-[#f85149]",
+        dotColor: "bg-[#e5484d] shadow-[0_0_6px_rgba(229,72,77,0.6)]",
         text: "DOWN",
         description: target.last_error || "Target is unreachable or powered off",
       };
@@ -129,7 +129,7 @@ export function TargetTable({ targets, onDelete, onRefresh = () => {}, searchFil
           <div className="flex h-6 w-6 items-center justify-center rounded-md bg-[#5e6ad2]/20 border border-[#5e6ad2]/30 text-[#8b9bf7]">
             <Server className="h-3.5 w-3.5" aria-hidden="true" />
           </div>
-          <span className="font-semibold text-foreground tracking-tight">Endpoints</span>
+          <span className="font-semibold text-white tracking-tight">Endpoints</span>
           <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-white/[0.06] border border-white/10 text-neutral-300">
             {filteredTargets.length} / {targets.length}
           </span>
@@ -141,11 +141,10 @@ export function TargetTable({ targets, onDelete, onRefresh = () => {}, searchFil
             onClick={() => setViewMode("grid")}
             aria-pressed={viewMode === "grid"}
             aria-label="Switch to Card Grid View"
-            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${
-              viewMode === "grid"
+            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${viewMode === "grid"
                 ? "bg-[#5e6ad2] text-white font-medium shadow-xs"
                 : "text-neutral-400 hover:text-white"
-            }`}
+              }`}
           >
             <LayoutGrid className="h-3.5 w-3.5" aria-hidden="true" />
             <span>Cards</span>
@@ -155,11 +154,10 @@ export function TargetTable({ targets, onDelete, onRefresh = () => {}, searchFil
             onClick={() => setViewMode("table")}
             aria-pressed={viewMode === "table"}
             aria-label="Switch to Tabular View"
-            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${
-              viewMode === "table"
+            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${viewMode === "table"
                 ? "bg-[#5e6ad2] text-white font-medium shadow-xs"
                 : "text-neutral-400 hover:text-white"
-            }`}
+              }`}
           >
             <List className="h-3.5 w-3.5" aria-hidden="true" />
             <span>List</span>
@@ -194,7 +192,7 @@ export function TargetTable({ targets, onDelete, onRefresh = () => {}, searchFil
                         <div className="min-w-0">
                           <div className="flex items-center gap-2">
                             <span className="linear-pill shrink-0">#{target.id}</span>
-                            <h4 
+                            <h4
                               className="text-sm font-semibold text-foreground truncate"
                               title={target.name}
                             >
@@ -220,7 +218,7 @@ export function TargetTable({ targets, onDelete, onRefresh = () => {}, searchFil
 
                     {/* IP & Port */}
                     <div className="mt-3 rounded-[6px] border border-border bg-background p-2 flex items-center justify-between">
-                      <span 
+                      <span
                         className="font-mono tabular-nums text-sm text-foreground break-all"
                         title={`${target.ip_address}:${port}`}
                       >
@@ -239,17 +237,17 @@ export function TargetTable({ targets, onDelete, onRefresh = () => {}, searchFil
 
                     {/* Offline / Down Warning Banner */}
                     {target.health === "down" && target.last_error && (
-                      <div 
-                        className="mt-2 rounded-[4px] bg-[rgba(248,81,73,0.1)] border border-[rgba(248,81,73,0.25)] px-2.5 py-1.5 text-xs text-[#f85149] flex items-start gap-1.5"
+                      <div
+                        className="mt-2 rounded-[4px] bg-[rgba(229,72,77,0.1)] border border-[rgba(229,72,77,0.25)] px-2.5 py-1.5 text-xs text-[#e5484d] flex items-start gap-1.5"
                         title={target.last_error}
                       >
-                        <AlertTriangle className="h-3.5 w-3.5 shrink-0 mt-0.5 text-[#f85149]" aria-hidden="true" />
+                        <AlertTriangle className="h-3.5 w-3.5 shrink-0 mt-0.5 text-[#e5484d]" aria-hidden="true" />
                         <span className="truncate font-mono text-[11px] leading-tight">
-                          {target.last_error.includes("context deadline exceeded") 
-                            ? "Connection timed out (machine off)" 
+                          {target.last_error.includes("context deadline exceeded")
+                            ? "Connection timed out (machine off)"
                             : target.last_error.includes("connection refused")
-                            ? "Port refused (exporter down)"
-                            : target.last_error}
+                              ? "Port refused (exporter down)"
+                              : target.last_error}
                         </span>
                       </div>
                     )}
@@ -362,12 +360,12 @@ export function TargetTable({ targets, onDelete, onRefresh = () => {}, searchFil
                               {health.text}
                             </Badge>
                             {target.health === "down" && target.last_error && (
-                              <span 
-                                className="text-[11px] text-[#f85149] font-mono truncate max-w-[180px]" 
+                              <span
+                                className="text-[11px] text-[#e5484d] font-mono truncate max-w-[180px]"
                                 title={target.last_error}
                               >
-                                {target.last_error.includes("context deadline exceeded") 
-                                  ? "Timeout (offline)" 
+                                {target.last_error.includes("context deadline exceeded")
+                                  ? "Timeout (offline)"
                                   : "Unreachable"}
                               </span>
                             )}
@@ -410,8 +408,6 @@ export function TargetTable({ targets, onDelete, onRefresh = () => {}, searchFil
       {/* Linear Monolith Footer */}
       <div className="linear-header flex items-center justify-between text-xs text-neutral-400 font-mono">
         <span className="flex items-center gap-2">
-          <span className="h-1.5 w-1.5 rounded-full bg-[#5e6ad2]" />
-          <span>Real-time Prometheus HTTP service discovery sync active</span>
         </span>
         <span className="text-neutral-300 font-semibold">
           {filteredTargets.filter(t => t.is_active).length} Active Nodes
@@ -422,8 +418,8 @@ export function TargetTable({ targets, onDelete, onRefresh = () => {}, searchFil
       <Dialog open={deleteTargetId !== null} onOpenChange={(open) => !open && setDeleteTargetId(null)}>
         <DialogContent className="sm:max-w-[420px]">
           <DialogHeader>
-            <div className="flex items-center gap-2 text-[#f85149]">
-              <AlertTriangle className="h-5 w-5" aria-hidden="true" />
+            <div className="flex items-center gap-2 text-[#e5484d]">
+              <AlertTriangle className="h-5 w-5 text-[#e5484d]" aria-hidden="true" />
               <DialogTitle className="text-sm font-semibold text-foreground">Confirm Target Deletion</DialogTitle>
             </div>
             <p className="text-xs text-muted-foreground pt-2 leading-relaxed">

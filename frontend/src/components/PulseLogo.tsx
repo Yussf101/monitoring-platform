@@ -7,7 +7,7 @@ export function PulseLogo({ className = "h-5 w-5" }: PulseLogoProps) {
     <svg 
       viewBox="0 0 24 24" 
       fill="none" 
-      stroke="#f78166" 
+      stroke="#e5484d" 
       strokeWidth="2.5" 
       strokeLinecap="round" 
       strokeLinejoin="round" 

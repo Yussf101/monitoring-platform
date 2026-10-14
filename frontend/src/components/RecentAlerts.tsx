@@ -28,15 +28,14 @@ export function RecentAlerts({ alerts }: RecentAlertsProps) {
       {/* Linear Header */}
       <div className="linear-header flex items-center justify-between">
         <div className="flex items-center gap-2.5">
-          <div className={`flex h-7 w-7 items-center justify-center rounded-lg border ${
-            firingCount > 0 
-              ? 'bg-[#f85149]/15 border-[#f85149]/30 text-[#f85149]' 
+          <div className={`flex h-7 w-7 items-center justify-center rounded-lg border ${firingCount > 0
+              ? 'bg-[#f85149]/15 border-[#f85149]/30 text-[#f85149]'
               : 'bg-[#238636]/15 border-[#3fb950]/30 text-[#3fb950]'
-          }`}>
+            }`}>
             {firingCount > 0 ? <AlertCircle className="h-4 w-4" aria-hidden="true" /> : <ShieldCheck className="h-4 w-4" aria-hidden="true" />}
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-foreground tracking-tight">
+            <h3 className="text-sm font-semibold text-foreground dark:text-white tracking-tight">
               Recent Alerts
             </h3>
             <p className="text-xs text-muted-foreground mt-0.5 leading-[18px]">
@@ -52,9 +51,8 @@ export function RecentAlerts({ alerts }: RecentAlertsProps) {
             role="tab"
             aria-selected={filter === 'all'}
             onClick={() => setFilter('all')}
-            className={`px-2.5 py-1 rounded-md text-xs transition-colors ${
-              filter === 'all' ? 'bg-[#5e6ad2] text-white font-medium shadow-xs' : 'text-muted-foreground hover:text-foreground'
-            }`}
+            className={`px-2.5 py-1 rounded-md text-xs transition-colors ${filter === 'all' ? 'bg-[#e5484d] text-white font-medium shadow-[0_0_10px_rgba(229,72,77,0.35)]' : 'text-muted-foreground hover:text-foreground'
+              }`}
           >
             All ({alerts.length})
           </button>
@@ -63,9 +61,8 @@ export function RecentAlerts({ alerts }: RecentAlertsProps) {
             role="tab"
             aria-selected={filter === 'firing'}
             onClick={() => setFilter('firing')}
-            className={`px-2.5 py-1 rounded-md text-xs transition-colors ${
-              filter === 'firing' ? 'bg-[#f85149]/20 text-[#f85149] font-medium' : 'text-muted-foreground hover:text-foreground'
-            }`}
+            className={`px-2.5 py-1 rounded-md text-xs transition-colors ${filter === 'firing' ? 'bg-[#e5484d]/20 text-[#e5484d] font-medium border border-[#e5484d]/40 shadow-[0_0_8px_rgba(229,72,77,0.25)]' : 'text-muted-foreground hover:text-foreground'
+              }`}
           >
             Firing ({firingCount})
           </button>
@@ -74,9 +71,8 @@ export function RecentAlerts({ alerts }: RecentAlertsProps) {
             role="tab"
             aria-selected={filter === 'critical'}
             onClick={() => setFilter('critical')}
-            className={`px-2.5 py-1 rounded-md text-xs transition-colors ${
-              filter === 'critical' ? 'bg-[#d29922]/20 text-[#d29922] font-medium' : 'text-muted-foreground hover:text-foreground'
-            }`}
+            className={`px-2.5 py-1 rounded-md text-xs transition-colors ${filter === 'critical' ? 'bg-[#d29922]/20 text-[#d29922] font-medium' : 'text-muted-foreground hover:text-foreground'
+              }`}
           >
             Critical
           </button>
@@ -105,18 +101,16 @@ export function RecentAlerts({ alerts }: RecentAlertsProps) {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className={`linear-row flex items-center justify-between p-3.5 transition-colors ${
-                    isFiring ? 'bg-[#f85149]/5' : ''
-                  }`}
+                  className={`linear-row flex items-center justify-between p-3.5 transition-colors ${isFiring ? 'bg-[#e5484d]/5' : ''
+                    }`}
                 >
                   <div className="flex items-start gap-2.5 min-w-0">
-                    <span className={`mt-1.5 flex h-2 w-2 rounded-full shrink-0 ${
-                      isFiring ? 'bg-[#f85149] ring-2 ring-[#f85149]/30' : 'bg-[#3fb950]'
-                    }`} />
+                    <span className={`mt-1.5 flex h-2 w-2 rounded-full shrink-0 ${isFiring ? 'bg-[#e5484d] ring-2 ring-[#e5484d]/40 shadow-[0_0_8px_rgba(229,72,77,0.5)]' : 'bg-[#3fb950]'
+                      }`} />
                     <div className="min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span 
-                          className="text-sm font-semibold text-foreground font-mono break-words"
+                        <span
+                          className="text-sm font-semibold text-foreground dark:text-white font-mono break-words"
                           title={alert.alert_name}
                         >
                           {alert.alert_name}
@@ -126,7 +120,7 @@ export function RecentAlerts({ alerts }: RecentAlertsProps) {
                         </span>
                       </div>
                       {alert.message && (
-                        <p 
+                        <p
                           className="text-sm text-muted-foreground leading-[21px] break-words mt-0.5"
                           title={alert.message}
                         >
@@ -148,8 +142,8 @@ export function RecentAlerts({ alerts }: RecentAlertsProps) {
                         alert.severity === 'critical'
                           ? 'destructive'
                           : alert.severity === 'warning'
-                          ? 'warning'
-                          : 'info'
+                            ? 'warning'
+                            : 'info'
                       }
                     >
                       {alert.severity}
@@ -162,7 +156,7 @@ export function RecentAlerts({ alerts }: RecentAlertsProps) {
         )}
       </div>
 
-      <div className="px-4 py-2.5 border-t border-white/[0.06] dark:border-white/[0.06] border-slate-200 bg-[#14171d] dark:bg-[#14171d] bg-slate-50 flex items-center justify-between">
+      <div className="linear-footer flex items-center justify-between">
         <span className="text-muted-foreground text-xs font-mono">
           Showing {filteredAlerts.length} events
         </span>

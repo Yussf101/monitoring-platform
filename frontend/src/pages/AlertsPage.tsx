@@ -4,11 +4,11 @@ import type { Alert } from "../lib/types";
 import { AlertTable } from "../components/AlertTable";
 import { Button } from "../components/ui/button";
 import { Skeleton } from "../components/ui/skeleton";
-import { 
-  AlertTriangle, 
-  Search, 
-  CheckCircle2, 
-  AlertOctagon, 
+import {
+  AlertTriangle,
+  Search,
+  CheckCircle2,
+  AlertOctagon,
   RefreshCw,
   Clock
 } from "lucide-react";
@@ -134,13 +134,13 @@ export function AlertsPage({ refreshTrigger = 0 }: AlertsPageProps) {
         </div>
 
         <div className="linear-card p-4 flex flex-col justify-between">
-          <div className="flex items-center justify-between text-xs text-[#f85149]">
+          <div className="flex items-center justify-between text-xs text-[#e5484d]">
             <span className="text-xs font-semibold uppercase tracking-wider">Firing Incidents</span>
-            <div className="flex h-6 w-6 items-center justify-center rounded-md bg-[#f85149]/10 border border-[#f85149]/20 text-[#f85149]">
+            <div className="flex h-6 w-6 items-center justify-center rounded-md bg-[#e5484d]/10 border border-[#e5484d]/30 text-[#e5484d] shadow-[0_0_8px_rgba(229,72,77,0.3)]">
               <AlertOctagon className="h-3.5 w-3.5" aria-hidden="true" />
             </div>
           </div>
-          <div className="mt-2 text-2xl font-bold tabular-nums text-[#f85149] tracking-tight">
+          <div className="mt-2 text-2xl font-bold tabular-nums text-[#e5484d] tracking-tight">
             {firingCount}
           </div>
         </div>
@@ -181,7 +181,7 @@ export function AlertsPage({ refreshTrigger = 0 }: AlertsPageProps) {
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Query webhook events by rule name, instance, or payload..."
             aria-label="Search alert incident history"
-            className="h-8 w-full rounded-lg border border-white/10 dark:border-white/10 border-slate-200 bg-black/30 dark:bg-black/30 bg-white pl-8 pr-8 text-sm leading-[20px] text-foreground placeholder:text-muted-foreground focus:border-[#5e6ad2] focus:outline-none focus:ring-1 focus:ring-[#5e6ad2] transition-colors"
+            className="h-8 w-full rounded-lg border border-white/10 dark:border-white/10 border-slate-200 bg-black/30 dark:bg-black/30 bg-white pl-8 pr-8 text-sm leading-[20px] text-foreground placeholder:text-muted-foreground focus:border-[#e5484d] focus:outline-none focus:ring-1 focus:ring-[#e5484d] transition-colors"
           />
           {search && (
             <button
@@ -204,9 +204,8 @@ export function AlertsPage({ refreshTrigger = 0 }: AlertsPageProps) {
               role="tab"
               aria-selected={statusFilter === "all"}
               onClick={() => setStatusFilter("all")}
-              className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${
-                statusFilter === "all" ? "bg-[#5e6ad2] text-white font-semibold shadow-xs" : "text-muted-foreground hover:text-foreground"
-              }`}
+              className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${statusFilter === "all" ? "bg-[#e5484d] text-white font-semibold shadow-[0_0_10px_rgba(229,72,77,0.35)]" : "text-muted-foreground hover:text-foreground"
+                }`}
             >
               All
             </button>
@@ -215,9 +214,8 @@ export function AlertsPage({ refreshTrigger = 0 }: AlertsPageProps) {
               role="tab"
               aria-selected={statusFilter === "firing"}
               onClick={() => setStatusFilter("firing")}
-              className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${
-                statusFilter === "firing" ? "bg-[#f85149]/20 text-[#f85149] font-semibold" : "text-muted-foreground hover:text-foreground"
-              }`}
+              className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${statusFilter === "firing" ? "bg-[#e5484d]/20 text-[#e5484d] font-semibold border border-[#e5484d]/40 shadow-[0_0_8px_rgba(229,72,77,0.25)]" : "text-muted-foreground hover:text-foreground"
+                }`}
             >
               Firing ({firingCount})
             </button>
@@ -226,9 +224,8 @@ export function AlertsPage({ refreshTrigger = 0 }: AlertsPageProps) {
               role="tab"
               aria-selected={statusFilter === "resolved"}
               onClick={() => setStatusFilter("resolved")}
-              className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${
-                statusFilter === "resolved" ? "bg-emerald-500/20 text-emerald-500 dark:text-emerald-400 font-semibold" : "text-muted-foreground hover:text-foreground"
-              }`}
+              className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${statusFilter === "resolved" ? "bg-emerald-500/20 text-emerald-500 dark:text-emerald-400 font-semibold" : "text-muted-foreground hover:text-foreground"
+                }`}
             >
               Resolved ({resolvedCount})
             </button>
@@ -241,9 +238,8 @@ export function AlertsPage({ refreshTrigger = 0 }: AlertsPageProps) {
               role="tab"
               aria-selected={severityFilter === "all"}
               onClick={() => setSeverityFilter("all")}
-              className={`px-2 py-1 rounded-md text-xs font-medium transition-colors ${
-                severityFilter === "all" ? "bg-[#5e6ad2] text-white font-semibold shadow-xs" : "text-muted-foreground hover:text-foreground"
-              }`}
+              className={`px-2 py-1 rounded-md text-xs font-medium transition-colors ${severityFilter === "all" ? "bg-[#e5484d] text-white font-semibold shadow-[0_0_10px_rgba(229,72,77,0.35)]" : "text-muted-foreground hover:text-foreground"
+                }`}
             >
               All Sev
             </button>
@@ -252,9 +248,8 @@ export function AlertsPage({ refreshTrigger = 0 }: AlertsPageProps) {
               role="tab"
               aria-selected={severityFilter === "critical"}
               onClick={() => setSeverityFilter("critical")}
-              className={`px-2 py-1 rounded-md text-xs font-medium transition-colors ${
-                severityFilter === "critical" ? "bg-[#f85149]/20 text-[#f85149] font-semibold" : "text-muted-foreground hover:text-foreground"
-              }`}
+              className={`px-2 py-1 rounded-md text-xs font-medium transition-colors ${severityFilter === "critical" ? "bg-[#e5484d]/20 text-[#e5484d] font-semibold border border-[#e5484d]/40 shadow-[0_0_8px_rgba(229,72,77,0.25)]" : "text-muted-foreground hover:text-foreground"
+                }`}
             >
               Critical
             </button>
@@ -263,9 +258,8 @@ export function AlertsPage({ refreshTrigger = 0 }: AlertsPageProps) {
               role="tab"
               aria-selected={severityFilter === "warning"}
               onClick={() => setSeverityFilter("warning")}
-              className={`px-2 py-1 rounded-md text-xs font-medium transition-colors ${
-                severityFilter === "warning" ? "bg-amber-500/20 text-amber-500 dark:text-amber-400 font-semibold" : "text-muted-foreground hover:text-foreground"
-              }`}
+              className={`px-2 py-1 rounded-md text-xs font-medium transition-colors ${severityFilter === "warning" ? "bg-amber-500/20 text-amber-500 dark:text-amber-400 font-semibold" : "text-muted-foreground hover:text-foreground"
+                }`}
             >
               Warning
             </button>
@@ -274,9 +268,8 @@ export function AlertsPage({ refreshTrigger = 0 }: AlertsPageProps) {
               role="tab"
               aria-selected={severityFilter === "info"}
               onClick={() => setSeverityFilter("info")}
-              className={`px-2 py-1 rounded-md text-xs font-medium transition-colors ${
-                severityFilter === "info" ? "bg-card text-foreground font-semibold shadow-xs" : "text-muted-foreground hover:text-foreground"
-              }`}
+              className={`px-2 py-1 rounded-md text-xs font-medium transition-colors ${severityFilter === "info" ? "bg-card text-foreground font-semibold shadow-xs" : "text-muted-foreground hover:text-foreground"
+                }`}
             >
               Info
             </button>
@@ -309,8 +302,8 @@ export function AlertsPage({ refreshTrigger = 0 }: AlertsPageProps) {
 
           {hasMore && (
             <div className="flex justify-center pt-2">
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 size="sm"
                 onClick={handleLoadMore}
                 className="text-xs"

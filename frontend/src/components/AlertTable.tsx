@@ -3,14 +3,14 @@ import { Badge } from "./ui/badge";
 import type { Alert } from "../lib/types";
 import { formatDistanceToNow, format } from 'date-fns';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  CheckCircle2, 
-  ChevronDown, 
-  ChevronRight, 
-  Check, 
-  Clock, 
-  ShieldAlert, 
-  Code 
+import {
+  CheckCircle2,
+  ChevronDown,
+  ChevronRight,
+  Check,
+  Clock,
+  ShieldAlert,
+  Code
 } from "lucide-react";
 
 interface AlertTableProps {
@@ -54,15 +54,15 @@ export function AlertTable({ alerts }: AlertTableProps) {
           const isCopied = copiedId === alert.id;
 
           return (
-            <motion.div 
-              key={alert.id} 
+            <motion.div
+              key={alert.id}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               className="linear-monolith overflow-hidden transition-all duration-150"
             >
               {/* Card Header row */}
-              <div 
+              <div
                 onClick={() => toggleExpand(alert.id)}
                 className="linear-row flex items-center justify-between p-3.5 cursor-pointer"
                 role="button"
@@ -85,13 +85,12 @@ export function AlertTable({ alerts }: AlertTableProps) {
                     )}
                   </span>
 
-                  <span className={`flex h-2.5 w-2.5 rounded-full shrink-0 ${
-                    isFiring ? 'bg-rose-500 ring-2 ring-rose-500/30' : 'bg-emerald-500'
-                  }`} />
+                  <span className={`flex h-2.5 w-2.5 rounded-full shrink-0 ${isFiring ? 'bg-[#e5484d] ring-2 ring-[#e5484d]/40 shadow-[0_0_8px_rgba(229,72,77,0.5)]' : 'bg-emerald-500'
+                    }`} />
 
                   <div className="min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-sm font-semibold text-foreground font-mono">
+                      <span className="text-sm font-semibold text-white font-mono">
                         {alert.alert_name}
                       </span>
                       <span className="linear-pill shrink-0">
@@ -99,7 +98,7 @@ export function AlertTable({ alerts }: AlertTableProps) {
                       </span>
                     </div>
                     {alert.message && (
-                      <p 
+                      <p
                         className="text-sm text-muted-foreground break-words mt-0.5 leading-[21px] max-w-2xl"
                         title={alert.message}
                       >
@@ -124,13 +123,13 @@ export function AlertTable({ alerts }: AlertTableProps) {
                     {alert.status.toUpperCase()}
                   </Badge>
 
-                  <Badge 
+                  <Badge
                     variant={
-                      alert.severity === 'critical' 
-                        ? 'destructive' 
-                        : alert.severity === 'warning' 
-                        ? 'warning' 
-                        : 'info'
+                      alert.severity === 'critical'
+                        ? 'destructive'
+                        : alert.severity === 'warning'
+                          ? 'warning'
+                          : 'info'
                     }
                   >
                     {alert.severity}
@@ -156,8 +155,8 @@ export function AlertTable({ alerts }: AlertTableProps) {
                         Resolution Status
                       </span>
                       <span className="text-sm font-mono text-foreground mt-1 block">
-                        {alert.resolved_at 
-                          ? format(new Date(alert.resolved_at), 'yyyy-MM-dd HH:mm:ss') 
+                        {alert.resolved_at
+                          ? format(new Date(alert.resolved_at), 'yyyy-MM-dd HH:mm:ss')
                           : 'Currently Active (Unresolved)'}
                       </span>
                     </div>

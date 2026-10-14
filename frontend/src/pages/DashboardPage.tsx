@@ -5,10 +5,10 @@ import { StatCard } from '../components/StatCard';
 import { RecentAlerts } from '../components/RecentAlerts';
 import { AddTargetModal } from '../components/AddTargetModal';
 import { Skeleton } from '../components/ui/skeleton';
-import { 
-  Server, 
-  AlertTriangle, 
-  ShieldCheck, 
+import {
+  Server,
+  AlertTriangle,
+  ShieldCheck,
   ArrowRight,
   BarChart2,
   BarChart3,
@@ -100,9 +100,9 @@ export function DashboardPage({ refreshTrigger = 0 }: DashboardPageProps) {
 
   if (error) {
     return (
-      <div className="rounded-[6px] border border-[#f85149]/40 bg-[#f85149]/10 p-4 text-[#f85149]">
+      <div className="rounded-[6px] border border-[#e5484d]/40 bg-[#e5484d]/10 p-4 text-[#e5484d]">
         <div className="flex items-center gap-2 font-semibold text-sm">
-          <AlertTriangle className="h-4 w-4" aria-hidden="true" />
+          <AlertTriangle className="h-4 w-4 text-[#e5484d]" aria-hidden="true" />
           <span>Error loading monitoring dashboard</span>
         </div>
         <p className="text-xs mt-1 text-foreground">{error}</p>
@@ -122,8 +122,8 @@ export function DashboardPage({ refreshTrigger = 0 }: DashboardPageProps) {
   const downTargets = targets.filter(t => t.is_active && t.health === 'down');
   const firingAlerts = alerts.filter(a => a.status === 'firing');
   const criticalFiring = firingAlerts.filter(a => a.severity === 'critical');
-  const availabilityRate = activeTargets.length > 0 
-    ? Math.round((upTargets.length / activeTargets.length) * 100) 
+  const availabilityRate = activeTargets.length > 0
+    ? Math.round((upTargets.length / activeTargets.length) * 100)
     : 0;
 
   return (
@@ -131,11 +131,11 @@ export function DashboardPage({ refreshTrigger = 0 }: DashboardPageProps) {
       {/* Subhead Header Banner */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-border">
         <div>
-          <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-foreground">
+          <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-foreground dark:text-white">
             Dashboard
           </h2>
-          <p className="text-sm text-muted-foreground mt-1 leading-[21px]">
-            Infrastructure health overview and active incidents.
+          <p className="text-sm text-[#8b9bb4] mt-1 leading-[21px]">
+            Overview of your monitoring platform
           </p>
         </div>
 
@@ -168,15 +168,15 @@ export function DashboardPage({ refreshTrigger = 0 }: DashboardPageProps) {
           icon={ShieldCheck}
           accent={availabilityRate === 100 ? "emerald" : (availabilityRate === 0 ? "rose" : "amber")}
           description={
-            availabilityRate === 100 
-              ? "All scrape vectors responding nominal" 
+            availabilityRate === 100
+              ? "All scrape vectors responding nominal"
               : availabilityRate === 0
-              ? "All active monitored nodes are offline / unreachable"
-              : `${downTargets.length} node(s) unreachable on scrape port`
+                ? "All active monitored nodes are offline / unreachable"
+                : `${downTargets.length} node(s) unreachable on scrape port`
           }
-          trend={{ 
-            label: availabilityRate === 100 ? "Nominal" : (availabilityRate === 0 ? "Offline" : "Degraded"), 
-            isPositive: availabilityRate === 100 
+          trend={{
+            label: availabilityRate === 100 ? "Nominal" : (availabilityRate === 0 ? "Offline" : "Degraded"),
+            isPositive: availabilityRate === 100
           }}
         />
 
@@ -197,10 +197,10 @@ export function DashboardPage({ refreshTrigger = 0 }: DashboardPageProps) {
           {/* Linear Header */}
           <div className="linear-header flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div>
-              <h3 className="text-sm font-semibold text-foreground tracking-tight">
+              <h3 className="text-sm font-semibold text-foreground dark:text-white tracking-tight">
                 Targets
               </h3>
-              <p className="text-xs text-muted-foreground mt-0.5 leading-[18px]">
+              <p className="text-xs text-[#8b9bb4] mt-0.5 leading-[18px]">
                 Registered scrape endpoints
               </p>
             </div>
@@ -243,8 +243,8 @@ export function DashboardPage({ refreshTrigger = 0 }: DashboardPageProps) {
                             <span className="linear-pill shrink-0">
                               #{target.id}
                             </span>
-                            <span 
-                              className="text-sm font-semibold text-foreground truncate" 
+                            <span
+                              className="text-sm font-semibold text-foreground dark:text-white truncate"
                               title={target.name}
                             >
                               {target.name}
@@ -258,7 +258,7 @@ export function DashboardPage({ refreshTrigger = 0 }: DashboardPageProps) {
                               </Badge>
                             ) : target.health === "down" ? (
                               <Badge variant="destructive" className="text-xs px-1.5 py-0.5 shrink-0 gap-1" title={target.last_error || "Target is offline"}>
-                                <span className="h-1.5 w-1.5 rounded-full bg-[#f85149]" />
+                                <span className="h-1.5 w-1.5 rounded-full bg-[#e5484d] shadow-[0_0_6px_rgba(229,72,77,0.6)]" />
                                 DOWN
                               </Badge>
                             ) : !target.is_active || target.health === "muted" ? (
@@ -275,15 +275,15 @@ export function DashboardPage({ refreshTrigger = 0 }: DashboardPageProps) {
                           </div>
                         </div>
 
-                        <p 
-                          className="mt-2 tabular-nums text-xs font-mono text-muted-foreground break-all" 
+                        <p
+                          className="mt-2 tabular-nums text-xs font-mono text-muted-foreground break-all"
                           title={`${target.ip_address}:${port}`}
                         >
                           {target.ip_address}:{port}
                         </p>
 
                         {target.health === "down" && (
-                          <p className="mt-1 text-[11px] font-mono text-[#f85149] truncate" title={target.last_error || "Offline"}>
+                          <p className="mt-1 text-[11px] font-mono text-[#e5484d] truncate" title={target.last_error || "Offline"}>
                             Offline (Scrape timeout)
                           </p>
                         )}
@@ -312,7 +312,7 @@ export function DashboardPage({ refreshTrigger = 0 }: DashboardPageProps) {
           </div>
 
           {/* Footer with view all link */}
-          <div className="px-4 py-2.5 border-t border-white/[0.06] dark:border-white/[0.06] border-slate-200 bg-[#14171d] dark:bg-[#14171d] bg-slate-50 flex items-center justify-between text-xs">
+          <div className="linear-footer flex items-center justify-between text-xs">
             <span className="text-muted-foreground font-mono">
               Showing {Math.min(targets.length, 6)} of {targets.length} targets
             </span>

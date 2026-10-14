@@ -1,15 +1,15 @@
 import { useState, useEffect, useRef } from 'react';
-import { 
-  RefreshCw, 
-  Search, 
-  ExternalLink, 
-  CheckCircle2, 
+import {
+  RefreshCw,
+  Search,
+  ExternalLink,
+  CheckCircle2,
   Server,
   AlertTriangle,
   Radio,
   LayoutDashboard,
   Menu,
-  Star
+  BarChart3
 } from 'lucide-react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { getHealth } from '../lib/api';
@@ -86,7 +86,7 @@ export function Header({
   ];
 
   return (
-    <header className="sticky top-0 z-30 w-full bg-[#010409] border-b border-border select-none" role="banner">
+    <header className="sticky top-0 z-30 w-full bg-card dark:bg-[#121212] border-b border-border select-none" role="banner">
       {/* Top Global Bar */}
       <div className="flex h-14 items-center justify-between px-4 sm:px-6 gap-3">
         {/* Left: Branding & Breadcrumbs */}
@@ -96,7 +96,7 @@ export function Header({
               type="button"
               onClick={onToggleSidebar}
               aria-label="Toggle navigation drawer"
-              className="flex h-8 w-8 items-center justify-center rounded-[6px] border border-border bg-[#212830] text-muted-foreground hover:border-[#8b949e] hover:bg-[#30363d] hover:text-foreground transition-colors shadow-[rgba(61,68,77,0.7)_0px_-1px_0px_0px_inset]"
+              className="flex h-8 w-8 items-center justify-center rounded-[6px] border border-border bg-secondary dark:bg-[#212830] text-muted-foreground hover:border-[#8b949e] hover:bg-muted dark:hover:bg-[#30363d] hover:text-foreground transition-colors shadow-xs"
             >
               <Menu className="h-4 w-4" aria-hidden="true" />
             </button>
@@ -105,7 +105,7 @@ export function Header({
           {/* Platform Branding - logo and title */}
           <Link to="/dashboard" className="flex items-center gap-2.5 group shrink-0 py-1">
             <PulseLogo className="h-10 w-10 shrink-0 transition-transform group-hover:scale-101" />
-            <span className="text-[17px] font-semibold text-foreground tracking-tight group-hover:text-white transition-colors">
+            <span className="text-[17px] font-semibold text-foreground tracking-tight group-hover:text-foreground dark:group-hover:text-white transition-colors">
               Monitoring Platform
             </span>
           </Link>
@@ -116,9 +116,9 @@ export function Header({
           {/* Search Input (14px text-sm, 32px height) */}
           {onSearchChange ? (
             <div className="relative w-48 sm:w-64">
-              <Search 
-                className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" 
-                aria-hidden="true" 
+              <Search
+                className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
+                aria-hidden="true"
               />
               <input
                 ref={searchInputRef}
@@ -127,10 +127,10 @@ export function Header({
                 onChange={(e) => onSearchChange(e.target.value)}
                 placeholder="Type / to search..."
                 aria-label="Search and filter infrastructure targets and alerts"
-                className="h-8 w-full rounded-[6px] border border-border bg-background pl-8 pr-7 text-sm leading-[20px] text-foreground placeholder:text-muted-foreground focus:border-[#4493f8] focus:outline-none focus:ring-1 focus:ring-[#4493f8] font-sans transition-colors"
+                className="h-8 w-full rounded-[6px] border border-border bg-background pl-8 pr-7 text-sm leading-[20px] text-foreground placeholder:text-muted-foreground focus:border-[#e5484d] focus:outline-none focus:ring-1 focus:ring-[#e5484d] font-sans transition-colors"
               />
               {searchQuery ? (
-                <button 
+                <button
                   type="button"
                   onClick={() => onSearchChange('')}
                   aria-label="Clear search input"
@@ -151,11 +151,10 @@ export function Header({
             <Link
               to="/alerts"
               aria-label={`${firingAlerts} Firing Alerts`}
-              className={`flex items-center gap-1.5 h-8 px-3 py-1 rounded-[6px] border transition-colors text-sm font-medium shadow-[rgba(61,68,77,0.7)_0px_-1px_0px_0px_inset] ${
-                firingAlerts > 0
-                  ? 'bg-[#f85149]/15 border-[#f85149]/40 text-[#f85149] hover:bg-[#f85149]/25 font-semibold'
+              className={`flex items-center gap-1.5 h-8 px-3 py-1 rounded-[6px] border transition-colors text-sm font-medium shadow-[rgba(61,68,77,0.7)_0px_-1px_0px_0px_inset] ${firingAlerts > 0
+                  ? 'bg-[#e5484d]/15 border-[#e5484d]/40 text-[#e5484d] hover:bg-[#e5484d]/25 font-semibold shadow-[0_0_10px_rgba(229,72,77,0.25)]'
                   : 'bg-secondary hover:bg-muted border-border text-foreground hover:text-white'
-              }`}
+                }`}
             >
               {firingAlerts > 0 ? (
                 <>
@@ -175,7 +174,7 @@ export function Header({
           </div>
 
           {/* API Health */}
-          <div 
+          <div
             className="flex items-center gap-1.5 h-8 px-2.5 py-1 rounded-[6px] bg-card border border-border text-xs"
             role="status"
             aria-live="polite"
@@ -226,15 +225,15 @@ export function Header({
           {/* Modern Theme Switcher */}
           <ThemeToggle />
 
-          {/* Grafana Deep Link as GitHub Star Button (14px, 32px height, 500 weight) */}
+          {/* Grafana Deep Link  (14px, 32px height, 500 weight) */}
           <a
             href="http://localhost:3001/d/Main-Dashboard"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Open Grafana Dashboards in new tab"
-            className="hidden md:flex items-center gap-1.5 h-8 px-3 py-1 text-sm font-medium rounded-[6px] bg-secondary hover:bg-muted border border-border text-foreground hover:text-white transition-colors shadow-[rgba(61,68,77,0.7)_0px_-1px_0px_0px_inset]"
+            className="hidden md:flex items-center gap-1.5 h-8 px-3 py-1 text-xs font-medium rounded-[6px] bg-secondary hover:bg-muted border border-border text-foreground hover:text-white transition-colors shadow-[rgba(61,68,77,0.7)_0px_-1px_0px_0px_inset]"
           >
-            <Star className="h-4 w-4 text-[#d29922]" aria-hidden="true" />
+            <BarChart3 className="h-3.5 w-3.5 text-[#d29922]" aria-hidden="true" />
             <span>Grafana</span>
             <ExternalLink className="h-3 w-3 opacity-60 ml-0.5" aria-hidden="true" />
           </a>
@@ -242,8 +241,8 @@ export function Header({
       </div>
 
       {/* GitHub UnderlineNav: seamlessly connected without grey separating border */}
-      <nav 
-        className="flex items-center px-4 sm:px-6 pt-1 pb-2 overflow-x-auto bg-[#010409] scrollbar-none"
+      <nav
+        className="flex items-center px-4 sm:px-6 pt-1 pb-2 overflow-x-auto bg-card dark:bg-[#121212] scrollbar-none"
         aria-label="Repository navigation"
       >
         <div className="flex items-center gap-1">
@@ -265,18 +264,18 @@ export function Header({
                 {tab.count !== undefined && (
                   <span className={`
                     inline-flex items-center justify-center min-w-[20px] h-[20px] px-1.5 text-xs font-medium rounded-full tabular-nums leading-none
-                    ${tab.isAlert 
-                      ? 'bg-[#f85149]/20 text-[#f85149] border border-[#f85149]/30' 
-                      : isActive 
-                      ? 'bg-border text-foreground' 
-                      : 'bg-secondary text-muted-foreground'}
+                    ${tab.isAlert
+                      ? 'bg-[#e5484d]/20 text-[#e5484d] border border-[#e5484d]/40 shadow-[0_0_8px_rgba(229,72,77,0.3)]'
+                      : isActive
+                        ? 'bg-border text-foreground'
+                        : 'bg-secondary text-muted-foreground'}
                   `}>
                     {tab.count}
                   </span>
                 )}
-                {/* GitHub Underline indicator */}
+                {/* Odysseus Crimson Navigation Underline */}
                 {isActive && (
-                  <span className="absolute bottom-0 left-3.5 right-3.5 h-[2px] bg-[#f78166] rounded-full" />
+                  <span className="absolute bottom-0 left-3.5 right-3.5 h-[2px] bg-[#e5484d] rounded-full shadow-[0_0_8px_rgba(229,72,77,0.6)]" />
                 )}
               </NavLink>
             );
