@@ -74,6 +74,12 @@ async def get_all_targets(db: AsyncSession) -> list[Target]:
     health_map = await get_prometheus_targets_health()
     for t in targets:
         _annotate_target_health(t, health_map)
+
+    if health_map:
+        from app.services.alert_service import reconcile_stale_instance_down_alerts
+
+        await reconcile_stale_instance_down_alerts(db, health_map=health_map)
+
     return targets
 
 

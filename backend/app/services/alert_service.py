@@ -6,9 +6,11 @@ import asyncio
 import logging
 from datetime import datetime, timezone
 
+import httpx
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.config import settings
 from app.models.alert import Alert
 from app.models.target import Target
 from app.schemas.alert import AlertmanagerWebhookPayload
@@ -236,6 +238,122 @@ async def process_webhook(
     return processed
 
 
+async def get_prometheus_active_alerts(
+    prometheus_url: str = settings.PROMETHEUS_URL,
+) -> set[str]:
+    """
+    Query Prometheus /api/v1/alerts for instances currently in 'firing' state for 'InstanceDown'.
+
+    Returns:
+        Set of instance endpoints ('ip:port') currently firing in Prometheus.
+    """
+    try:
+        async with httpx.AsyncClient(timeout=2.0) as client:
+            resp = await client.get(f"{prometheus_url.rstrip('/')}/api/v1/alerts")
+            if resp.status_code == 200:
+                data = resp.json().get("data", {})
+                alerts_list = data.get("alerts", [])
+                firing_instances: set[str] = set()
+                for a in alerts_list:
+                    if (
+                        a.get("state") == "firing"
+                        and a.get("labels", {}).get("alertname") == "InstanceDown"
+                    ):
+                        inst = a.get("labels", {}).get("instance")
+                        if inst:
+                            firing_instances.add(inst)
+                return firing_instances
+    except Exception as exc:
+        logger.debug("Failed to query Prometheus active alerts: %s", exc)
+    return set()
+
+
+async def reconcile_stale_instance_down_alerts(
+    db: AsyncSession,
+    health_map: dict[str, dict] | None = None,
+    active_alerts: set[str] | None = None,
+) -> list[Alert]:
+    """
+    Reconcile orphaned firing 'InstanceDown' alerts with live Prometheus scrape health.
+
+    When targets recover after a monitoring stack restart or host sleep cycle,
+    Alertmanager's in-memory state does not retain pre-existing firing alerts,
+    preventing resolved webhooks from firing. This function detects active targets
+    confirmed healthy by Prometheus that are no longer firing in Prometheus rules,
+    and transitions any orphaned database alert records to 'resolved'.
+
+    Args:
+        db: Active database session.
+        health_map: Optional pre-fetched map of endpoint to scrape health metadata.
+        active_alerts: Optional pre-fetched set of instances currently firing in Prometheus.
+
+    Returns:
+        List of Alert ORM objects that were reconciled and resolved.
+    """
+    if health_map is None:
+        from app.services.target_service import get_prometheus_targets_health
+
+        health_map = await get_prometheus_targets_health()
+
+    if active_alerts is None:
+        active_alerts = await get_prometheus_active_alerts()
+
+    # Guard: if Prometheus is unreachable, do not perform speculative reconciliation
+    if not health_map:
+        return []
+
+    result = await db.execute(select(Target).where(Target.is_active.is_(True)))
+    targets = list(result.scalars().all())
+
+    reconciled: list[Alert] = []
+    to_dispatch = []
+    now = datetime.now(timezone.utc)
+
+    for target in targets:
+        endpoint = f"{target.ip_address}:{target.port or 9100}"
+        target_health = health_map.get(endpoint, {}).get("health")
+
+        # Target must be reported UP by Prometheus, and NOT currently firing in Prometheus rules
+        if target_health == "up" and endpoint not in active_alerts:
+            firing_result = await db.execute(
+                select(Alert).where(
+                    Alert.target_id == target.id,
+                    Alert.alert_name == "InstanceDown",
+                    Alert.status == "firing",
+                )
+            )
+            stale_alerts = list(firing_result.scalars().all())
+
+            for alert_row in stale_alerts:
+                alert_row.status = "resolved"
+                alert_row.resolved_at = now
+                reconciled.append(alert_row)
+
+                logger.info(
+                    "Auto-reconciled stale InstanceDown alert #%s for target %s (%s)",
+                    alert_row.id,
+                    target.name,
+                    endpoint,
+                )
+                to_dispatch.append({
+                    "alert_name": "InstanceDown",
+                    "status": "resolved",
+                    "instance": endpoint,
+                    "severity": alert_row.severity,
+                    "message": f"Target {target.name} recovered and is reporting healthy to Prometheus.",
+                })
+
+    if reconciled:
+        await db.commit()
+        for alert_row in reconciled:
+            await db.refresh(alert_row)
+
+        for dispatch_data in to_dispatch:
+            await send_telegram_alert(**dispatch_data)
+
+    return reconciled
+
+
 async def get_all_alerts(
     db: AsyncSession, limit: int = 50, offset: int = 0
 ) -> list[Alert]:
@@ -250,6 +368,9 @@ async def get_all_alerts(
     Returns:
         List of Alert ORM objects.
     """
+    # Reconcile stale alerts before returning history to keep dashboard in sync with reality
+    await reconcile_stale_instance_down_alerts(db)
+
     result = await db.execute(
         select(Alert).order_by(Alert.created_at.desc()).limit(limit).offset(offset)
     )
