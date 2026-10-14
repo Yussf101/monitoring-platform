@@ -98,7 +98,7 @@ export function DiscoveryPage() {
             <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#5e6ad2]/15 border border-[#5e6ad2]/30 text-[#8b95f6]">
               <Radio className="h-4 w-4" aria-hidden="true" />
             </div>
-            <span className="font-mono text-xs text-white font-semibold">
+            <span className="font-mono text-xs text-foreground dark:text-white font-semibold">
               Pipeline :: Prometheus HTTP Service Discovery
             </span>
           </div>
@@ -112,7 +112,7 @@ export function DiscoveryPage() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Inspect Prometheus native targets page in new tab"
-              className="inline-flex items-center gap-1.5 text-xs text-[#8b95f6] hover:text-[#a5b4fc] hover:underline font-semibold"
+              className="inline-flex items-center gap-1.5 text-xs text-[#434eb0] dark:text-[#8b95f6] hover:text-[#5e6ad2] dark:hover:text-[#a5b4fc] hover:underline font-semibold"
             >
               <span>Prometheus Targets</span>
               <ExternalLink className="h-3.5 w-3.5 opacity-80" aria-hidden="true" />
@@ -131,7 +131,7 @@ export function DiscoveryPage() {
               <span className="text-[10px] uppercase text-muted-foreground block font-mono font-semibold tracking-wider">
                 Pipeline // Targets
               </span>
-              <span className="text-2xl font-bold tabular-nums text-[#8b95f6] mt-2 block font-mono">
+              <span className="text-2xl font-bold tabular-nums text-[#434eb0] dark:text-[#8b95f6] mt-2 block font-mono">
                 {discoveryTargets.length} <span className="text-xs font-normal text-muted-foreground">NODES</span>
               </span>
             </div>
@@ -182,11 +182,11 @@ export function DiscoveryPage() {
           <div className="linear-header flex items-center justify-between">
             <div className="flex items-center gap-2">
               <span className="h-2 w-2 rounded-full bg-[#5e6ad2]" />
-              <span className="font-mono text-xs font-semibold text-white">
+              <span className="font-mono text-xs font-semibold text-foreground dark:text-white">
                 advertised_nodes ({discoveryTargets.length})
               </span>
             </div>
-            <span className="font-mono text-[11px] text-[#8b95f6]">HTTP-SD</span>
+            <span className="font-mono text-[11px] text-[#434eb0] dark:text-[#8b95f6]">HTTP-SD</span>
           </div>
 
           <div className="p-4 flex-1">
@@ -216,7 +216,7 @@ export function DiscoveryPage() {
                           key={key}
                           className="rounded-md bg-white/[0.05] dark:bg-white/[0.05] bg-slate-100 px-2 py-0.5 border border-white/10 dark:border-white/10 border-slate-200 text-muted-foreground"
                         >
-                          <span className="text-[#8b95f6]">{key}</span>: <span className="text-foreground">{val}</span>
+                          <span className="text-[#434eb0] dark:text-[#8b95f6]">{key}</span>: <span className="text-foreground">{val}</span>
                         </span>
                       ))}
                     </div>
@@ -232,7 +232,7 @@ export function DiscoveryPage() {
           <div className="linear-header flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Code2 className="h-4 w-4 text-[#8b95f6]" aria-hidden="true" />
-              <span className="font-mono text-xs font-semibold text-white">
+              <span className="font-mono text-xs font-semibold text-foreground dark:text-white">
                 raw_payload.json
               </span>
             </div>
@@ -242,7 +242,7 @@ export function DiscoveryPage() {
           </div>
 
           <div className="p-4 flex-1 flex flex-col">
-            <pre className="linear-well flex-1 max-h-[340px] overflow-auto p-3 text-xs font-mono text-[#8b95f6] leading-relaxed">
+            <pre className="linear-well flex-1 max-h-[340px] overflow-auto p-3 text-xs font-mono text-[#3843a8] dark:text-[#8b95f6] leading-relaxed">
               {JSON.stringify(discoveryTargets, null, 2)}
             </pre>
           </div>

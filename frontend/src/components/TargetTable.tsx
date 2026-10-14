@@ -129,13 +129,13 @@ export function TargetTable({ targets, onDelete, onRefresh = () => { }, searchFi
           <div className="flex h-6 w-6 items-center justify-center rounded-md bg-[#5e6ad2]/20 border border-[#5e6ad2]/30 text-[#8b9bf7]">
             <Server className="h-3.5 w-3.5" aria-hidden="true" />
           </div>
-          <span className="font-semibold text-white tracking-tight">Endpoints</span>
-          <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-white/[0.06] border border-white/10 text-neutral-300">
+          <span className="font-semibold text-foreground dark:text-white tracking-tight">Endpoints</span>
+          <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-slate-100 dark:bg-white/[0.06] border border-border dark:border-white/10 text-muted-foreground dark:text-neutral-300">
             {filteredTargets.length} / {targets.length}
           </span>
         </div>
 
-        <div className="flex items-center rounded-lg border border-white/10 bg-black/40 p-0.5 text-xs" role="group" aria-label="View mode">
+        <div className="flex items-center rounded-lg border border-border dark:border-white/10 bg-slate-100 dark:bg-black/40 p-0.5 text-xs" role="group" aria-label="View mode">
           <button
             type="button"
             onClick={() => setViewMode("grid")}
@@ -180,7 +180,7 @@ export function TargetTable({ targets, onDelete, onRefresh = () => { }, searchFi
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="flex flex-col justify-between p-4 rounded-xl border border-white/[0.08] bg-[#14171d] hover:border-[#5e6ad2]/50 hover:bg-[#181b22] transition-all duration-150"
+                  className="flex flex-col justify-between p-4 rounded-xl border border-border dark:border-white/[0.08] bg-card dark:bg-[#14171d] hover:border-[#5e6ad2]/50 hover:bg-slate-50 dark:hover:bg-[#181b22] transition-all duration-150 shadow-xs"
                 >
                   {/* Top Bar */}
                   <div>
@@ -217,7 +217,7 @@ export function TargetTable({ targets, onDelete, onRefresh = () => { }, searchFi
                     </div>
 
                     {/* IP & Port */}
-                    <div className="mt-3 rounded-[6px] border border-border bg-background p-2 flex items-center justify-between">
+                    <div className="mt-3 rounded-[6px] border border-border bg-secondary dark:bg-black/30 p-2 flex items-center justify-between">
                       <span
                         className="font-mono tabular-nums text-sm text-foreground break-all"
                         title={`${target.ip_address}:${port}`}
@@ -303,7 +303,7 @@ export function TargetTable({ targets, onDelete, onRefresh = () => { }, searchFi
       {viewMode === "table" && (
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm" aria-label="Registered Monitored Targets">
-            <thead className="border-b border-white/[0.06] bg-[#14171d] text-neutral-400 uppercase text-[11px] font-mono tracking-wider font-medium">
+            <thead className="border-b border-border dark:border-white/[0.06] bg-slate-100 dark:bg-[#14171d] text-muted-foreground uppercase text-[11px] font-mono tracking-wider font-medium">
               <tr>
                 <th scope="col" className="py-3 px-4">Target Node</th>
                 <th scope="col" className="py-3 px-4">Endpoint (IP:Port)</th>
@@ -313,7 +313,7 @@ export function TargetTable({ targets, onDelete, onRefresh = () => { }, searchFi
                 <th scope="col" className="py-3 px-4 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/[0.04]">
+            <tbody className="divide-y divide-border dark:divide-white/[0.04]">
               {filteredTargets.map((target) => {
                 const port = target.port || 9100;
                 const isCopied = copiedId === target.id;
@@ -381,7 +381,7 @@ export function TargetTable({ targets, onDelete, onRefresh = () => { }, searchFi
                           rel="noopener noreferrer"
                           title="Open in Grafana"
                           aria-label={`Inspect ${target.name} in Grafana`}
-                          className="flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-white/[0.04] hover:bg-[#5e6ad2]/20 hover:border-[#5e6ad2]/40 text-neutral-300 hover:text-white transition-colors"
+                          className="flex h-7 w-7 items-center justify-center rounded-lg border border-border dark:border-white/10 bg-secondary dark:bg-white/[0.04] hover:bg-[#5e6ad2]/20 hover:border-[#5e6ad2]/40 text-muted-foreground hover:text-foreground dark:text-neutral-300 dark:hover:text-white transition-colors"
                         >
                           <BarChart2 className="h-3.5 w-3.5" aria-hidden="true" />
                         </a>
@@ -391,7 +391,7 @@ export function TargetTable({ targets, onDelete, onRefresh = () => { }, searchFi
                           onClick={() => setDeleteTargetId(target)}
                           title="Delete target"
                           aria-label={`Delete ${target.name}`}
-                          className="flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-white/[0.04] hover:bg-[#da3633] hover:border-[#da3633] text-neutral-400 hover:text-white transition-colors"
+                          className="flex h-7 w-7 items-center justify-center rounded-lg border border-border dark:border-white/10 bg-secondary dark:bg-white/[0.04] hover:bg-[#da3633] hover:border-[#da3633] text-muted-foreground hover:text-white transition-colors"
                         >
                           <Trash2 className="h-3.5 w-3.5" aria-hidden="true" />
                         </button>
@@ -406,10 +406,10 @@ export function TargetTable({ targets, onDelete, onRefresh = () => { }, searchFi
       )}
 
       {/* Linear Monolith Footer */}
-      <div className="linear-header flex items-center justify-between text-xs text-neutral-400 font-mono">
+      <div className="linear-footer flex items-center justify-between text-xs text-muted-foreground font-mono">
         <span className="flex items-center gap-2">
         </span>
-        <span className="text-neutral-300 font-semibold">
+        <span className="text-foreground dark:text-neutral-300 font-semibold">
           {filteredTargets.filter(t => t.is_active).length} Active Nodes
         </span>
       </div>

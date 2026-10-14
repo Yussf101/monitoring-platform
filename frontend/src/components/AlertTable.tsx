@@ -90,7 +90,7 @@ export function AlertTable({ alerts }: AlertTableProps) {
 
                   <div className="min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-sm font-semibold text-white font-mono">
+                      <span className="text-sm font-semibold text-foreground dark:text-white font-mono">
                         {alert.alert_name}
                       </span>
                       <span className="linear-pill shrink-0">
@@ -139,9 +139,9 @@ export function AlertTable({ alerts }: AlertTableProps) {
 
               {/* Expandable Drawer */}
               {isExpanded && (
-                <div className="border-t border-white/[0.06] dark:border-white/[0.06] border-slate-200 bg-[#0c0e12] dark:bg-[#0c0e12] bg-slate-50 p-4 space-y-3 font-sans">
+                <div className="border-t border-border dark:border-white/[0.06] bg-slate-50 dark:bg-[#0c0e12] p-4 space-y-3 font-sans">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5 text-xs">
-                    <div className="rounded-lg border border-white/[0.06] dark:border-white/[0.06] border-slate-200 bg-[#14171d] dark:bg-[#14171d] bg-white p-3">
+                    <div className="rounded-lg border border-border dark:border-white/[0.06] bg-card dark:bg-[#14171d] p-3">
                       <span className="text-xs uppercase text-muted-foreground font-semibold block font-mono">
                         Fired At Timestamp
                       </span>
@@ -150,7 +150,7 @@ export function AlertTable({ alerts }: AlertTableProps) {
                       </span>
                     </div>
 
-                    <div className="rounded-lg border border-white/[0.06] dark:border-white/[0.06] border-slate-200 bg-[#14171d] dark:bg-[#14171d] bg-white p-3">
+                    <div className="rounded-lg border border-border dark:border-white/[0.06] bg-card dark:bg-[#14171d] p-3">
                       <span className="text-xs uppercase text-muted-foreground font-semibold block font-mono">
                         Resolution Status
                       </span>
@@ -161,7 +161,7 @@ export function AlertTable({ alerts }: AlertTableProps) {
                       </span>
                     </div>
 
-                    <div className="rounded-lg border border-white/[0.06] dark:border-white/[0.06] border-slate-200 bg-[#14171d] dark:bg-[#14171d] bg-white p-3">
+                    <div className="rounded-lg border border-border dark:border-white/[0.06] bg-card dark:bg-[#14171d] p-3">
                       <span className="text-xs uppercase text-muted-foreground font-semibold block font-mono">
                         Target Association
                       </span>
@@ -172,7 +172,7 @@ export function AlertTable({ alerts }: AlertTableProps) {
                   </div>
 
                   {alert.message && (
-                    <div className="rounded-lg border border-white/[0.06] dark:border-white/[0.06] border-slate-200 bg-[#14171d] dark:bg-[#14171d] bg-white p-3.5 text-sm">
+                    <div className="rounded-lg border border-border dark:border-white/[0.06] bg-card dark:bg-[#14171d] p-3.5 text-sm">
                       <span className="text-xs uppercase text-muted-foreground font-semibold block mb-1 font-mono">
                         Incident Description & Annotations
                       </span>

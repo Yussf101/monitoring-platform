@@ -73,7 +73,7 @@ export function TargetsPage({ refreshTrigger = 0 }: TargetsPageProps) {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-border">
         <div>
           <div className="flex items-center gap-2.5">
-            <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-foreground">
+            <h2 className="text-gl sm:text-2xl font-semibold tracking-tight text-foreground">
               Targets
             </h2>
             <span className="linear-pill">

@@ -197,12 +197,9 @@ export function DashboardPage({ refreshTrigger = 0 }: DashboardPageProps) {
           {/* Linear Header */}
           <div className="linear-header flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div>
-              <h3 className="text-sm font-semibold text-foreground dark:text-white tracking-tight">
+              <h3 className="text-lg font-semibold text-foreground dark:text-white tracking-tight">
                 Targets
               </h3>
-              <p className="text-xs text-[#8b9bb4] mt-0.5 leading-[18px]">
-                Registered scrape endpoints
-              </p>
             </div>
 
             {/* Button to Grafana to show full metrics dashboard */}
@@ -297,7 +294,7 @@ export function DashboardPage({ refreshTrigger = 0 }: DashboardPageProps) {
                           href={grafanaUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-1 text-[#8b95f6] hover:text-[#a5b4fc] hover:underline text-xs font-medium"
+                          className="flex items-center gap-1 text-[#434eb0] dark:text-[#8b95f6] hover:text-[#5e6ad2] dark:hover:text-[#a5b4fc] hover:underline text-xs font-medium"
                           title="Open node metrics in Grafana"
                         >
                           <BarChart2 className="h-3.5 w-3.5" aria-hidden="true" />
@@ -318,7 +315,7 @@ export function DashboardPage({ refreshTrigger = 0 }: DashboardPageProps) {
             </span>
             <Link
               to="/targets"
-              className="flex items-center gap-1 text-[#8b95f6] hover:text-[#a5b4fc] hover:underline font-medium"
+              className="flex items-center gap-1 text-[#434eb0] dark:text-[#8b95f6] hover:text-[#5e6ad2] dark:hover:text-[#a5b4fc] hover:underline font-medium"
             >
               <span>Manage all targets</span>
               <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />

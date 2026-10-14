@@ -35,12 +35,10 @@ export function RecentAlerts({ alerts }: RecentAlertsProps) {
             {firingCount > 0 ? <AlertCircle className="h-4 w-4" aria-hidden="true" /> : <ShieldCheck className="h-4 w-4" aria-hidden="true" />}
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-foreground dark:text-white tracking-tight">
+            <h3 className="text-lg font-semibold text-foreground dark:text-white tracking-tight">
               Recent Alerts
             </h3>
-            <p className="text-xs text-muted-foreground mt-0.5 leading-[18px]">
-              Latest Alertmanager events
-            </p>
+            
           </div>
         </div>
 
@@ -162,7 +160,7 @@ export function RecentAlerts({ alerts }: RecentAlertsProps) {
         </span>
         <Link
           to="/alerts"
-          className="flex items-center gap-1 text-xs font-medium text-[#8b95f6] hover:text-[#a5b4fc] hover:underline"
+          className="flex items-center gap-1 text-xs font-medium text-[#434eb0] dark:text-[#8b95f6] hover:text-[#5e6ad2] dark:hover:text-[#a5b4fc] hover:underline"
         >
           <span>View all history</span>
           <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
