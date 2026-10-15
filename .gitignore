@@ -35,5 +35,12 @@ task.md
 walkthrough.md
 model_capabilities.yaml
 adapters/
-docs/
+docs/*
+!docs/images/
 scripts/
+
+# Academic report, PDFs, and local temporary assets
+rapport/
+*.pdf
+rapport_pfa.zip
+screen_grafana_main.png

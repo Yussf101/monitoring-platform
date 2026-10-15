@@ -1,6 +1,6 @@
 # Architecture
 
-> **Platform**: Plateforme de Monitoring Multi-VMs pour le Suivi de Métriques Système en Temps Réel
+> **Platform**: Plateforme d'Observabilité et de Monitoring Distribué des métriques systèmes pour Infrastructures Virtuelles
 > **Version**: 2.0 — Upgraded from [Monitoring-Stack-with-Grafana](https://github.com/Yussf101/Monitoring-Stack-with-Grafana)
 
 ## System Overview

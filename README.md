@@ -5,7 +5,7 @@
 [![CI](https://github.com/Yussf101/monitoring-platform/actions/workflows/ci.yml/badge.svg)](https://github.com/Yussf101/monitoring-platform/actions/workflows/ci.yml)
 [![Docker Compose](https://img.shields.io/badge/Docker_Compose-10_services-2496ED?logo=docker&logoColor=white)](https://docs.docker.com/compose/)
 [![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)](https://www.python.org/)
-[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)](https://react.dev/)
+[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)](https://react.dev/)
 
 [![monitoring](https://img.shields.io/badge/monitoring-333333)](https://github.com/topics/monitoring)
 [![observability](https://img.shields.io/badge/observability-333333)](https://github.com/topics/observability)
@@ -81,6 +81,34 @@ graph TB
 
 *See [ARCHITECTURE.md](ARCHITECTURE.md) for detailed data flow diagrams and database schemas.*
 
+## UI & Grafana Dashboards
+
+### Monitoring Platform Web Application (React + Vite)
+
+| Overview Dashboard | Monitored Targets Management |
+| :---: | :---: |
+| ![Dashboard Overview](docs/images/screen_dashboard.png) | ![Targets Management](docs/images/screen_targets.png) |
+| *Real-time node telemetry, cluster health KPIs, and active incidents stream* | *Target inventory with live scrape status, search/filter, and quick actions* |
+
+| Target Registration Modal | Incident History & Audit |
+| :---: | :---: |
+| ![Add Target Modal](docs/images/screen_add_target.png) | ![Alerts History](docs/images/screen_alerts.png) |
+| *Dynamic discovery target enrollment with IPv4 regex validation* | *Multi-criteria alert history filterable by status (Firing/Resolved) and severity* |
+
+### 📊 Grafana Observability Dashboards
+
+| Fleet Metrics Overview | Node Deep-Dive Telemetry |
+| :---: | :---: |
+| ![Grafana Main](docs/images/screen_grafana_main.png) | ![Grafana Node Metrics](docs/images/screen_grafana_advanced.png) |
+| *Cluster-wide metrics overview and scrape target connectivity* | *Detailed CPU, memory allocation, disk I/O, and network traffic* |
+
+### Real-Time Alert Notifications & API
+
+| Telegram Alerting Bot | Interactive OpenAPI Documentation |
+| :---: | :---: |
+| ![Telegram Alerts](docs/images/screen_telegram.png) | ![Swagger UI Docs](docs/images/screen_swagger.png) |
+| *Instant FIRING and RESOLVED alert notifications dispatched to Telegram* | *Interactive Swagger UI available at `/docs` for direct endpoint exploration* |
+
 ## Getting Started
 
 ### Prerequisites
@@ -140,25 +168,17 @@ docker compose run --rm ansible
 
 ```text
 monitoring-platform-v2/
-├── backend/                 # FastAPI server
-├── frontend/                # React dashboard
-├── pipeline/                # Kafka producer and consumer
-├── prometheus/              # Prometheus configuration
-├── alertmanager/            # Alertmanager configuration
-├── grafana/                 # Grafana dashboards
-├── ansible/                 # Node Exporter provisioning
-monitoring-platform-v2/
-├── backend/                 # FastAPI server
-├── frontend/                # React dashboard
-├── pipeline/                # Kafka producer and consumer
-├── prometheus/              # Prometheus configuration
-├── alertmanager/            # Alertmanager configuration
-├── grafana/                 # Grafana dashboards
-├── ansible/                 # Node Exporter provisioning
-├── API.md                   # API endpoint reference
-├── ARCHITECTURE.md          # System architecture + diagrams
-└── docker-compose.yml       # Stack definition
-
+├── backend/                 # FastAPI server & alert webhook handler
+├── frontend/                # React 19 + Vite dashboard (GitHub Primer theme)
+├── pipeline/                # Kafka producer and consumer for metric ingestion
+├── prometheus/              # Prometheus configuration & alert rules
+├── alertmanager/            # Alertmanager routing & webhook dispatcher
+├── grafana/                 # Provisioned Grafana dashboards & datasources
+├── ansible/                 # Node Exporter automated provisioning
+├── rapport/                 # LaTeX academic project documentation & figures
+├── API.md                   # Complete REST API reference
+├── ARCHITECTURE.md          # System architecture & mermaid data flow diagrams
+└── docker-compose.yml       # 10-service container stack definition
 ```
 
 ## API Reference
